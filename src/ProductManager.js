@@ -1,12 +1,12 @@
 // import fs from 'fs';
-const fs = require('fs');
+import fs from 'fs';
 
 
-class ProductManager {
+export default class ProductManager {
 
-    constructor(){
+    constructor(ruta){
         this.products = [];
-        this.path = './archivo/productos.json'
+        this.path = ruta;
     }
 
 
@@ -50,14 +50,14 @@ class ProductManager {
         }
     };
 
-    getProductById = (id) => {
+    getProductById = async (id) => {
+        await this.getProducts();
         const productIndex = this.products.findIndex(e=>e.id === id);
 
         if (productIndex === -1){
-            console.log('Not found: Producto no encontrado');
-            return;
+            return {message:"Not found: Producto no encontrado"};
         }else{
-            console.log(this.products[productIndex]);
+            return this.products[productIndex];
         }
     }
 
@@ -106,62 +106,58 @@ class ProductManager {
 
 
 
-const manejadorProductos = new ProductManager();
-
-const test = async() => {
-    console.log( await manejadorProductos.getProducts());
 
 
-    //REGISTRAR NUEVOS PRODUCTOS
-    const product = {
-        title:'producto prueba',
-        description:'Este es un producto prueba',
-        price:200,
-        thumbnail:'sin imagen',
-        code:'abc123',
-        stock:25
-    }
-    await manejadorProductos.addProduct(product);
-    const product2 = {
-        title:'producto prueba',
-        description:'Este es un producto prueba',
-        price:200,
-        thumbnail:'sin imagen',
-        code:'abc1234',
-        stock:25
-    }
-    await manejadorProductos.addProduct(product2);
+// const manejadorProductos = new ProductManager();
 
-    // //OBTENER PRODUCTOS REGISTRADOS
-    console.log(await manejadorProductos.getProducts());
-
-    //BUSCAR POR ID UN PRODUCTO EN ESPECIFICO
-    manejadorProductos.getProductById(1);
-
-    //EDITAR UN PRODUCTO EXISTENTE
-    const editProduct2 = {
-        title:'producto editado',
-        description:'Este es un producto editado',
-        price:100,
-        thumbnail:'con imagen',
-        code:'abc1234',
-        stock:12
-    }
-    await manejadorProductos.updateProduct(2,editProduct2);
-    console.log(await manejadorProductos.getProducts());
-
-    //ELIMINAR UN PRODUCTO EN ESPECIFICO
-    await manejadorProductos.deleteProduct(1);
-    console.log(await manejadorProductos.getProducts());
-
-}
-
-test();
+// const test = async() => {
+//     console.log( await manejadorProductos.getProducts());
 
 
+//     //REGISTRAR NUEVOS PRODUCTOS
+//     const product = {
+//         title:'producto prueba',
+//         description:'Este es un producto prueba',
+//         price:200,
+//         thumbnail:'sin imagen',
+//         code:'abc123',
+//         stock:25
+//     }
+//     await manejadorProductos.addProduct(product);
+//     const product2 = {
+//         title:'producto prueba',
+//         description:'Este es un producto prueba',
+//         price:200,
+//         thumbnail:'sin imagen',
+//         code:'abc1234',
+//         stock:25
+//     }
+//     await manejadorProductos.addProduct(product2);
 
-// 
-//console.log(manejadorProductos.getProducts());
-// manejadorProductos.addProduct("producto prueba","Este es un producto prueba",200,"sin imagen", "abc1234",44);
-// manejadorProductos.getProductById(2);
+//     // //OBTENER PRODUCTOS REGISTRADOS
+//     console.log(await manejadorProductos.getProducts());
+
+//     //BUSCAR POR ID UN PRODUCTO EN ESPECIFICO
+//     manejadorProductos.getProductById(1);
+
+//     //EDITAR UN PRODUCTO EXISTENTE
+//     const editProduct2 = {
+//         title:'producto editado',
+//         description:'Este es un producto editado',
+//         price:100,
+//         thumbnail:'con imagen',
+//         code:'abc1234',
+//         stock:12
+//     }
+//     await manejadorProductos.updateProduct(2,editProduct2);
+//     console.log(await manejadorProductos.getProducts());
+
+//     //ELIMINAR UN PRODUCTO EN ESPECIFICO
+//     await manejadorProductos.deleteProduct(1);
+//     console.log(await manejadorProductos.getProducts());
+
+// }
+
+// test();
+
 
