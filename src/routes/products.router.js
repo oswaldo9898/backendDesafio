@@ -2,7 +2,6 @@ import { Router } from "express";
 import ProductManager from "../services/ProductManager.js";
 import { __dirname } from "../utils.js";
 import { join } from "path";
-
 const router = Router();
 const productManager = new ProductManager(
   join(__dirname, "archivo/productos.json")
@@ -16,6 +15,7 @@ router.get("/", async (req, res) => {
 
   if (!limit) return res.send(products);
   const productsFilter = products.slice(0, limit);
+
   res.send(productsFilter);
 });
 
@@ -31,7 +31,6 @@ router.get("/:pid", async (req, res) => {
       })
     : res.send({ message: "Success", payload: product });
 });
-
 
 
 
@@ -61,7 +60,6 @@ router.post("/", async (req, res) => {
 
 
 
-
 router.put("/:pid", async (req, res) => {
   const pid = Number(req.params.pid);
   const data = req.body;
@@ -85,7 +83,6 @@ router.put("/:pid", async (req, res) => {
     res.send(respon);
   }
 });
-
 
 
 

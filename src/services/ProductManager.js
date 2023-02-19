@@ -87,6 +87,8 @@ export default class ProductManager {
     return { status: "Success", message: "Producto editado correctamente" };
   };
 
+
+
   deleteProduct = async (id) => {
     const productIndex = this.products.findIndex((e) => e.id === id);
     console.log(productIndex);

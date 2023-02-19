@@ -1,0 +1,101 @@
+
+.contenedorPrincipal {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 1250px;
+    margin: 0 50px;
+}
+
+.productosContenedor {
+    width: 700px;
+}
+
+.titulo {
+    margin: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    text-shadow: 3px 5px 3px #a19f9f;
+}
+
+.listaProductos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px;
+}
+
+.producto {
+    margin: 20px 15px 15px 15px;
+    height: 120px;
+    width: 250px;
+    padding: 10px;
+    box-shadow: inset 0 -3em 3em rgba(0,0,0,0.1),
+    0 0  0 2px rgb(255,255,255),
+    0.3em 0.3em 1em rgba(0,0,0,0.5);
+    cursor: pointer;
+    transition: all 500ms;
+}
+
+.productoTitulo {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.productoDescripcion {
+    font-size: 13px;
+    color: rgb(96, 96, 96);
+    margin-bottom: 10px;
+}
+
+.botonEliminar {
+    display: flex;
+    height: 30%;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.botonEliminar button{
+    color: rgb(184, 182, 180);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border: 1px solid rgb(184, 182, 180);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 500ms;
+    font-size: 13px;
+    height: 30px;
+    width: 100px;
+}
+
+.botonEliminar button:hover{
+    color: rgb(250,250,250);
+    background-color: rgb(200, 12, 12);;
+}
+
+.formularioProducto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30PX;
+}
+
+.formularioProducto form {
+    height: 100%;
+    margin: 20px;
+}
+
+.formularioProducto form div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.btnRegistrar {
+    width: 100%;
+    padding: 5px;
+}

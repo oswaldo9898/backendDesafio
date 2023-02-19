@@ -20,5 +20,36 @@
 		"category": "camiseta",
 		"thumbnail": [],
 		"id": 2
+	},
+	{
+		"title": "Funko Pop! TV: Stranger Things - Argyle",
+		"description": " Hawkins, Indiana, alberga secretos peligrosos y sobrenaturales.",
+		"code": "funkopop3",
+		"price": 20,
+		"status": true,
+		"stock": 25,
+		"category": "funko-pop",
+		"thumbnail": [],
+		"id": 3
+	},
+	{
+		"title": "Good Smile Jujutsu Kaisen: Nobara Kugisaki Nendoroid Swacchao!",
+		"description": "Importación de A Good Smile CompanyDe la serie de anime Jujutsu Kaisen¡",
+		"code": "funko-pop12",
+		"price": "16",
+		"status": true,
+		"stock": "24",
+		"category": "funko-pop1",
+		"id": 4
+	},
+	{
+		"title": "Prueba1",
+		"description": "Prueba1",
+		"code": "Prueba1",
+		"price": "12",
+		"status": true,
+		"stock": "24",
+		"category": "Prueba1",
+		"id": 5
 	}
 ]
