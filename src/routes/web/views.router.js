@@ -1,16 +1,12 @@
 import { Router } from 'express';
-import ProductManager from "../services/ProductManager.js";
-import { __dirname } from "../utils.js";
-import { join } from "path";
+import Products from '../../dao/dbManager/products.js';
 
+const productsManager = new Products();
 const router = Router();
 
-const productManager = new ProductManager(
-    join(__dirname, "archivo/productos.json")
-);
 
 router.get('/', async (req, res) => {
-    const products = await productManager.getProducts();
+    const products = await productsManager.getAll();
     res.render('home',{
         products,
         styles:'home.css'
@@ -22,7 +18,13 @@ router.get('/realtimeproducts', (req, res) => {
     {
         styles:'realTimeProducts.css'
     });
-})
+});
+
+
+router.get('/chat', (req, res) => {
+    res.render('chat');
+});
+
 
 
 export default router;

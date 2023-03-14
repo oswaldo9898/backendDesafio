@@ -1,10 +1,8 @@
 import { Router } from "express";
-import CartsManager from "../services/CartsManager.js";
-import { __dirname } from "../utils.js";
-import { join } from "path";
+import Carts from "../../dao/dbManager/carts.js";
 
+const cartsManager = new Carts();
 const router = Router();
-const cartsManager = new CartsManager(join(__dirname, "archivo/carritos.json"));
 
 
 
@@ -16,7 +14,7 @@ router.post("/", async (req, res) => {
 
 
 router.get("/:cid", async (req, res) => {
-  const cid = Number(req.params.cid);
+  const cid = req.params.cid;
   const cart = await cartsManager.getProductsCart(cid);
   res.send({ message: "Success", payload: cart });
 });
@@ -24,8 +22,8 @@ router.get("/:cid", async (req, res) => {
 
 
 router.post("/:cid/products/:pid", async (req, res) => {
-  const cid = Number(req.params.cid);
-  const pid = Number(req.params.pid);
+  const cid = req.params.cid;
+  const pid = req.params.pid;
   const resp = await cartsManager.agregarProductoCart(cid, pid);
   res.send({ message: "Success", payload: resp });
 });

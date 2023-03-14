@@ -43,13 +43,13 @@
 		"id": 4
 	},
 	{
-		"title": "Prueba1",
-		"description": "Prueba1",
-		"code": "Prueba1",
-		"price": "12",
+		"title": "prueba",
+		"description": "prueba",
+		"code": "prueba6546",
+		"price": "545",
 		"status": true,
-		"stock": "24",
-		"category": "Prueba1",
+		"stock": "54545",
+		"category": "prueba5",
 		"id": 5
 	}
 ]

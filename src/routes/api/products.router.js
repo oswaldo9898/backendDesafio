@@ -1,17 +1,16 @@
 import { Router } from "express";
-import ProductManager from "../services/ProductManager.js";
-import { __dirname } from "../utils.js";
-import { join } from "path";
+import Products from './../../dao/dbManager/products.js';
+
+const productsManager = new Products();
 const router = Router();
-const productManager = new ProductManager(
-  join(__dirname, "archivo/productos.json")
-);
 
 
 
 router.get("/", async (req, res) => {
   const { limit } = req.query;
-  const products = await productManager.getProducts();
+  const products = await productsManager.getAll();
+
+  console.log('Aqui')
 
   if (!limit) return res.send(products);
   const productsFilter = products.slice(0, limit);
@@ -22,14 +21,19 @@ router.get("/", async (req, res) => {
 
 
 router.get("/:pid", async (req, res) => {
-  const id = Number(req.params.pid);
-  const product = await productManager.getProductById(id);
-  product.length === 0
+  const pid =req.params.pid;
+
+  try{
+    const product = await productsManager.getProductById(pid);
+    product.length === 0
     ? res.send({
         status: "Error",
         message: "Not found: Producto no encontrado",
       })
     : res.send({ message: "Success", payload: product });
+  }catch(e) {
+
+  }
 });
 
 
@@ -53,7 +57,7 @@ router.post("/", async (req, res) => {
       thumbnail: [],
     };
 
-    const productArr = await productManager.addProduct(product);
+    const productArr = await productsManager.save(product);
     res.send({ message: "Success", payload: productArr });
   }
 });
@@ -79,7 +83,7 @@ router.put("/:pid", async (req, res) => {
       category: data.category,
       thumbnail: [],
     };
-    const respon = await productManager.updateProduct(pid, product);
+    const respon = await productsManager.update(pid, product);
     res.send(respon);
   }
 });
@@ -87,13 +91,14 @@ router.put("/:pid", async (req, res) => {
 
 
 router.delete("/:pid", async (req, res) => {
-  const pid = Number(req.params.pid);
-  if (pid) {
-    const respon = await productManager.deleteProduct(pid);
-    res.send(respon);
-  } else {
-    res.send({ status: "Error", message: "El producto es invalido" });
-  }
+  const pid = req.params.pid;
+  console.log(pid)
+  // if (pid) {
+  //   const respon = await productsManager.delete(pid);
+  //   res.send(respon);
+  // } else {
+  //   res.send({ status: "Error", message: "El producto es invalido" });
+  // }
 });
 
 export default router;
