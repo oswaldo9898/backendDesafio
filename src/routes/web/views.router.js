@@ -5,12 +5,18 @@ const productsManager = new Products();
 const router = Router();
 
 
-router.get('/', async (req, res) => {
-    const products = await productsManager.getAll();
-    res.render('home',{
-        products,
-        styles:'home.css'
-    });
+router.get('/products/:limit?', async (req, res) => {
+    const {limit, page, query, sort} = req.params;
+    try {
+        const { docs } = await productsManager.getAll(limit, page, query, sort);
+        const arrayProducts = docs.map(product => product.toObject());
+        res.render('home',{
+            arrayProducts,
+            styles:'home.css'
+        });
+    } catch (error) {
+        res.render('error404',{});
+    }
 });
 
 router.get('/realtimeproducts', (req, res) => {

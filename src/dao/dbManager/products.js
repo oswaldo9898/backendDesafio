@@ -1,12 +1,12 @@
-import { productModel } from "../models/products.js";
+import  productModel  from "../models/products.js";
 
 export default class Products {
 
     constructor(){}
 
-    getAll = async() => {
-        const products = await productModel.find();
-        return products.map(product => product.toObject());
+    getAll = async(limit=10, page=1, query='', sort='') => {
+        const products = await productModel.paginate({title: {$regex: query}},{limit:limit, page:page, sort: {price: sort}})
+        return products;
     }
 
     save = async(product) => {
