@@ -1,22 +1,35 @@
 <div class="productosContenedor">
     <div class="titulo">TODOS LOS PRODUCTOS</div>
-    <div class="listaProductos">
+    <div class='cardsProducts'>
         {{#each arrayProducts}}
-            <div class="producto">
-                <div class="productoTitulo">{{this.title}}</div>
-                <div class="productoDescripcion">{{this.description}}</div>
-                <div class="productoPrecio">$ {{this.price}}</div>
-            </div>
-        {{/each}}
-    </div>
+                    <div class="cardProducto">
+                        <div class='cardImg'>
+                            <a >
+                                <img class='img' src={{this.portada}} alt={{this.title}} />
+                            </a>
+                        </div>
+                        
+                        <div class="cardBody">
+                            <a class='nav_link' href="/product-detail?pid={{this._id}}" >
+                                <h3>{{this.title}}</h3>
+                            </a>
+
+                            <div class='cardPrice'>
+                                ${{this.price}}
+                            </div>
+                        </div>
+
+                        <span className='separador'></span>
+                        <button class='agregarButton' id={{this._id}} ><i class="fa-solid fa-bag-shopping"></i> <span>AGREGAR AL CARRITO</span></button>
+                    </div>
+            {{/each}}
+        </div>
+
+
     <div class="botonesNavegacion">
         {{#if hasPrevPage}}
         <a href="/products?page={{prevPage}}" class="botonNavegacion"><button>Anterior</button></a>
         {{/if}}
-
-        <a href="/products?page=1" class="botonNavegacion"><button>1</button></a>
-        <a href="/products?page=2" class="botonNavegacion"><button>2</button></a>
-        <a href="/products?page=3" class="botonNavegacion"><button>3</button></a>
 
 
         {{#if hasNextPage}}
@@ -25,3 +38,5 @@
     </div>
 
 </div>
+
+<script src="/js/home.js"></script>

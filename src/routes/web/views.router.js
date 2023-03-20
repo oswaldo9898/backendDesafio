@@ -26,6 +26,23 @@ router.get('/products', async (req, res) => {
     }
 });
 
+
+router.get('/product-detail', async (req, res) => {
+    const { pid}  = req.query;
+    try {
+        const resp = await productsManager.getProductById(pid);
+        const producto = resp.toObject();
+        
+        res.render('detalleProducto',{
+            producto,
+            styles:'detalleProducto.css'
+        });
+    } catch (error) {
+        res.render('error404',{});
+    }
+});
+
+
 router.get('/realtimeproducts', (req, res) => {
     res.render('realTimeProducts',
     {

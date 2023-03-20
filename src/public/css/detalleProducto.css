@@ -1,0 +1,242 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+
+.contenidoPrincipalDetail {
+    display: flex !important;
+    justify-content: center;
+    align-content: center;
+    background-color: #f5f6f7;
+}
+
+
+.contenidoGeneral {
+    display: flex;
+    flex-direction: row;
+    margin: 4% 0;
+    width: 70%;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.imgProducto img{
+    height: 300px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+    rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.informacionProducto {
+    width: 40%;
+}
+
+.informacionProducto .tituloProducto {
+    font-size: 25px;
+    margin-bottom: .3rem;
+    
+}
+
+.informacionProducto .categoriaProducto {
+    display: block;
+    font-size: 14px;
+    color: rgb(82, 81, 81);
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+
+.informacionProducto .descripcionProducto {
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 22px;
+    word-spacing: 3px;
+    color: rgba(51, 32, 47, 0.923);
+    margin-bottom: 1.8rem;
+
+}
+
+.informacionProducto .contenedorPrecioCantidad {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.informacionProducto .contenedorPrecioCantidad .precioProducto{
+    color: green;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.informacionProducto .cantidadProducto {
+    display: flex;
+    height: 35px;
+    margin-right: 10px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.informacionProducto .cantidadProducto Button{
+    display: flex;
+    margin: 0 !important;
+    width: 30px;
+    height: 30px;
+    border: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 300ms;
+}
+
+.informacionProducto .cantidadProducto button:hover{
+    color: green;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 7px -3px inset, 
+    rgba(0, 0, 0, 0.3) 0px 9px 10px -9px inset;
+}
+
+.informacionProducto .cantidadProducto input{
+    width: 40px;
+    text-align: center;
+    border: none;
+}
+
+.informacionProducto .agregarButton:active {
+    border: black;
+    background-color: rgb(3, 125, 54);
+    box-shadow: rgba(50, 50, 93, 0.5) 0px 5px 10px -6px inset, 
+    rgba(0, 0, 0, 0.5) 0px 18px 36px -18px inset;
+}
+
+.cantidadProducto .valorProducto{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    font-family: sans-serif;
+}
+
+.button {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    border: solid 1px rgb(142, 141, 141);
+    border-radius: 10px;
+    color: rgb(142, 141, 141);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 500ms;
+}
+
+
+.pagoButton:hover {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    box-shadow: 3px 3px rgba(0,0,0,0.3);
+    border: rgb(5, 50, 134);
+    background-color: rgb(5, 37, 134);
+}
+
+.agregarButton:hover {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    box-shadow: 3px 3px rgba(0,0,0,0.3);
+    border: rgb(5, 134, 59);
+    background-color: rgb(5, 134, 59);
+}
+
+
+/* MEDIAQUERIS */
+@media (max-width: 1024px) {
+    .contenidoGeneral {
+        width: 80%;
+    }
+}
+
+@media (max-width: 880px) {
+    .informacionProducto .tituloProducto {
+        font-size: 20px;
+    }
+    
+    .informacionProducto .categoriaProducto {
+        font-size: 12px;
+    }
+    
+    
+    .informacionProducto .descripcionProducto {
+        font-size: 15px;
+    
+    }
+}
+
+@media (max-width: 880px) {
+    .contenidoGeneral {
+        width: 90%;
+    }
+}
+
+@media (max-width: 700px) {
+    .contenidoGeneral {
+        width: 100%;
+    }
+
+    .imgProducto img{
+        height: 250px;
+    }
+
+    .informacionProducto .tituloProducto {
+        font-size: 18px;
+    }
+    
+    .informacionProducto .categoriaProducto {
+        font-size: 10px;
+    }
+    
+    
+    .informacionProducto .descripcionProducto {
+        font-size: 14px;
+    }
+}
+
+
+@media (max-width: 545px) {
+    .contenidoGeneral {
+        flex-direction: column;
+        margin: 4% 0;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .imgProducto img{
+        height: 350px;
+    }
+
+    .informacionProducto {
+        width: 70%;
+        margin: 50px 0 0 0;
+    }
+
+    .informacionProducto .tituloProducto {
+        font-size: 25px;
+    }
+    
+    .informacionProducto .categoriaProducto {
+        font-size: 13px;
+    }
+    
+    
+    .informacionProducto .descripcionProducto {
+        font-size: 15px;
+    }
+}

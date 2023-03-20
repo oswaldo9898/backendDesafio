@@ -1,0 +1,26 @@
+<div class="contenidoPrincipalDetail">
+
+  <div class="contenidoGeneral">
+    <div class="imgProducto">
+      <img src={{producto.portada}} alt={{producto.title}} />
+    </div>
+    <div class="informacionProducto">
+      <h3 class="tituloProducto">{{producto.title}}</h3>
+      <span class="categoriaProducto">Categoría: {{producto.category}}</span>
+      <p class="descripcionProducto">Descripción: {{producto.description}}</p>
+
+      <div class='contenedorPrecioCantidad'>
+        <p class="precioProducto">$ {{producto.price}}</p>
+        <div class='cantidadProducto'>
+          {{!-- <Button classButton='botonProducto' icono="fa-solid fa-minus"  />
+          <div className='valorProducto'>{cantProductoSelect}</div>
+          <button classButton='botonProducto' icono="fa-solid fa-plus" /></button> --}}
+        </div>
+      </div>
+      <button id={{producto._id}} type='submit' class="button agregarButton"><i class=''></i> AGREGAR AL CARRITO</button>
+
+    </div>
+  </div>
+
+</div>
+<script src="/js/detalleProducto.js"></script>
