@@ -8,7 +8,20 @@
                 <div class="productoPrecio">$ {{this.price}}</div>
             </div>
         {{/each}}
+    </div>
+    <div class="botonesNavegacion">
+        {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}" class="botonNavegacion"><button>Anterior</button></a>
+        {{/if}}
 
+        <a href="/products?page=1" class="botonNavegacion"><button>1</button></a>
+        <a href="/products?page=2" class="botonNavegacion"><button>2</button></a>
+        <a href="/products?page=3" class="botonNavegacion"><button>3</button></a>
+
+
+        {{#if hasNextPage}}
+        <a href="/products?page={{nextPage}}" class="botonNavegacion"><button>Siguiente</button></a>
+        {{/if}}
     </div>
 
 </div>

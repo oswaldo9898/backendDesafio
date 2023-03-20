@@ -5,13 +5,20 @@ const productsManager = new Products();
 const router = Router();
 
 
-router.get('/products/:limit?', async (req, res) => {
-    const {limit, page, query, sort} = req.params;
+router.get('/products', async (req, res) => {
+    const {limit, page, query, sort} = req.query;
     try {
-        const { docs } = await productsManager.getAll(limit, page, query, sort);
+        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
+        
+        
         res.render('home',{
             arrayProducts,
+            hasPrevPage,
+            hasNextPage,
+            nextPage,
+            prevPage,
+            totalPages,
             styles:'home.css'
         });
     } catch (error) {

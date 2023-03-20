@@ -6,8 +6,8 @@ const router = Router();
 
 
 
-router.get("/:limit?/:page?/:sort?/:query?", async (req, res) => {
-  const {limit, page, query, sort} = req.params;
+router.get("/", async (req, res) => {
+  const {limit,page,query,sort} = req.query;
   try {
     const products = await productsManager.getAll(limit, page, query, sort);
     return res.send({status:'success',payload: products});
