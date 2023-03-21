@@ -5,9 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
-    <link rel="stylesheet" href="css/{{styles}}">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="{{styles}}">
+    
+    <!-- FONTAWESOME ICONS -->
+    <script src="https://kit.fontawesome.com/bb88356892.js" crossorigin="anonymous"></script>
+    <!--  -->
 </head>
 <body>
+    <div>
+    {{> navigation }}
+    </div>
     {{{body}}}
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

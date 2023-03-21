@@ -1,0 +1,35 @@
+<div class='cartList'>
+    <div class="detalleProducto">
+        <div class='tablaProducts'>
+            <div class='tituloTabla'>
+                <div class='tablaProducto'>Producto</div>
+                <div class='tablaPrecio'>Precio</div>
+                <div class='tablaCantidad'>Cantidad</div>
+            </div> 
+            {{#each productsCart}}
+                <div key={{this.product._id}} class="cartProduct">
+                        <button class="centrarContenido deleteProduct " >
+                            <i class="fa-solid fa-trash" title="Eliminar producto"></i>
+                        </button>
+                        <div class="imgProductCart centrarContenido">
+                            <img
+                                src={{this.product.portada}}
+                                alt='Producto' />
+                        </div>
+                        <div class="titleProductCart centrarContenido" >
+                            <NavLink to={`/producto/${element.product.id}`}>{{this.product.title}}</NavLink>
+                        </div>
+                        <div class="priceProductCart centrarContenido">
+                            {{this.product.price}}
+                        </div>
+                        <div class="CantidadProductCart centrarContenido">
+                            {{this.quantify}}
+                        </div>
+                        {{!-- <div class="totalProductCart centrarContenido">
+                            {{this.product.price * this.quantify}}
+                        </div> --}}
+                    </div>
+                    {{/each}}
+        </div>
+    </div>
+</div>

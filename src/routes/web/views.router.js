@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import Products from '../../dao/dbManager/products.js';
+import Carts from '../../dao/dbManager/carts.js';
 
 const productsManager = new Products();
+const cartsManager = new Carts();
 const router = Router();
 
 
@@ -19,7 +21,7 @@ router.get('/products', async (req, res) => {
             nextPage,
             prevPage,
             totalPages,
-            styles:'home.css'
+            styles:'css/home.css'
         });
     } catch (error) {
         res.render('error404',{});
@@ -27,15 +29,16 @@ router.get('/products', async (req, res) => {
 });
 
 
+
 router.get('/product-detail', async (req, res) => {
-    const { pid}  = req.query;
+    const { pid }  = req.query;
     try {
         const resp = await productsManager.getProductById(pid);
         const producto = resp.toObject();
         
         res.render('detalleProducto',{
             producto,
-            styles:'detalleProducto.css'
+            styles:'css/detalleProducto.css'
         });
     } catch (error) {
         res.render('error404',{});
@@ -43,12 +46,29 @@ router.get('/product-detail', async (req, res) => {
 });
 
 
+router.get('/carts/:cid', async (req, res) => {
+    const { cid }  = req.params;
+    try {
+        const resp = await cartsManager.getProductsCart(cid);
+        const productsCart = resp.toObject();
+        res.render('cart',{
+            productsCart,
+            styles:'../css/cart.css'
+        });
+    } catch (error) {
+        res.render('error404',{});
+    }
+});
+
+
+
 router.get('/realtimeproducts', (req, res) => {
     res.render('realTimeProducts',
     {
-        styles:'realTimeProducts.css'
+        styles:'css/realTimeProducts.css'
     });
 });
+
 
 
 router.get('/chat', (req, res) => {

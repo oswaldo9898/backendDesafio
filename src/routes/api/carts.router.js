@@ -31,6 +31,8 @@ router.get("/:cid", async (req, res) => {
 
 router.post("/:cid/products/:pid", async (req, res) => {
   const {cid, pid} = req.params;
+  // console.log(`cart: ${cid} - producto: ${pid}`)
+  // res.send({message:'success', payload: []})
   try {
     const resp = await cartsManager.agregarProductoCart(cid, pid);
     res.send({ message: "Success", payload: resp });

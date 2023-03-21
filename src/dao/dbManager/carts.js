@@ -39,29 +39,29 @@ export default class Carts {
 
 
   agregarProductoCart = async (cid, pid) => {
-    console.log('cart: ',cid,'    producto: ',pid)
+    // console.log('cart: ',cid,'    producto: ',pid)
     const cart = await cartModel.findById({ _id: cid });
-    console.log(cart)
-    // if (!cart) {
-    //   return { message: 'El carrito no existe' };
-    // }
+    // console.log(cart)
+    if (!cart) {
+      return { message: 'El carrito no existe' };
+    }
 
-    // const product = await productsManager.getProductById(pid);
+    const product = await productsManager.getProductById(pid);
 
-    // if (!product) {
-    //   return { message: 'El producto que desea agregar no existe' };
-    // }
+    if (!product) {
+      return { message: 'El producto que desea agregar no existe' };
+    }
 
-    // const productsCart = cart.products;
-    // const productIndex = productsCart.findIndex(p => p.product == pid);
+    const productsCart = cart.products;
+    const productIndex = productsCart.findIndex(p => p.product == pid);
 
-    // if (productIndex === -1) {
-    //   const result = await cartModel.findByIdAndUpdate({ _id: cid }, { $push: { products: { "product": pid, "quantify": 1 } } });
-    //   return result;
-    // } else {
-    //   const result = await cartModel.updateOne({ _id: cid, "products.product": pid }, { $inc: { "products.$.quantify": 1 } });
-    //   return result;
-    // }
+    if (productIndex === -1) {
+      const result = await cartModel.findByIdAndUpdate({ _id: cid }, { $push: { products: { "product": pid, "quantify": 1 } } });
+      return result;
+    } else {
+      const result = await cartModel.updateOne({ _id: cid, "products.product": pid }, { $inc: { "products.$.quantify": 1 } });
+      return result;
+    }
   }
 
 
