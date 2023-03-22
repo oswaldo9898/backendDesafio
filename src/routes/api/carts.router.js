@@ -31,8 +31,6 @@ router.get("/:cid", async (req, res) => {
 
 router.post("/:cid/products/:pid", async (req, res) => {
   const {cid, pid} = req.params;
-  // console.log(`cart: ${cid} - producto: ${pid}`)
-  // res.send({message:'success', payload: []})
   try {
     const resp = await cartsManager.agregarProductoCart(cid, pid);
     res.send({ message: "Success", payload: resp });
@@ -49,6 +47,20 @@ router.delete("/:cid/products/:pid", async (req, res) => {
     const resp = await cartsManager.eliminarProductoCart(cid, pid);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
+    res.status(400).send({status: "Error",message: "Ha ocurrido un inconveniente en el servidor"});
+  }
+});
+
+
+
+router.put("/:cid", async (req, res) => {
+  const { cid } = req.params;
+  const products = req.body;
+  try{
+    const resp = await cartsManager.actualizarProductosCart(cid, products);
+    res.send({ message: "Success", payload: resp });
+  } catch (error) {
+    console.log(error)
     res.status(400).send({status: "Error",message: "Ha ocurrido un inconveniente en el servidor"});
   }
 });
@@ -77,6 +89,7 @@ router.delete("/:cid", async (req, res) => {
     res.status(400).send({status: "Error",message: "Ha ocurrido un inconveniente en el servidor"});
   }
 });
+
 
 
 router.get("/productosPopulate/:cid", async(req, res) => {

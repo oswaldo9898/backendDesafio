@@ -8,7 +8,7 @@
             </div> 
             {{#each productsCart}}
                 <div key={{this.product._id}} class="cartProduct">
-                        <button class="centrarContenido deleteProduct " >
+                        <button class="centrarContenido deleteProduct" onclick="eliminarProducto('{{this.product._id}}')" >
                             <i class="fa-solid fa-trash" title="Eliminar producto"></i>
                         </button>
                         <div class="imgProductCart centrarContenido">
@@ -33,3 +33,5 @@
         </div>
     </div>
 </div>
+
+<script src="/js/cart.js"></script>

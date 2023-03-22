@@ -75,6 +75,21 @@ export default class Carts {
     return productsCart
   }
 
+
+
+  actualizarProductosCart = async (cid, productos) => {
+    const cart = await cartModel.findById({ _id: cid });
+
+    if (!cart) {
+      return { message: 'El carrito no existe' };
+    }
+
+    const result = await cartModel.updateOne({ _id: cid}, { "products": productos });
+    return result;
+  }
+
+
+
   actualizarCantidadProductoCart = async (cid, pid, cantidad) => {
     const cart = await cartModel.findById({ _id: cid });
 
@@ -92,6 +107,7 @@ export default class Carts {
       return result;
     }
   }
+
 
 
   vaciarCart = async (cid) => {
