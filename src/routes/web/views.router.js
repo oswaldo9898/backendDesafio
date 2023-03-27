@@ -7,14 +7,49 @@ const cartsManager = new Carts();
 const router = Router();
 
 
-router.get('/products', async (req, res) => {
+const publicAccess = (req, res, next) => {
+    if(req.session.user) return res.redirect('/productos');
+    next();
+}
+
+const privateAccess = (req, res, next) => {
+    if(!req.session.user) return res.redirect('/login');
+    next();
+}
+
+
+
+router.get('/register', publicAccess, (req, res) => {
+    res.render('register',{
+        styles:'css/register.css'
+    });
+});
+
+router.get('/login', publicAccess, (req, res) => {
+    res.render('login',{
+        styles:'css/login.css'
+    });
+});
+
+
+router.get('/reset', publicAccess, (req, res) => {
+    res.render('reset',{
+        styles:'css/reset.css'
+    });
+});
+
+
+
+
+router.get('/productos', privateAccess, async (req, res) => {
     const {limit, page, query, sort} = req.query;
     try {
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
         
         
-        res.render('home',{
+        res.render('products',{
+            user: req.session.user,
             arrayProducts,
             hasPrevPage,
             hasNextPage,
@@ -30,7 +65,7 @@ router.get('/products', async (req, res) => {
 
 
 
-router.get('/product-detail', async (req, res) => {
+router.get('/product-detail',privateAccess, async (req, res) => {
     const { pid }  = req.query;
     try {
         const resp = await productsManager.getProductById(pid);
@@ -46,7 +81,7 @@ router.get('/product-detail', async (req, res) => {
 });
 
 
-router.get('/carts/:cid', async (req, res) => {
+router.get('/carts/:cid',privateAccess, async (req, res) => {
     const { cid }  = req.params;
     try {
         const resp = await cartsManager.getProductsCart(cid);
@@ -62,7 +97,7 @@ router.get('/carts/:cid', async (req, res) => {
 
 
 
-router.get('/realtimeproducts', (req, res) => {
+router.get('/realtimeproducts',privateAccess, (req, res) => {
     res.render('realTimeProducts',
     {
         styles:'css/realTimeProducts.css'
@@ -71,7 +106,7 @@ router.get('/realtimeproducts', (req, res) => {
 
 
 
-router.get('/chat', (req, res) => {
+router.get('/chat', privateAccess,(req, res) => {
     res.render('chat');
 });
 

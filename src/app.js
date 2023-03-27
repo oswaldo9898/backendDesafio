@@ -1,15 +1,20 @@
 import express from 'express';
+import session from 'express-session';
 import productsRouter from './routes/api/products.router.js';
 import cartsRouter from './routes/api/carts.router.js';
+import sessionRouter from './routes/api/session.router.js';
 import viewsRouter from './routes/web/views.router.js';
+
 import mongoose from 'mongoose';
+import MongoStore from 'connect-mongo';
 
 import handlebars from 'express-handlebars';
-import { __dirname } from './utils.js';
+import __dirname  from './utils.js';
 import { Server } from 'socket.io';
 
 import Products from './dao/dbManager/products.js';
 import Messages from './dao/dbManager/messages.js';
+
 
 // import ProductManager from "./services/ProductManager.js";
 import { join } from "path";
@@ -21,6 +26,31 @@ const messagesManager = new Messages();
 // );
 
 const app = express();
+
+/**Parametros de conexion */
+const USER = 'oswaldogarces98';
+const PASSWORD = 'nIcHH2K83fj7dWZP';
+const DATA_BASE = 'ecommerce';
+
+try{
+  await mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`);
+} catch (error) {
+  console.log(error);
+}
+
+
+//Persistencia en BBDD
+app.use(session({
+  store: MongoStore.create({
+      mongoUrl: `mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`,
+      mongoOptions: { useNewUrlParser: true },
+      ttl: 3600
+  }),
+  secret:'secretCoder',
+  resave: true,
+  saveUninitialized: true
+}));
+
 
 /** ESTABLECIENDO RUTA PUBLICA */
 app.use(express.static(`${__dirname}/public`));
@@ -35,24 +65,16 @@ app.use(express.urlencoded({extended:true}));
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
+
 /** */
 
 /** RUTAS */
 app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+app.use('/api/sessions', sessionRouter);
 
 
-/**Parametros de conexion */
-const USER = 'oswaldogarces98';
-const PASSWORD = 'nIcHH2K83fj7dWZP';
-const DATA_BASE = 'ecommerce';
-
-try{
-  await mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`);
-} catch (error) {
-  console.log(error);
-}
 
 
 const server = app.listen(8080, ()=>{

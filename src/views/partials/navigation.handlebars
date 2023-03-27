@@ -1,17 +1,41 @@
+<link rel="stylesheet" href="../../css/navigation.css">
+
 <header>
   <div class="menu">
     <nav>
       <ul>
         <li>
-          <a href="/products"><i class="fa-solid fa-shop"></i>
+          {{#if user}}
+            <a href="/productos"><i class="fa-solid fa-shop"></i>
             TIENDA</a>
+          {{/if }}
+          
         </li>
       </ul>
     </nav>
+    <div class="cart-cuenta">
       <div class="cartShop">
+        {{#if user}}
         <a class='botonCartShop' href="/carts/64178ea0f42c1bf094545772">
-          <img src='assets/cart-shop.png' alt="cart" class="iconCart" />
+          <img src='../../assets/cart-shop.png' alt="cart" class="iconCart" />
         </a>
+        {{/if }}
       </div>
+      
+      {{#if user}}
+        <div class="miCuenta">
+          <li>
+            <div class='nav_link' >
+              Hola {{user.first_name}} {{user.last_name}}
+              </div>
+                <ul>
+                  <li><NavLink to="/orders">Rol: {{user.rol}}</NavLink></li>
+                  <li><a href="/api/sessions/logout"><button>Cerrar sessión</button></a></li>
+                </ul>
+          </li>
+        </div>
+      {{/if }}
+
+    </div>
   </div>
 </header>
