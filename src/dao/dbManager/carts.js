@@ -39,9 +39,7 @@ export default class Carts {
 
 
   agregarProductoCart = async (cid, pid) => {
-    // console.log('cart: ',cid,'    producto: ',pid)
     const cart = await cartModel.findById({ _id: cid });
-    // console.log(cart)
     if (!cart) {
       return { message: 'El carrito no existe' };
     }

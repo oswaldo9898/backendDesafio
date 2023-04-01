@@ -21,7 +21,7 @@
     flex-direction: column;
     justify-content: center;
     width: 350px;
-    height: 250px;
+    height: 300px;
     border: 1px solid #000;
     padding: 20px;
 }
@@ -34,4 +34,28 @@
 
 .botonSubmit {
     margin-top: 10px;
+}
+
+.loginTerceros {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.loginTerceros span{
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.loginTerceros a {
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.loginTerceros a button{
+    width: 50%;
+    height: 30px;
+    cursor: pointer;
 }

@@ -16,8 +16,11 @@ import Products from './dao/dbManager/products.js';
 import Messages from './dao/dbManager/messages.js';
 
 
-// import ProductManager from "./services/ProductManager.js";
 import { join } from "path";
+import initializePassport from './config/passport.config.js';
+import passport from 'passport';
+
+
 const productsManager = new Products();
 const messagesManager = new Messages();
 
@@ -65,8 +68,14 @@ app.use(express.urlencoded({extended:true}));
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
-
 /** */
+
+
+/**configuracion de passport*/
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+/**  */
 
 /** RUTAS */
 app.use('/', viewsRouter);

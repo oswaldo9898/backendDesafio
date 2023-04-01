@@ -1,4 +1,11 @@
 const form = document.getElementById('loginForm');
+const btnGitHub = document.getElementById('loginGitHub');
+
+
+btnGitHub.addEventListener('click', e => {
+    btnGitHub.disabled  = true
+
+})
 
 form.addEventListener('submit', e => {
     e.preventDefault();
@@ -19,3 +26,4 @@ form.addEventListener('submit', e => {
         }
     })
 });
+
