@@ -8,33 +8,36 @@ const router = Router();
 
 
 const publicAccess = (req, res, next) => {
-    if(req.session.user) return res.redirect('/productos');
+    if (req.session.user) return res.redirect('/productos');
     next();
 }
 
 const privateAccess = (req, res, next) => {
-    if(!req.session.user) return res.redirect('/login');
+    if (!req.session.user) return res.redirect('/login');
     next();
 }
 
 
 
 router.get('/register', publicAccess, (req, res) => {
-    res.render('register',{
-        styles:'css/register.css'
+    res.render('register', {
+        title: 'Crear un cuenta',
+        styles: 'css/register.css'
     });
 });
 
 router.get('/login', publicAccess, (req, res) => {
-    res.render('login',{
-        styles:'css/login.css'
+    res.render('login', {
+        title: 'Inicio de sesión',
+        styles: 'css/login.css'
     });
 });
 
 
 router.get('/reset', publicAccess, (req, res) => {
-    res.render('reset',{
-        styles:'css/reset.css'
+    res.render('reset', {
+            title: 'Cambiar contraseña',
+            styles: 'css/reset.css'
     });
 });
 
@@ -42,13 +45,14 @@ router.get('/reset', publicAccess, (req, res) => {
 
 
 router.get('/productos', privateAccess, async (req, res) => {
-    const {limit, page, query, sort} = req.query;
+    const { limit, page, query, sort } = req.query;
     try {
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
-        
-        
-        res.render('products',{
+
+
+        res.render('products', {
+            title: 'Tienda online',
             user: req.session.user,
             arrayProducts,
             hasPrevPage,
@@ -56,57 +60,63 @@ router.get('/productos', privateAccess, async (req, res) => {
             nextPage,
             prevPage,
             totalPages,
-            styles:'css/home.css'
+            styles: 'css/home.css'
         });
     } catch (error) {
-        res.render('error404',{});
+        res.render('error404', {});
     }
 });
 
 
 
-router.get('/product-detail',privateAccess, async (req, res) => {
-    const { pid }  = req.query;
+router.get('/product-detail', privateAccess, async (req, res) => {
+    const { pid } = req.query;
+    const user = {};
     try {
         const resp = await productsManager.getProductById(pid);
         const producto = resp.toObject();
-        
-        res.render('detalleProducto',{
+
+        res.render('detalleProducto', {
+            title: producto.title,
             producto,
-            styles:'css/detalleProducto.css'
+            user: req.session.user,
+            styles: 'css/detalleProducto.css'
         });
     } catch (error) {
-        res.render('error404',{});
+        res.render('error404', {});
     }
 });
 
 
-router.get('/carts/:cid',privateAccess, async (req, res) => {
-    const { cid }  = req.params;
+router.get('/carts/:cid', privateAccess, async (req, res) => {
+    const { cid } = req.params;
     try {
         const resp = await cartsManager.getProductsCart(cid);
         const productsCart = resp.toObject();
-        res.render('cart',{
+        res.render('cart', {
+            title: 'Carrito de compras',
+            user: req.session.user,
             productsCart,
-            styles:'../css/cart.css'
+            styles: '../css/cart.css'
         });
     } catch (error) {
-        res.render('error404',{});
+        res.render('error404', {});
     }
 });
 
 
 
-router.get('/realtimeproducts',privateAccess, (req, res) => {
+router.get('/realtimeproducts', privateAccess, (req, res) => {
     res.render('realTimeProducts',
-    {
-        styles:'css/realTimeProducts.css'
-    });
+        {
+            title: 'Chat en linea',
+            styles: 'css/realTimeProducts.css'
+        });
 });
 
 
 
-router.get('/chat', privateAccess,(req, res) => {
+router.get('/chat', privateAccess, (req, res) => {
     res.render('chat');
 });
 

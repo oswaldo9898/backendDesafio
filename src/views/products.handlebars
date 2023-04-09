@@ -1,6 +1,6 @@
 <div class="productosContenedor">
     <div class="titulo">TODOS LOS PRODUCTOS</div>
-    <input id="cart" value={{user.cart}} />
+    <input id="cartId" value={{user.cart}} />
     <div class="cardsProducts">
         {{#each arrayProducts}}
         <div class="cardProducto">
@@ -30,11 +30,11 @@
 
     <div class="botonesNavegacion">
         {{#if hasPrevPage}}
-        <a href="/products?page={{prevPage}}" class="botonNavegacion"><button>Anterior</button></a>
+        <a href="/productos?page={{prevPage}}" class="botonNavegacion"><button>Anterior</button></a>
         {{/if}}
 
         {{#if hasNextPage}}
-        <a href="/products?page={{nextPage}}" class="botonNavegacion"><button>Siguiente</button></a>
+        <a href="/productos?page={{nextPage}}" class="botonNavegacion"><button>Siguiente</button></a>
         {{/if}}
     </div>
 

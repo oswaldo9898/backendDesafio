@@ -1,4 +1,4 @@
-const cartId = document.getElementById('cart');
+const cartId = document.getElementById('cartId');
 
 const agregarACarrito = (pid) => {
     const cid = cartId.value;

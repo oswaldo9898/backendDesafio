@@ -1,7 +1,7 @@
+const cartId = document.getElementById('cartId');
 
 const eliminarProducto = (pid) => {
-    console.log('se elimino')
-    let cid = '64178ea0f42c1bf094545772';
+    let cid = cartId.value;
     fetch(`/api/carts/${cid}/products/${pid}`, {
         method: 'DELETE',
         headers: {
@@ -17,7 +17,7 @@ const eliminarProducto = (pid) => {
                 title: `Se eliminó el producto del carrito`,
                 icon: 'success'
             })
-            window.location.replace('/carts/64178ea0f42c1bf094545772');
+            window.location.replace(`/carts/${cid}`);
         } else {
             console.log('error')
         }

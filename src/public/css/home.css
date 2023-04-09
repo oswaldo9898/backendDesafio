@@ -13,6 +13,10 @@
     margin: 0 50px;
 }
 
+.productosContenedor #cartId{
+    display: none;
+}
+
 .titulo {
     margin: 25px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
