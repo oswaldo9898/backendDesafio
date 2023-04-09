@@ -1,36 +1,37 @@
 <div class="productosContenedor">
     <div class="titulo">TODOS LOS PRODUCTOS</div>
-    <div class='cardsProducts'>
+    <input id="cart" value={{user.cart}} />
+    <div class="cardsProducts">
         {{#each arrayProducts}}
-                    <div class="cardProducto">
-                        <div class='cardImg'>
-                            <a >
-                                <img class='img' src={{this.portada}} alt={{this.title}} />
-                            </a>
-                        </div>
-                        
-                        <div class="cardBody">
-                            <a class='nav_link' href="/product-detail?pid={{this._id}}" >
-                                <h3>{{this.title}}</h3>
-                            </a>
+        <div class="cardProducto">
+            <div class="cardImg">
+                <a>
+                    <img class="img" src={{this.portada}} alt={{this.title}} />
+                </a>
+            </div>
 
-                            <div class='cardPrice'>
-                                ${{this.price}}
-                            </div>
-                        </div>
+            <div class="cardBody">
+                <a class="nav_link" href="/product-detail?pid={{this._id}}">
+                    <h3>{{this.title}}</h3>
+                </a>
 
-                        <span className='separador'></span>
-                        <button class='agregarButton' id={{this._id}} onclick="agregarACarrito('{{this._id}}')" ><i class="fa-solid fa-bag-shopping"></i> <span>AGREGAR AL CARRITO</span></button>
-                    </div>
-            {{/each}}
+                <div class="cardPrice">
+                    ${{this.price}}
+                </div>
+            </div>
+
+            <span className="separador"></span>
+            <button class="agregarButton" id={{this._id}} onclick="agregarACarrito('{{this._id}}')"><i
+                    class="fa-solid fa-bag-shopping"></i>
+                <span>AGREGAR AL CARRITO</span></button>
         </div>
-
+        {{/each}}
+    </div>
 
     <div class="botonesNavegacion">
         {{#if hasPrevPage}}
         <a href="/products?page={{prevPage}}" class="botonNavegacion"><button>Anterior</button></a>
         {{/if}}
-
 
         {{#if hasNextPage}}
         <a href="/products?page={{nextPage}}" class="botonNavegacion"><button>Siguiente</button></a>

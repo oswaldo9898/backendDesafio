@@ -16,7 +16,7 @@
     <div class="cart-cuenta">
       <div class="cartShop">
         {{#if user}}
-        <a class='botonCartShop' href="/carts/64178ea0f42c1bf094545772">
+        <a class='botonCartShop' href="/carts/{{user.cart}}">
           <img src='../../assets/cart-shop.png' alt="cart" class="iconCart" />
         </a>
         {{/if }}
@@ -29,7 +29,7 @@
               Hola {{user.first_name}} {{user.last_name}}
               </div>
                 <ul>
-                  <li><NavLink to="/orders">Rol: {{user.rol}}</NavLink></li>
+                  <li><NavLink to="/orders">Rol: {{user.role}}</NavLink></li>
                   <li><a href="/api/sessions/logout"><button>Cerrar sessión</button></a></li>
                 </ul>
           </li>

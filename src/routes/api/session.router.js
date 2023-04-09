@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import userModel from './../../dao/models/users.model.js';
-import { createHash, isValidPassword } from './../../utils.js';
+import { createHash, generateToken } from './../../utils.js';
 import passport from 'passport';
 
 const router = Router();
@@ -22,22 +22,41 @@ router.get('/fail-register', async(req, res) => {
 /** Inicio de sesión en el sistema */
 router.post('/login', passport.authenticate('login', {failureRedirect: 'fail-login'}), async(req, res) => {
     if(!req.user) return res.status(400).send({status:'error', message:'inavlided credencial'});
-    let rol = 'usuario'
-    if(req.user.email.substring(0,5) === 'admin') rol = 'admin'
+    // let rol = 'usuario'
+    // if(req.user.email.substring(0,5) === 'admin') rol = 'admin'
 
     req.session.user = {
         first_name: req.user.first_name,
         last_name: req.user.last_name,
         age: req.user.age,
         email: req.user.email,
-        rol
+        cart: req.user.cart,
+        role: req.user.role
     }
 
-    res.send({status:'success', message:'login success'})
+    const user = {
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        age: req.user.age,
+        email: req.user.email,
+        cart: req.user.cart,
+        role: req.user.role
+    }
+
+    const accessToken = generateToken(user);
+
+    res.cookie('coderCookieToken', accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true })
+    .send({status:'success', message:'login success'})
 });
 
 router.get('/fail-login', async (req, res) => {
     res.send({ status: 'error', message: 'login failed' });
+});
+
+
+router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log('llega')
+    res.send({ status: 'success', payload: req.user });
 });
 
 

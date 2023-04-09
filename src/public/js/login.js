@@ -18,6 +18,7 @@ form.addEventListener('submit', e => {
         method:'POST',
         body: JSON.stringify(obj),
         headers:{
+            'Access': 'application/json',
             'Content-Type': 'application/json'
         }
     }).then(result => {

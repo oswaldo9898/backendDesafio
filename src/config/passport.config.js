@@ -1,10 +1,18 @@
 import passport from 'passport';
 import local from 'passport-local';
+import jwt from 'passport-jwt';
 import userModel from './../dao/models/users.model.js';
 import { createHash, isValidPassword } from './../utils.js'
 import GitHubStrategy from 'passport-github2';
+import { PRIVATE_KEY } from './../utils.js';
+import Carts from "./../dao/dbManager/carts.js";
 
+const cartsManager = new Carts();
 const LocalStrategy = local.Strategy;
+
+
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
 
 const initializePassport = () => {
 
@@ -15,18 +23,24 @@ const initializePassport = () => {
         passReqToCallback: true,
         usernameField: 'email'
     }, async(req, username, password, done) => {
-        const {first_name, last_name, email, age} = req.body;
+        const {first_name, last_name, email, age, role} = req.body;
         try {
             const user = await userModel.findOne({email:username});
             if(user){
                 console.log('el usuario ya existe');
                 return done(null, false)
             }
+
+            const cartsArr = await cartsManager.addCart();
+
             const newUser = {
                 first_name,
-                last_name, email,
+                last_name,
+                email,
                 age,
-                password: createHash(password)
+                password: createHash(password),
+                cart:cartsArr._id.valueOf(),
+                role
             }
             const result = await userModel.create(newUser);
             return done(null, result);
@@ -54,6 +68,21 @@ const initializePassport = () => {
             return done(`Error al logiar usuario ${error}`)
         }
     }));
+
+    /**Passport  para la utilizacion de jwt con cookie*/
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: PRIVATE_KEY
+    }, async (jwt_payload, done) => {
+        try {
+            console.log(jwt_payload);
+            // if (!jwt_payload.sadfsdf) return done(null, false, { messages: 'Atributo no encontrado' });
+            return done(null, jwt_payload.user);
+        } catch (error) {
+            console.log(error)
+            return done(error);
+        }
+    }))
 
 
      /**Passport para el inicio de sesion de usuarios con GitHub */
@@ -95,6 +124,17 @@ const initializePassport = () => {
         const user = await userModel.findById(id);
         done(null, user);
     })
+}
+
+const cookieExtractor = req => {
+    
+    console.log(req.cookies);
+    let token = null;
+    if (req && req.cookies) {
+        token = req.cookies['coderCookieToken'];
+    }
+    console.log(token)
+    return token;
 }
 
 export default initializePassport;

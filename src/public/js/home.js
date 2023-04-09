@@ -1,6 +1,7 @@
+const cartId = document.getElementById('cart');
 
 const agregarACarrito = (pid) => {
-    let cid = '64178ea0f42c1bf094545772';
+    const cid = cartId.value;
     fetch(`/api/carts/${cid}/products/${pid}`, {
         method: 'POST',
         headers: {

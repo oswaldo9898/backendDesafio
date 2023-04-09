@@ -4,21 +4,18 @@ import productsRouter from './routes/api/products.router.js';
 import cartsRouter from './routes/api/carts.router.js';
 import sessionRouter from './routes/api/session.router.js';
 import viewsRouter from './routes/web/views.router.js';
-
-import mongoose from 'mongoose';
-import MongoStore from 'connect-mongo';
-
-import handlebars from 'express-handlebars';
 import __dirname  from './utils.js';
-import { Server } from 'socket.io';
-
 import Products from './dao/dbManager/products.js';
 import Messages from './dao/dbManager/messages.js';
 
+import mongoose from 'mongoose';
 
-import { join } from "path";
+import handlebars from 'express-handlebars';
+import { Server } from 'socket.io';
+
 import initializePassport from './config/passport.config.js';
 import passport from 'passport';
+import cookieParser from 'cookie-parser';
 
 
 const productsManager = new Products();
@@ -44,11 +41,11 @@ try{
 
 //Persistencia en BBDD
 app.use(session({
-  store: MongoStore.create({
-      mongoUrl: `mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`,
-      mongoOptions: { useNewUrlParser: true },
-      ttl: 3600
-  }),
+  // store: MongoStore.create({
+  //     mongoUrl: `mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`,
+  //     mongoOptions: { useNewUrlParser: true },
+  //     ttl: 3600
+  // }),
   secret:'secretCoder',
   resave: true,
   saveUninitialized: true
@@ -58,6 +55,9 @@ app.use(session({
 /** ESTABLECIENDO RUTA PUBLICA */
 app.use(express.static(`${__dirname}/public`));
 /** */
+
+app.use(cookieParser());
+
 
 /**CONFIGURACION PARA LA RECEPCION DE JSON */
 app.use(express.json());
@@ -74,16 +74,15 @@ app.set('view engine', 'handlebars');
 /**configuracion de passport*/
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 /**  */
+
 
 /** RUTAS */
 app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionRouter);
-
-
 
 
 const server = app.listen(8080, ()=>{
