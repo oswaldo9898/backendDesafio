@@ -8,7 +8,8 @@ import __dirname  from './utils.js';
 import Products from './dao/dbManager/products.js';
 import Messages from './dao/dbManager/messages.js';
 
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
+import './dao/db.config.js'; 
 
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
@@ -28,15 +29,15 @@ const messagesManager = new Messages();
 const app = express();
 
 /**Parametros de conexion */
-const USER = 'oswaldogarces98';
-const PASSWORD = 'nIcHH2K83fj7dWZP';
-const DATA_BASE = 'ecommerce';
+// const USER = 'oswaldogarces98';
+// const PASSWORD = 'nIcHH2K83fj7dWZP';
+// const DATA_BASE = 'ecommerce';
 
-try{
-  await mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`);
-} catch (error) {
-  console.log(error);
-}
+// try{
+//   await mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`);
+// } catch (error) {
+//   console.log(error);
+// }
 
 
 //Persistencia en BBDD

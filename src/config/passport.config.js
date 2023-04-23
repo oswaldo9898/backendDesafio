@@ -4,8 +4,8 @@ import jwt from 'passport-jwt';
 import userModel from './../dao/models/users.model.js';
 import { createHash, isValidPassword } from './../utils.js'
 import GitHubStrategy from 'passport-github2';
-import { PRIVATE_KEY } from './../utils.js';
 import Carts from "./../dao/dbManager/carts.js";
+import config from './config.js';
 
 const cartsManager = new Carts();
 const LocalStrategy = local.Strategy;
@@ -14,9 +14,14 @@ const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
+const clientSecret = config.clientSecret;
+const clientId = config.clientId;
+const callbackUrl = config.callbackUrl;
+const privateKey = config.privateKey;
+
+
+
 const initializePassport = () => {
-
-
 
     /**Passport para el registro de usuarios en el sistema */
     passport.use('register', new LocalStrategy({
@@ -72,7 +77,7 @@ const initializePassport = () => {
     /**Passport  para la utilizacion de jwt con cookie*/
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: PRIVATE_KEY
+        secretOrKey: privateKey
     }, async (jwt_payload, done) => {
         try {
             console.log(jwt_payload);
@@ -87,9 +92,9 @@ const initializePassport = () => {
 
      /**Passport para el inicio de sesion de usuarios con GitHub */
     passport.use('github', new GitHubStrategy({
-        clientID:'Iv1.3ab6bede01b19eea',
-        clientSecret:'29a58ea6258e2395b791e14f6e516b4e7a706cf6',
-        callbackURL:'http://localhost:8080/api/sessions/github-callback'
+        clientID: clientId,
+        clientSecret: clientSecret,
+        callbackURL: callbackUrl
     }, async(accessToken, refreshToken, profile, done) => {
         try {
             const user = await userModel.findOne({email: profile._json.email});
@@ -112,8 +117,6 @@ const initializePassport = () => {
             done(error)
         }
     }))
-
-
 
 
     passport.serializeUser((user, done) => {

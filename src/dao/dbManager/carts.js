@@ -38,7 +38,7 @@ export default class Carts {
 
 
 
-  agregarProductoCart = async (cid, pid) => {
+  addProductCart = async (cid, pid) => {
     const cart = await cartModel.findById({ _id: cid });
     if (!cart) {
       return { message: 'El carrito no existe' };
@@ -64,7 +64,7 @@ export default class Carts {
 
 
 
-  eliminarProductoCart = async (cid, pid) => {
+  deleteProductCart = async (cid, pid) => {
     const cart = await cartModel.findById({ _id: cid });
     if (!cart) {
       return { message: 'El carrito no existe' };
@@ -75,7 +75,7 @@ export default class Carts {
 
 
 
-  actualizarProductosCart = async (cid, productos) => {
+  updateProductsCart = async (cid, productos) => {
     const cart = await cartModel.findById({ _id: cid });
 
     if (!cart) {
@@ -88,7 +88,7 @@ export default class Carts {
 
 
 
-  actualizarCantidadProductoCart = async (cid, pid, cantidad) => {
+  updateQuantityProductCart = async (cid, pid, cantidad) => {
     const cart = await cartModel.findById({ _id: cid });
 
     if (!cart) {
@@ -108,7 +108,7 @@ export default class Carts {
 
 
 
-  vaciarCart = async (cid) => {
+  emptyCart = async (cid) => {
     const cart = await cartModel.findById({ _id: cid });
     if (!cart) {
       return { message: 'El carrito no existe' };
