@@ -18,6 +18,12 @@ const privateAccess = (req, res, next) => {
 }
 
 
+const adminAccess = (req, res, next) => {
+    if (req.session.user.role !== 'admin') return res.redirect('/productos');
+    next();
+}
+
+
 
 router.get('/register', publicAccess, (req, res) => {
     res.render('register', {
@@ -98,6 +104,19 @@ router.get('/carts/:cid', privateAccess, async (req, res) => {
             user: req.session.user,
             productsCart,
             styles: '../css/cart.css'
+        });
+    } catch (error) {
+        res.render('error404', {});
+    }
+});
+
+
+router.get('/administracion', privateAccess, adminAccess, async (req, res) => {
+    try {
+        res.render('administracion', {
+            title: 'Administración',
+            user: req.session.user,
+            styles: '../css/administracion.css'
         });
     } catch (error) {
         res.render('error404', {});

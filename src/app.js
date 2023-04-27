@@ -12,6 +12,7 @@ import Messages from './dao/dbManager/messages.js';
 import './dao/db.config.js'; 
 
 import handlebars from 'express-handlebars';
+import { helpers } from './config/handlebars-helpers.js';
 import { Server } from 'socket.io';
 
 import initializePassport from './config/passport.config.js';
@@ -66,10 +67,19 @@ app.use(express.urlencoded({extended:true}));
 /** */
 
 /** CONFIGURANDO EL MOTOR DE PLANTILLAS */
-app.engine('handlebars', handlebars.engine());
+
+/** PARTIALS-HELPER */
+const hbs = handlebars.create({
+  helpers
+})
+
+app.engine('handlebars', hbs.engine);
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 /** */
+
+
+
 
 
 /**configuracion de passport*/

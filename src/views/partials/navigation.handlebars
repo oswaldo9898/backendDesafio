@@ -15,11 +15,16 @@
     </nav>
     <div class="cart-cuenta">
       <div class="cartShop">
-        {{#if user}}
+        {{#ifeq user.role 'user'}}
         <a class='botonCartShop' href="/carts/{{user.cart}}">
           <img src='../../assets/cart-shop.png' alt="cart" class="iconCart" />
         </a>
-        {{/if }}
+        {{/ifeq}}
+        {{#ifeq user.role 'admin'}}
+          <a class='botonCartShop' href="/administracion">
+            Administración
+          </a>
+        {{/ifeq}}
       </div>
       
       {{#if user}}
@@ -30,7 +35,7 @@
               </div>
                 <ul>
                   <li><NavLink to="/orders">Rol: {{user.role}}</NavLink></li>
-                  <li><a href="/api/sessions/logout"><button>Cerrar sessión</button></a></li>
+                  <li><a href="/api/sessions/logout"><button>Salir</button></a></li>
                 </ul>
           </li>
         </div>
@@ -39,3 +44,5 @@
     </div>
   </div>
 </header>
+
+<script src="/js/navigation.js"></script>

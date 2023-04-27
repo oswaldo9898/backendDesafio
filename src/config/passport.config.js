@@ -61,14 +61,30 @@ const initializePassport = () => {
         usernameField:'email'
     }, async(username, password, done) => {
         try {
-            const user = await userModel.findOne({ email: username });
-            if(!user) {
-                return done(null, false);
+            let userAdmin = false;
+            let user = await userModel.findOne({ email: username });
+
+            if( username === config.adminEmail && password === config.adminPassword ){
+                userAdmin = true;
             }
-            if(!isValidPassword(user, password)) {
-                return done(null, false)
+            
+            if(!user && !userAdmin) return done(null, false);
+
+            if(user){
+                if(!isValidPassword(user, password)) return done(null, false);
+            }else{
+                user = {
+                    first_name: 'SuperAdmin',
+                    last_name: '',
+                    age: 0,
+                    email: config.adminEmail,
+                    cart: null,
+                    role: 'admin',
+                    _id: Date.now()
+                }
             }
             return done(null, user);
+
         } catch (error) {
             return done(`Error al logiar usuario ${error}`)
         }
@@ -97,22 +113,23 @@ const initializePassport = () => {
         callbackURL: callbackUrl
     }, async(accessToken, refreshToken, profile, done) => {
         try {
-            const user = await userModel.findOne({email: profile._json.email});
+            const user = await userModel.findOne({first_name: profile._json.name});
             if(!user) {
+                const cartsArr = await cartsManager.addCart();
                 const newUser ={
                     first_name: profile._json.name,
                     last_name: '',
                     age: 18,
-                    email: profile._json.email,
-                    password:''
+                    email: profile._json.login,
+                    password:'',
+                    cart:cartsArr._id.valueOf(),
+                    role: 'user'
                 }
-
                 const result = await userModel.create(newUser);
                 done(null, result)
             }else{
                 done(null, user);
             }
-
         } catch (error) {
             done(error)
         }

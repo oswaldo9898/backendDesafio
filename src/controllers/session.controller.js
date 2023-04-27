@@ -17,7 +17,7 @@ const failRegister = async(req, res) => {
 
 /** Inicio de sesión en el sistema */
 const login = async(req, res) => {
-    if(!req.user) return res.status(400).send({status:'error', message:'inavlided credencial'});
+    if(!req.user) return res.status(400).send({status:'error', message:'invalided credencial'});    
 
     req.session.user = {
         first_name: req.user.first_name,
