@@ -112,13 +112,38 @@ router.get('/carts/:cid', privateAccess, async (req, res) => {
 
 
 router.get('/administracion', privateAccess, adminAccess, async (req, res) => {
+    const { limit, page, query, sort } = req.query;
     try {
+        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);
+        const arrayProducts = docs.map(product => product.toObject());
+
         res.render('administracion', {
             title: 'Administración',
             user: req.session.user,
+            arrayProducts,
+            hasPrevPage,
+            hasNextPage,
+            nextPage,
+            prevPage,
+            totalPages,
             styles: '../css/administracion.css'
         });
     } catch (error) {
+        console.log(error)
+        res.render('error404', {});
+    }
+});
+
+
+router.get('/administrar-producto', privateAccess, adminAccess, async (req, res) => {
+    try {
+        res.render('administrarProducto', {
+            title: 'Producto',
+            user: req.session.user,
+            styles: '../css/administrarProducto.css'
+        });
+    } catch (error) {
+        console.log(error)
         res.render('error404', {});
     }
 });

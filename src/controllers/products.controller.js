@@ -88,47 +88,65 @@ const updateProduct = async (req, res) => {
   const pid = Number(req.params.pid);
   const data = req.body;
 
-  if (
-    data.title === undefined ||
-    data.description === undefined ||
-    data.code === undefined ||
-    data.price === undefined ||
-    data.stock === undefined ||
-    data.category === undefined ||
-    data.status === undefined
-  ) {
+  try {
+    if (
+      data.title === undefined ||
+      data.description === undefined ||
+      data.code === undefined ||
+      data.price === undefined ||
+      data.stock === undefined ||
+      data.category === undefined ||
+      data.status === undefined
+    ) {
+      res
+        .status(400)
+        .send({
+          status: "Error",
+          message: "Debe ingresar todos los datos solicitados",
+        });
+    } else {
+      const product = {
+        title: data.title,
+        description: data.description,
+        code: data.code,
+        price: data.price,
+        status: data.status,
+        stock: data.stock,
+        category: data.category,
+        thumbnail: [],
+      };
+      const respon = await productsManager.update(pid, product);
+      res.send(respon);
+    }
+  } catch (error) {
     res
       .status(400)
       .send({
         status: "Error",
-        message: "Debe ingresar todos los datos solicitados",
+        message: "Ha ocurrido un inconveniente en el servidor",
       });
-  } else {
-    const product = {
-      title: data.title,
-      description: data.description,
-      code: data.code,
-      price: data.price,
-      status: data.status,
-      stock: data.stock,
-      category: data.category,
-      thumbnail: [],
-    };
-    const respon = await productsManager.update(pid, product);
-    res.send(respon);
   }
 };
 
 
 const deleteProduct = async (req, res) => {
   const pid = req.params.pid;
-  console.log(pid);
-  // if (pid) {
-  //   const respon = await productsManager.delete(pid);
-  //   res.send(respon);
-  // } else {
-  //   res.send({ status: "Error", message: "El producto es invalido" });
-  // }
+  try {
+    if (pid) {
+      const respon = await productsManager.delete(pid);
+      res.send(respon);
+    } else {
+      res.send({ status: "Error", message: "El producto es invalido" });
+    }
+  } catch (error) {
+    res
+      .status(400)
+      .send({
+        status: "Error",
+        message: "Ha ocurrido un inconveniente en el servidor",
+      });
+  }
+  
 };
 
 export {

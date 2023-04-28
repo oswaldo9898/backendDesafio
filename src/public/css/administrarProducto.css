@@ -1,0 +1,39 @@
+*{
+    box-sizing: border-box;
+}
+
+.content-producto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+}
+
+.content-producto form {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+
+.content-producto form .input-data{
+    width: 60%;
+    margin-top: 5px;
+    border: 1px solid #4e4d4d;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+
+.content-producto form textarea{
+    height: 100px;
+}
+
+
+.content-producto form button{
+    width: 60%;
+    margin-top: 5px;
+}

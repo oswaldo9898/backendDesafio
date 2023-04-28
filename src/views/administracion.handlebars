@@ -1,3 +1,23 @@
-<div>
-    Administracion
+<div class="contenedor-administracion">
+    <h3>Lista de productos</h3>
+
+    <div class="tabla-productos" >
+        <a class="nav_link" href="/administrar-producto">
+            <button class="btn-crear"><i class="fa-solid fa-plus"></i> Crear nuevo Producto</button>
+        </a>
+        <table class="content-table">
+            <thead>
+                <tr>
+                <th>Titulo</th>
+                <th>Descripción</th>
+                <th>Categoria</th>
+                <th>Precio</th>
+                <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="contenido-tabla"></tbody>
+        </table>
+        <div class="content-paginacion"></div>
+    </div>
 </div>
+<script src="/js/administracion.js"></script>
