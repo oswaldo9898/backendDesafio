@@ -111,7 +111,7 @@ router.get('/carts/:cid', privateAccess, async (req, res) => {
 });
 
 
-router.get('/administracion', privateAccess, adminAccess, async (req, res) => {
+router.get('/administrar', privateAccess, adminAccess, async (req, res) => {
     const { limit, page, query, sort } = req.query;
     try {
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);

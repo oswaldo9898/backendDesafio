@@ -6,6 +6,7 @@ let nextPage = 0;
 let prevPage = 0;
 let pageCurret = 1;
 
+
 const getProducts =async (pageSelect=1) => {
     const res = await fetch(`/api/products/?page=${pageSelect}`);
     const data = await res.json();
@@ -28,11 +29,19 @@ const tableDeleteListener = async(event) => {
         const res = await fetch(`/api/products/${id}`, {
             method: 'DELETE'
         });
-        if(res.status == 200){
-            const data = await getProducts(nextPage)
+        if(res.status === 200){
+            const data = await getProducts(pageCurret)
             const arrProductos = data.payload.docs;
             cargarTabla(arrProductos);
             actualizarNumeroPagina(page);
+            Swal.fire({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000,
+                title: `Producto eliminado`,
+                icon: 'success'
+            });
         }
         
     } catch (error) {
@@ -40,6 +49,7 @@ const tableDeleteListener = async(event) => {
         alert('No se pudo eliminar');
     }
 };
+
 
 
 const cargarTabla = (arrProductos) => {
@@ -54,7 +64,7 @@ const cargarTabla = (arrProductos) => {
                 <td>${ product.category }</td>
                 <td>${ product.price }</td>
                 <td>
-                    <a href="#/" class="select-user" data-id=${product._id}>Editar</a>
+                    <a href="/administrar-producto?pid=${product._id}" class="update-user" data-id=${product._id}>Editar</a>
                     |
                     <a href="#/" class="delete-producto" data-id=${product._id}>Eliminar</a>
                 </td>

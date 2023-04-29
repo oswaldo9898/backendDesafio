@@ -77,6 +77,22 @@ nav ul {
     margin-right: 0px;
 }
 
+
+.admin {
+    color: white;
+    height: 100%;
+    display: flex;
+
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin i{
+    font-size: 18px;
+    margin-right: 5px;
+}
+
 .miCuenta {
     display: flex;
     align-items: center;
@@ -106,6 +122,8 @@ nav ul {
     border: none;
     cursor: pointer;
 }
+
+
 
 
 /* Menu desplegable */

@@ -28,7 +28,7 @@ const getProduct = async (req, res) => {
           status: "Error",
           message: "Not found: Producto no encontrado",
         })
-      : res.send({ message: "Success", payload: product });
+      : res.send({ message: "success", payload: product });
   } catch (e) {
     res
       .status(400)
@@ -71,9 +71,10 @@ const saveProduct = async (req, res) => {
       };
 
       const productArr = await productsManager.save(product);
-      res.send({ message: "Success", payload: productArr });
+      res.send({ message: "success", payload: productArr });
     }
   } catch (error) {
+    console.log(error)
     res
       .status(400)
       .send({
@@ -85,7 +86,7 @@ const saveProduct = async (req, res) => {
 
 
 const updateProduct = async (req, res) => {
-  const pid = Number(req.params.pid);
+  const pid = req.params.pid;
   const data = req.body;
 
   try {
@@ -116,9 +117,10 @@ const updateProduct = async (req, res) => {
         thumbnail: [],
       };
       const respon = await productsManager.update(pid, product);
-      res.send(respon);
+      res.send({ message: "success", payload: respon });
     }
   } catch (error) {
+    console.log(error)
     res
       .status(400)
       .send({
@@ -134,7 +136,7 @@ const deleteProduct = async (req, res) => {
   try {
     if (pid) {
       const respon = await productsManager.delete(pid);
-      res.send(respon);
+      res.send({ message: "success", payload: respon });
     } else {
       res.send({ status: "Error", message: "El producto es invalido" });
     }
