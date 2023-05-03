@@ -47,6 +47,12 @@ router.get('/reset', publicAccess, (req, res) => {
     });
 });
 
+router.get('/current', (req, res) => {
+    res.render('current', {
+            title: 'Current'
+    });
+});
+
 
 
 

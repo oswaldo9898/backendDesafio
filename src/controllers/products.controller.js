@@ -1,13 +1,16 @@
 import Products from "../dao/dbManager/products.js";
-const productsManager = new Products();
+import ProductsRepository from "../repository/products.repository.js";
 
+const productsManager = new Products();
+const productsRepository = new ProductsRepository(productsManager);
 
 const getProducts = async (req, res) => {
   const { limit, page, query, sort } = req.query;
   try {
-    const products = await productsManager.getAll(limit, page, query, sort);
+    const products = await productsRepository.getProducts(limit, page, query, sort);
     return res.send({ status: "success", payload: products });
   } catch (error) {
+    console.log(error)
     res
       .status(400)
       .send({
@@ -22,7 +25,7 @@ const getProduct = async (req, res) => {
   const pid = req.params.pid;
 
   try {
-    const product = await productsManager.getProductById(pid);
+    const product = await productsRepository.getProduct(pid);
     product.length === 0
       ? res.send({
           status: "Error",
@@ -70,7 +73,7 @@ const saveProduct = async (req, res) => {
         thumbnail: [],
       };
 
-      const productArr = await productsManager.save(product);
+      const productArr = await productsRepository.saveProduct(product);
       res.send({ message: "success", payload: productArr });
     }
   } catch (error) {
@@ -116,7 +119,7 @@ const updateProduct = async (req, res) => {
         category: data.category,
         thumbnail: [],
       };
-      const respon = await productsManager.update(pid, product);
+      const respon = await productsRepository.updateProduct(pid, product);
       res.send({ message: "success", payload: respon });
     }
   } catch (error) {
@@ -135,7 +138,7 @@ const deleteProduct = async (req, res) => {
   const pid = req.params.pid;
   try {
     if (pid) {
-      const respon = await productsManager.delete(pid);
+      const respon = await productsRepository.deleteProduct(pid);
       res.send({ message: "success", payload: respon });
     } else {
       res.send({ status: "Error", message: "El producto es invalido" });

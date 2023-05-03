@@ -96,7 +96,6 @@ const initializePassport = () => {
         secretOrKey: privateKey
     }, async (jwt_payload, done) => {
         try {
-            console.log(jwt_payload);
             // if (!jwt_payload.sadfsdf) return done(null, false, { messages: 'Atributo no encontrado' });
             return done(null, jwt_payload.user);
         } catch (error) {
@@ -148,12 +147,10 @@ const initializePassport = () => {
 
 const cookieExtractor = req => {
     
-    console.log(req.cookies);
     let token = null;
     if (req && req.cookies) {
         token = req.cookies['coderCookieToken'];
     }
-    console.log(token)
     return token;
 }
 

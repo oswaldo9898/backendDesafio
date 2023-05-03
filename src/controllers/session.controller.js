@@ -1,7 +1,11 @@
 import userModel from '../dao/models/users.model.js';
 import { createHash, generateToken } from '../utils.js';
 import Users from "../dao/dbManager/users.js"
+import SessionsRepository from '../repository/session.repository.js';
+import CurrentDto from '../dao/DTOs/current.dto.js';
+
 const usersManager = new Users();
+const sessionsRepository = new SessionsRepository(usersManager);
 
 /** Registro de un nuevo usuario en el sistema */
 const register = async(req, res) => {
@@ -50,8 +54,8 @@ const failLogin = async (req, res) => {
 
 
 const current = (req, res) => {
-    console.log('llega')
-    res.send({ status: 'success', payload: req.user });
+    const currentDto = new CurrentDto(req.user)
+    res.send({ status: 'success', payload: currentDto });
 };
 
 
@@ -79,7 +83,7 @@ const reset = async(req, res) => {
         // if(!user) return res.status(404).send({status:'error', message:'user not found'});
         // user.password = createHash(password);
         // await userModel.updateOne({ email }, user)
-        const resp = usersManager.reset(email, password)
+        const resp = sessionsRepository.resetPassword(email, password);
 
         return res.send({status:'success', message:'Reset success'});
     } catch (error) {

@@ -1,9 +1,12 @@
 import Carts from "../dao/dbManager/carts.js";
+import CartsRepository from "../repository/carts.repository.js";
+
 const cartsManager = new Carts();
+const cartsRepository = new CartsRepository(cartsManager);
 
 const addCart = async (req, res) => {
   try {
-    const cartsArr = await cartsManager.addCart();
+    const cartsArr = await cartsRepository.addCart();
     res.send({ message: "Success", payload: cartsArr });
   } catch (error) {
     res
@@ -19,7 +22,7 @@ const addCart = async (req, res) => {
 const getProductsCart = async (req, res) => {
   const { cid } = req.params;
   try {
-    const cart = await cartsManager.getProductsCart(cid);
+    const cart = await cartsRepository.getProductsCart(cid);
     res.send({ message: "Success", payload: cart });
   } catch (error) {
     res
@@ -35,7 +38,7 @@ const getProductsCart = async (req, res) => {
 const addProductCart =  async (req, res) => {
   const { cid, pid } = req.params;
   try {
-    const resp = await cartsManager.addProductCart(cid, pid);
+    const resp = await cartsRepository.addProductCart(cid, pid);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
     res
@@ -51,7 +54,7 @@ const addProductCart =  async (req, res) => {
 const deleteProductCart = async (req, res) => {
   const { cid, pid } = req.params;
   try {
-    const resp = await cartsManager.deleteProductCart(cid, pid);
+    const resp = await cartsRepository.deleteProductCart(cid, pid);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
     res
@@ -68,7 +71,7 @@ const updateProductsCart = async (req, res) => {
   const { cid } = req.params;
   const products = req.body;
   try {
-    const resp = await cartsManager.updateProductsCart(cid, products);
+    const resp = await cartsRepository.updateProductsCart(cid, products);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
     console.log(error);
@@ -86,7 +89,7 @@ const updateQuantityProductCart = async (req, res) => {
   const { cid, pid } = req.params;
   const { cantidad } = req.body;
   try {
-    const resp = await cartsManager.updateQuantityProductCart(
+    const resp = await cartsRepository.updateQuantityProductCart(
       cid,
       pid,
       cantidad
@@ -106,7 +109,7 @@ const updateQuantityProductCart = async (req, res) => {
 const emptyCart = async (req, res) => {
   const { cid, pid } = req.params;
   try {
-    const resp = await cartsManager.emptyCart(cid, pid);
+    const resp = await cartsRepository.emptyCart(cid, pid);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
     res
@@ -122,7 +125,7 @@ const emptyCart = async (req, res) => {
 const probarPopulate = async (req, res) => {
   const { cid } = req.params;
   try {
-    const resp = await cartsManager.probarPopulate(cid);
+    const resp = await cartsRepository.probarPopulate(cid);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
     res
