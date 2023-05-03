@@ -27,7 +27,6 @@ const agregarProducto = async(producto) => {
 
 
 const modificarProducto = async(producto, id) => {
-    console.log(id)
     const res = await fetch(`/api/products/${id}`, {
         method: 'PUT',
         body: JSON.stringify(producto),

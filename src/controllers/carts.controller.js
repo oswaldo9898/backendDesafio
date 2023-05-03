@@ -1,8 +1,13 @@
 import Carts from "../dao/dbManager/carts.js";
+import Products from "../dao/dbManager/products.js";
 import CartsRepository from "../repository/carts.repository.js";
+import { v4 as uuidv4 } from 'uuid';
+import ProductsRepository from "../repository/products.repository.js";
 
 const cartsManager = new Carts();
+const productssManager = new Products();
 const cartsRepository = new CartsRepository(cartsManager);
+const productsRepository = new ProductsRepository(productssManager);
 
 const addCart = async (req, res) => {
   try {
@@ -137,6 +142,25 @@ const probarPopulate = async (req, res) => {
   }
 };
 
+
+const purchase = async(req, res) => {
+  const { cid } = req.params;
+  let data  = req.body;
+
+  try {
+    data.code = uuidv4();
+    const resp = await cartsRepository.purchase(data);
+    res.send({ message: "success", payload: resp });
+  } catch (error) {
+    res
+      .status(400)
+      .send({
+        status: "Error",
+        message: "Ha ocurrido un inconveniente en el servidor",
+      });
+  }
+}
+
 export {
   addCart,
   getProductsCart,
@@ -146,4 +170,5 @@ export {
   updateQuantityProductCart,
   emptyCart,
   probarPopulate,
+  purchase
 };

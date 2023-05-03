@@ -1,4 +1,5 @@
 import { cartModel } from "../models/carts.js";
+import ticketModel from "../models/ticket.js";
 import Products from './../../dao/dbManager/products.js';
 
 const productsManager = new Products();
@@ -127,4 +128,10 @@ export default class Carts {
       });
     return cart;
   }
+
+
+  purchase = async(ticket) => {
+    const result = await ticketModel.create(ticket);
+    return result;
+}
 }

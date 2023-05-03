@@ -1,28 +1,11 @@
 import { Router } from 'express';
 import Products from '../../dao/dbManager/products.js';
 import Carts from '../../dao/dbManager/carts.js';
+import { adminAccess, privateAccess, publicAccess, userAccess } from '../../middlewares/authenticate.js';
 
 const productsManager = new Products();
 const cartsManager = new Carts();
 const router = Router();
-
-
-const publicAccess = (req, res, next) => {
-    if (req.session.user) return res.redirect('/productos');
-    next();
-}
-
-const privateAccess = (req, res, next) => {
-    if (!req.session.user) return res.redirect('/login');
-    next();
-}
-
-
-const adminAccess = (req, res, next) => {
-    if (req.session.user.role !== 'admin') return res.redirect('/productos');
-    next();
-}
-
 
 
 router.get('/register', publicAccess, (req, res) => {
@@ -100,7 +83,7 @@ router.get('/product-detail', privateAccess, async (req, res) => {
 });
 
 
-router.get('/carts/:cid', privateAccess, async (req, res) => {
+router.get('/carts/:cid', privateAccess, userAccess, async (req, res) => {
     const { cid } = req.params;
     try {
         const resp = await cartsManager.getProductsCart(cid);
@@ -166,8 +149,11 @@ router.get('/realtimeproducts', privateAccess, (req, res) => {
 
 
 
-router.get('/chat', privateAccess, (req, res) => {
-    res.render('chat');
+router.get('/chat', privateAccess, userAccess, (req, res) => {
+    res.render('chat',{
+        title: 'Chat',
+        user: req.session.user,
+    });
 });
 
 

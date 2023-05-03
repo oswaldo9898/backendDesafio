@@ -29,7 +29,18 @@
                 </div> --}}
             </div>
             {{/each}}
+            <div class="total-pagar">
+
+            </div>
         </div>
+    </div>
+    <div class="pago">
+        <h3>Datos del cliente</h3>
+        <label for="">Nombre completo</label>
+        <input type="text" value="{{user.first_name}} {{user.last_name}}" disabled>
+        <label for="">Correo electronico</label>
+        <input type="text" value="{{user.email}}" id="emailUser" disabled>
+        <button class="boton-pagar">Realizar Pago</button>
     </div>
 </div>
 

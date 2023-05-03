@@ -43,4 +43,15 @@ export default class CartsRepository {
         return resp;
     }
 
+    probarPopulate = async(cid) => {
+        const resp = await this.dao.probarPopulate(cid);
+        return resp;
+    }
+
+
+    purchase = async(cid) => {
+        const resp = await this.dao.purchase(cid);
+        return resp;
+    }
+
 }
