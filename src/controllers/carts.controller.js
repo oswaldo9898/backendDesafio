@@ -3,6 +3,7 @@ import Products from "../dao/dbManager/products.js";
 import CartsRepository from "../repository/carts.repository.js";
 import { v4 as uuidv4 } from 'uuid';
 import ProductsRepository from "../repository/products.repository.js";
+import {createPDF} from './../utils/generatePDF/index.js';
 
 const cartsManager = new Carts();
 const productssManager = new Products();
@@ -146,12 +147,41 @@ const probarPopulate = async (req, res) => {
 const purchase = async(req, res) => {
   const { cid } = req.params;
   let data  = req.body;
+  let totalAPagar = 0;
+  const productsBuy = []
 
   try {
+    const productsCart = await cartsRepository.getProductsCart(cid);
+    for (const productCart of productsCart){
+      const product = await productsRepository.getProduct(productCart.product._id);//Obtengo el producto de la base de datos
+      if(product.stock >= productCart.quantify){ 
+
+        let productValido = {
+          product: product._id,
+          quantify: productCart.quantify
+        }
+        productsBuy.push(productValido);
+
+        const newStock = product.stock - productCart.quantify;//Calculo el nuevo stock para cada producto
+        product.stock = newStock;
+        await productsRepository.updateProduct(product._id, product);//Actualizo el producto con el nuevo stock
+        await cartsRepository.deleteProductCart(cid, product._id);//Elimino el producto del carrito
+        const subTotal = (productCart.quantify * product.price);
+        totalAPagar += subTotal;
+      }
+    }
+    
     data.code = uuidv4();
-    const resp = await cartsRepository.purchase(data);
+    data.amount = totalAPagar;
+    data.products = productsBuy;
+    const resp = await cartsRepository.purchase(data);//Creo el ticket en la base de datos
+
+    const resTicket = await cartsRepository.getTicket(resp._id)
+
+    createPDF(resTicket);
     res.send({ message: "success", payload: resp });
   } catch (error) {
+    console.log(error)
     res
       .status(400)
       .send({
@@ -159,6 +189,12 @@ const purchase = async(req, res) => {
         message: "Ha ocurrido un inconveniente en el servidor",
       });
   }
+}
+
+const obtenerTicket = async(req, res) =>{
+  const { id } = req.params;
+  const resTicket = await cartsRepository.getTicket(id);
+  res.send({ message: "success", payload: resTicket });
 }
 
 export {
@@ -170,5 +206,6 @@ export {
   updateQuantityProductCart,
   emptyCart,
   probarPopulate,
-  purchase
+  purchase,
+  obtenerTicket
 };

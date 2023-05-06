@@ -54,4 +54,9 @@ export default class CartsRepository {
         return resp;
     }
 
+    getTicket = async(id) => {
+        const resp = await this.dao.getTicket(id);
+        return resp;
+    }
+
 }

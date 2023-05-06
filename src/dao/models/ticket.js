@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const ticketsCollections = 'tickets';
 
@@ -8,6 +8,10 @@ const ticketsSchema = new mongoose.Schema({
         unique: true,
         require: true
     },
+    products: [{
+        product: {type: Schema.ObjectId, ref:'products'},
+        quantify:{ type: Number, default: 0}
+    }],
     purchase_datetime: {
         type:String,
         require: true

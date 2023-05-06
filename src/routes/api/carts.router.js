@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addCart, addProductCart, deleteProductCart, emptyCart, getProductsCart, probarPopulate, purchase, updateProductsCart, updateQuantityProductCart } from "../../controllers/carts.controller.js";
+import { addCart, addProductCart, deleteProductCart, emptyCart, getProductsCart, obtenerTicket, probarPopulate, purchase, updateProductsCart, updateQuantityProductCart } from "../../controllers/carts.controller.js";
 import { privateAccess, userAccess } from "../../middlewares/authenticate.js";
 
 const router = Router();
@@ -13,6 +13,7 @@ router.put("/:cid/products/:pid", updateQuantityProductCart);
 router.delete("/:cid", emptyCart);
 router.get("/productosPopulate/:cid", probarPopulate);
 router.post("/:cid/purchase", purchase);
+router.get("/obtener-ticket/:id", obtenerTicket);
 
 
 export default router;

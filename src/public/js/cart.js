@@ -79,6 +79,7 @@ const init = async() => {
             }
         });
         const result = await res.json();
+
         console.log(result)
         if(result.message === 'success'){
             Swal.fire({
@@ -89,6 +90,7 @@ const init = async() => {
                 title: `Pago exitoso`,
                 icon: 'success'
             });
+            window.location.replace(`/carts/${cid}`);
         }
     });
 }

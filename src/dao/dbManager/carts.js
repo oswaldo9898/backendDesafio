@@ -133,5 +133,13 @@ export default class Carts {
   purchase = async(ticket) => {
     const result = await ticketModel.create(ticket);
     return result;
-}
+  }
+
+  getTicket = async(id) => {
+    const ticket = await ticketModel.findById({ _id: id }).populate({
+      path: 'products.product',
+      model: 'products'
+    });
+    return ticket;
+  }
 }
