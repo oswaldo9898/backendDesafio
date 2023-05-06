@@ -1,47 +1,185 @@
-<div class='cartList'>
-    <input type="text" value="{{user.cart}}" id="cartId"/>
-    <div class="detalleProducto">
-        <div class='tablaProducts'>
-            <div class='tituloTabla'>
-                <div class='tablaProducto'>Producto</div>
-                <div class='tablaPrecio'>Precio</div>
-                <div class='tablaCantidad'>Cantidad</div>
-            </div>
-            {{#each productsCart}}
-            <div key={{this.product._id}} class="cartProduct">
-                <button class="centrarContenido deleteProduct" onclick="eliminarProducto('{{this.product._id}}')">
-                    <i class="fa-solid fa-trash" title="Eliminar producto"></i>
-                </button>
-                <div class="imgProductCart centrarContenido">
-                    <img src={{this.product.portada}} alt='Producto' />
+{{!-- <div class='cartList'>
+  <input type="text" value="{{user.cart}}" id="cartId" />
+  <div class="detalleProducto">
+    <div class='tablaProducts'>
+      <div class='tituloTabla'>
+        <div class='tablaProducto'>Producto</div>
+        <div class='tablaPrecio'>Precio</div>
+        <div class='tablaCantidad'>Cantidad</div>
+      </div>
+      {{#each productsCart}}
+      <div key={{this.product._id}} class="cartProduct">
+        <button class="centrarContenido deleteProduct" onclick="eliminarProducto('{{this.product._id}}')">
+          <i class="fa-solid fa-trash" title="Eliminar producto"></i>
+        </button>
+        <div class="imgProductCart centrarContenido">
+          <img src={{this.product.portada}} alt='Producto' />
+        </div>
+        <div class="titleProductCart centrarContenido">
+          <a href={'/producto/{{this.product._id}}'}>{{this.product.title}}</a>
+        </div>
+        <div class="priceProductCart centrarContenido">
+          {{this.product.price}}
+        </div>
+        <div class="CantidadProductCart centrarContenido">
+          {{this.quantify}}
+        </div>
+      </div>
+      {{/each}}
+      <div class="total-pagar">
+
+      </div>
+    </div>
+  </div>
+  <div class="pago">
+    <h3>Datos del cliente</h3>
+    <label for="">Nombre completo</label>
+    <input type="text" value="{{user.first_name}} {{user.last_name}}" disabled>
+    <label for="">Correo electronico</label>
+    <input type="text" value="{{user.email}}" id="emailUser" disabled>
+    <button class="boton-pagar">Realizar Pago</button>
+  </div>
+</div>
+
+<script src="/js/cart.js"></script> --}}
+
+<input type="text" value="{{user.cart}}" id="cartId" />
+
+<section class="h-100 h-custom" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card">
+          <div class="card-body p-4">
+
+            <div class="row">
+
+              <div class="col-lg-7">
+                <h5 class="mb-3"><a href="/productos" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Continue
+                    comprando</a></h5>
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <p class="mb-1">Carrito de compras</p>
+                    <p class="mb-0">Tiene {{productsCart.length}} producto(s) en su carrito</p>
+                  </div>
+                  <div>
+                    <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">price <i
+                          class="fas fa-angle-down mt-1"></i></a></p>
+                  </div>
                 </div>
-                <div class="titleProductCart centrarContenido">
-                    <a href={'/producto/{{this.product._id}}'}>{{this.product.title}}</a>
+
+                {{#each productsCart}}
+                <div key={{this.product._id}} class="card mb-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <div>
+                          <img
+                            src={{this.product.portada}}
+                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                        </div>
+                        <div class="ms-3">
+                          <h5>{{this.product.title}}</h5>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center">
+                        <div style="width: 50px;">
+                          <h5 class="fw-normal mb-0">{{this.quantify}}</h5>
+                        </div>
+                        <div style="width: 80px;">
+                          <h5 class="mb-0">${{this.product.price}}</h5>
+                        </div>
+                        <a  style="color: #cecece;" onclick="eliminarProducto('{{this.product._id}}')" ><i class="fas fa-trash-alt"></i></a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="priceProductCart centrarContenido">
-                    {{this.product.price}}
+                {{/each}}
+
+              </div>
+              <div class="col-lg-5">
+
+                <div class="card bg-primary text-white rounded-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h5 class="mb-0">Detalles de compra</h5>
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" class="img-fluid rounded-3"
+                        style="width: 45px;" alt="Avatar">
+                    </div>
+
+                    <p class="small mb-2">Tarjetas</p>
+                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-visa fa-2x me-2"></i></a>
+                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-amex fa-2x me-2"></i></a>
+                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
+
+                    <form class="mt-4">
+                      <div class="form-outline form-white mb-4">
+                        <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
+                          value="{{user.first_name}} {{user.last_name}}" disabled/>
+                        <label class="form-label" for="typeName">Nombre completo</label>
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                        <input type="text" class="form-control form-control-lg" siez="17"
+                          value="{{user.email}}" id="emailUser"  minlength="19" maxlength="19" disabled/>
+                        <label class="form-label" for="typeText">Correo electronico</label>
+                      </div>
+
+                      {{!-- <div class="row mb-4">
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="text" id="typeExp" class="form-control form-control-lg" placeholder="MM/YYYY"
+                              size="7" id="exp" minlength="7" maxlength="7" />
+                            <label class="form-label" for="typeExp">Expiration</label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="password" id="typeText" class="form-control form-control-lg"
+                              placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                            <label class="form-label" for="typeText">Cvv</label>
+                          </div>
+                        </div>
+                      </div> --}}
+
+                    </form>
+
+                    <hr class="my-4">
+
+                    {{!-- <div class="d-flex justify-content-between">
+                      <p class="mb-2">Subtotal</p>
+                      <p class="mb-2">$4798.00</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Shipping</p>
+                      <p class="mb-2">$20.00</p>
+                    </div> --}}
+
+                    <div class="d-flex justify-content-between mb-4 total-pagar" >
+                    </div>
+
+                    <button type="button" class="btn btn-info btn-block btn-lg boton-pagar">
+                      <div class="d-flex justify-content-between">
+                        <span>Realizar compra <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                      </div>
+                    </button>
+
+                  </div>
                 </div>
-                <div class="CantidadProductCart centrarContenido">
-                    {{this.quantify}}
-                </div>
-                {{!-- <div class="totalProductCart centrarContenido">
-                    {{this.product.price * this.quantify}}
-                </div> --}}
-            </div>
-            {{/each}}
-            <div class="total-pagar">
+
+              </div>
 
             </div>
+
+          </div>
         </div>
+      </div>
     </div>
-    <div class="pago">
-        <h3>Datos del cliente</h3>
-        <label for="">Nombre completo</label>
-        <input type="text" value="{{user.first_name}} {{user.last_name}}" disabled>
-        <label for="">Correo electronico</label>
-        <input type="text" value="{{user.email}}" id="emailUser" disabled>
-        <button class="boton-pagar">Realizar Pago</button>
-    </div>
-</div>
+  </div>
+</section>
 
 <script src="/js/cart.js"></script>

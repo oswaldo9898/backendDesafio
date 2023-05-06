@@ -60,7 +60,7 @@ form.addEventListener('submit', async(event)=>{
                 title: `Producto creado`,
                 icon: 'success'
             });
-            window.location.replace('/administracion');
+            window.location.replace('/administrar');
         }
     }else{
         const res = await modificarProducto(producto, pid);
@@ -73,7 +73,7 @@ form.addEventListener('submit', async(event)=>{
                 title: `Producto editado`,
                 icon: 'success'
             });
-            window.location.replace('/administracion');
+            window.location.replace('/administrar');
         }
     }
 });

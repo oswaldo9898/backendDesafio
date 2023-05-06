@@ -3,7 +3,7 @@ const emailUser= document.getElementById('emailUser');
 const btnPago = document.querySelector('.boton-pagar');
 const totalPagar = document.querySelector('.total-pagar');
 
-const email = document.getElementById('emailUser');
+const email = document.querySelector('#emailUser');
 const total = document.getElementById('totalCompra');
 
 
@@ -49,9 +49,13 @@ const calcularTotal = async(cid) => {
         let subtotal = (element.product.price * element.quantify);
         totalBuy += subtotal;
     });
+    // totalPagar.innerHTML = `
+    // <label>Total</label>
+    // <input type="text" value=${totalBuy} id="totalCompra" disabled/>`;
+
     totalPagar.innerHTML = `
-    <label>Total</label>
-    <input type="text" value=${totalBuy} id="totalCompra" disabled/>`;
+    <p class="mb-2">Total(Incl. impuestos)</p>
+    <p class="mb-2 total" id="totalCompra" >$${totalBuy}</p>`;
 
     return totalBuy;
 }
@@ -70,6 +74,7 @@ const init = async() => {
     }
 
     btnPago.addEventListener('click', async(event) => {
+        console.log('cliccccccccccccccc')
         event.preventDefault();        
         const res = await fetch(`/api/carts/${cid}/purchase`, {
             method: 'POST',

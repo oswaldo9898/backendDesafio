@@ -3,7 +3,7 @@
     margin: 0;
 }
 
-.menu {
+/* .menu {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -123,11 +123,11 @@ nav ul {
     cursor: pointer;
 }
 
-
+ */
 
 
 /* Menu desplegable */
-li ul {
+/* li ul {
     display: none;
     position: absolute !important;
     margin: 0px 0 !important;
@@ -170,4 +170,8 @@ li:hover>ul>li:hover {
 
 li:hover>ul>li>a:hover {
     color: #000;
+} */
+
+.colot-text {
+    color: white !important;
 }
