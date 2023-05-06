@@ -65,38 +65,44 @@ const init = async() => {
     let totalProducts = await calcularTotal(cid);
     let emailUser = email.value;
 
-    console.log(totalProducts)
-    console.log(emailUser)
-
     const data = {
         amount: totalProducts,
         purchaser: emailUser,
     }
 
     btnPago.addEventListener('click', async(event) => {
-        console.log('cliccccccccccccccc')
-        event.preventDefault();        
-        const res = await fetch(`/api/carts/${cid}/purchase`, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        const result = await res.json();
+        event.preventDefault();
 
-        console.log(result)
-        if(result.message === 'success'){
+        if(data.amount !== 0){
+            const res = await fetch(`/api/carts/${cid}/purchase`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const result = await res.json();
+            if(result.message === 'success'){
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    title: `Pago exitoso`,
+                    icon: 'success'
+                });
+                window.location.replace(`/compra-exitosa`);
+            }
+        }else{
             Swal.fire({
-                toast: true,
-                position: 'bottom-end',
                 showConfirmButton: false,
                 timer: 3000,
-                title: `Pago exitoso`,
-                icon: 'success'
+                title: `Oops...`,
+                text: `No posee ningun producto en su carrito`,
+                icon: 'error'
             });
-            window.location.replace(`/carts/${cid}`);
         }
+        
     });
 }
 

@@ -24,7 +24,6 @@
 
 
 <div class="productosContenedor">
-    <div class="titulo">TODOS LOS PRODUCTOS</div>
     <input id="cartId" value={{user.cart}} />
     <div class="cardsProducts">
         {{#each arrayProducts}}
@@ -46,22 +45,24 @@
             </div>
 
             <span className="separador"></span>
-            <button class="agregarButton" id={{this._id}} onclick="agregarACarrito('{{this._id}}')"><i
-                    class="fa-solid fa-bag-shopping"></i>
-                <span>AGREGAR AL CARRITO</span></button>
+            <button class="agregarButton" id={{this._id}} onclick="agregarACarrito('{{this._id}}')">
+                <span>AGREGAR AL CARRITO</span>
+            </button>
         </div>
         {{/each}}
     </div>
+</div>
+</div>
 
-    <div class="botonesNavegacion">
-        {{#if hasPrevPage}}
-        <a href="/productos?page={{prevPage}}" class="botonNavegacion"><button>Anterior</button></a>
-        {{/if}}
+<div class="botonesNavegacion">
+    {{#if hasPrevPage}}
+    <a href="/productos?page={{prevPage}}" class="botonNavegacion"><button>Anterior</button></a>
+    {{/if}}
 
-        {{#if hasNextPage}}
-        <a href="/productos?page={{nextPage}}" class="botonNavegacion"><button>Siguiente</button></a>
-        {{/if}}
-    </div>
+    {{#if hasNextPage}}
+    <a href="/productos?page={{nextPage}}" class="botonNavegacion"><button>Siguiente</button></a>
+    {{/if}}
+</div>
 
 </div>
 

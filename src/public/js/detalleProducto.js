@@ -1,6 +1,6 @@
 
-const agregarACarrito = (pid) => {
-    let cid = '64178ea0f42c1bf094545772';
+
+const agregarACarrito = (pid, cid) => {
     fetch(`/api/carts/${cid}/products/${pid}`, {
         method: 'POST',
         headers: {
@@ -20,5 +20,5 @@ const agregarACarrito = (pid) => {
             console.log('error')
         }
     })
-
 }
+

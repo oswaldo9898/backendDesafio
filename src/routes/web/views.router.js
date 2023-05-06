@@ -66,7 +66,6 @@ router.get('/productos', privateAccess, async (req, res) => {
 
 router.get('/product-detail', privateAccess, async (req, res) => {
     const { pid } = req.query;
-    const user = {};
     try {
         const resp = await productsManager.getProductById(pid);
         const producto = resp.toObject();
@@ -98,6 +97,20 @@ router.get('/carts/:cid', privateAccess, userAccess, async (req, res) => {
         res.render('error404', {});
     }
 });
+
+
+
+router.get('/compra-exitosa', privateAccess, userAccess, async (req, res) => {
+    try {
+        res.render('compraExitosa', {
+            title: 'Compra exitosas',
+            user: req.session.user,
+        });
+    } catch (error) {
+        res.render('error404', {});
+    }
+});
+
 
 
 router.get('/administrar', privateAccess, adminAccess, async (req, res) => {

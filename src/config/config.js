@@ -10,4 +10,6 @@ export default {
     privateKey: process.env.PRIVATE_KEY,
     adminEmail: process.env.ADMIN_EMAIL,
     adminPassword: process.env.ADMIN_PASSWORD,
+    nodemailerPassword: process.env.NODEMAILER_PASSWORD,
+    nodemailerEmail: process.env.NODEMAILER_EMAIL,
 }
