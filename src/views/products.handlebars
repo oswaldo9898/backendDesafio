@@ -40,7 +40,8 @@
                 </a>
 
                 <div class="cardPrice">
-                    ${{this.price}}
+                    <p>${{this.price}}</p>
+                    <p>Stock: {{this.stock}}</p>
                 </div>
             </div>
 
@@ -52,7 +53,7 @@
         {{/each}}
     </div>
 </div>
-</div>
+
 
 <div class="botonesNavegacion">
     {{#if hasPrevPage}}

@@ -95,15 +95,24 @@
     text-decoration:none !important;
 }
 
-.cardPrice {
+/* .cardPrice {
     font-family: fantasy;
     font-size: 16px;
     font-weight: 500;
     margin-top: 10px;
-    /* color: brown; */
     color: #7e7c7c;
     display: flex;
     flex: 1 1 auto;
+} */
+
+.cardPrice {
+    display: flex;
+    justify-content: space-between;
+    color: #7e7c7c;
+}
+
+.cardPrice p{
+    font-weight: 500;
 }
 
 .cardProducto:hover .cardPrice{

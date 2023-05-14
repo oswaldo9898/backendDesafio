@@ -1,8 +1,14 @@
-
+const quantity = document.querySelector("#quantity");
 
 const agregarACarrito = (pid, cid) => {
+    const cantidad = quantity.value;
+    let product = {
+        cantidad
+    }
+
     fetch(`/api/carts/${cid}/products/${pid}`, {
         method: 'POST',
+        body: JSON.stringify(product),
         headers: {
             'Content-Type': 'application/json'
         }

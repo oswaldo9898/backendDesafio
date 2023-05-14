@@ -19,6 +19,8 @@ import initializePassport from './config/passport.config.js';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 
+import errorHandler from './middlewares/errors/index.js';
+
 
 const productsManager = new Products();
 const messagesManager = new Messages();
@@ -52,6 +54,8 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+
 
 
 /** ESTABLECIENDO RUTA PUBLICA */
@@ -95,6 +99,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionRouter);
 
+app.use(errorHandler);
 
 const server = app.listen(8080, ()=>{
   console.log('Servidor listening port 8080');

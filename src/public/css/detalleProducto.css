@@ -17,7 +17,7 @@
 .contenidoGeneral {
     display: flex;
     flex-direction: row;
-    margin: 4% 0;
+    margin: 3% 0;
     width: 70%;
     justify-content: space-around;
     align-content: center;
@@ -46,7 +46,7 @@
     display: block;
     font-size: 14px;
     color: rgb(82, 81, 81);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     font-weight: bold;
 }
 
@@ -59,7 +59,7 @@
     line-height: 22px;
     word-spacing: 3px;
     color: rgba(51, 32, 47, 0.923);
-    margin-bottom: 1.8rem;
+    margin-bottom: 1rem;
 
 }
 
@@ -73,17 +73,18 @@
 .informacionProducto .contenedorPrecioCantidad .precioProducto{
     color: green;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 45px;
 }
 
 .informacionProducto .cantidadProducto {
     display: flex;
-    height: 35px;
+    flex-direction: column;
+    /* height: 35px;
     margin-right: 10px;
     border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
 }
-
+/* 
 .informacionProducto .cantidadProducto Button{
     display: flex;
     margin: 0 !important;
@@ -99,12 +100,22 @@
     color: green;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 7px -3px inset, 
     rgba(0, 0, 0, 0.3) 0px 9px 10px -9px inset;
+} */
+
+.informacionProducto .cantidadProducto span{
+    font-size: 14px;
+    color: rgb(82, 81, 81);
+    font-weight: bold;
 }
 
+
 .informacionProducto .cantidadProducto input{
-    width: 40px;
+    /* width: 40px;
     text-align: center;
-    border: none;
+    border: none; */
+    height: 35px;
+    width: 65px;
+    font-size: 18px;
 }
 
 .informacionProducto .agregarButton:active {
@@ -123,8 +134,8 @@
 }
 
 .button {
-    margin-top: 20px;
-    padding: 10px;
+    margin-top: 10px;
+    padding: 5px;
     width: 100%;
     border: solid 1px rgb(142, 141, 141);
     border-radius: 10px;
@@ -135,20 +146,7 @@
 }
 
 
-.pagoButton:hover {
-    margin-top: 20px;
-    padding: 10px;
-    width: 100%;
-    color: white;
-    box-shadow: 3px 3px rgba(0,0,0,0.3);
-    border: rgb(5, 50, 134);
-    background-color: rgb(5, 37, 134);
-}
-
 .agregarButton:hover {
-    margin-top: 20px;
-    padding: 10px;
-    width: 100%;
     color: white;
     box-shadow: 3px 3px rgba(0,0,0,0.3);
     border: rgb(5, 134, 59);

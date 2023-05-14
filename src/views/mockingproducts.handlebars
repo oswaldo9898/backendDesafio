@@ -1,0 +1,30 @@
+f<div class="productosContenedor">
+    <input id="cartId" value={{user.cart}} />
+    <div class="cardsProducts">
+        {{#each arrayProducts}}
+        <div class="cardProducto">
+            <div class="cardImg">
+                <a>
+                    <img class="img" src={{this.image}} alt={{this.title}} />
+                </a>
+            </div>
+
+            <div class="cardBody">
+                <a class="nav_link" href="/product-detail?pid={{this._id}}">
+                    <h3>{{this.title}}</h3>
+                </a>
+
+                <div class="cardPrice">
+                    <p>${{this.price}}</p>
+                    <p>Stock: {{this.stock}}</p>
+                </div>
+            </div>
+
+            <span className="separador"></span>
+            <button class="agregarButton" id={{this._id}} >
+                <span>AGREGAR AL CARRITO</span>
+            </button>
+        </div>
+        {{/each}}
+    </div>
+</div>

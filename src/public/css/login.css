@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+/* 
 .contenedorLogin {
     display: flex ;
     flex-direction: column;
@@ -58,4 +58,4 @@
     width: 50%;
     height: 30px;
     cursor: pointer;
-}
+} */

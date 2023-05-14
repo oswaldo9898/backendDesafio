@@ -1,21 +1,45 @@
-<div class="contenedorLogin">
-    <div class="contenedorForm">
-        <h1>Iniciar sesión</h1>
-        <form id="loginForm">
-            <label for="">Correo electrónico</label>
-            <input type="text" name="email">
-            <label for="">Contraseña</label>
-            <input type="password" name="password">
-            <input type="submit" class="botonSubmit" value="Iniciar sesión">
-        </form>
-        <div class="loginTerceros">
-            <span>INICIA SESION CON</span>
-            <a href="/api/sessions/github"> <button id="loginGitHub" ><i class="fa-brands fa-github"></i> GitHub</button> </a>
-        </div>
-        <p>¿No tienes cuenta? <a href="/register">Clic aquí</a></p>
-        <p>¿Olvidaste tu contraseña? <a href="/reset">Clic aquí</a></p>
+<div class=" d-flex flex-column justify-content-center align-items-center">
+  <form id="loginForm" class="col-5 container py-5 h-100" >
+
+    <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+    <p class="text-black-50 mb-2">¡Por favor, introduce tu correo y contraseña!</p>
+    <!-- Email input -->
+    <div class="form-outline mb-1">
+      <input type="email" id="form2Example1" class="form-control" name="email"/>
+      <label class="form-label" for="form2Example1">Correo electrónico</label>
     </div>
-    
+
+    <!-- Password input -->
+    <div class="form-outline mb-2">
+      <input type="password" id="form2Example2" class="form-control" name="password"/>
+      <label class="form-label" for="form2Example2">Contraseña</label>
+    </div>
+
+    <!-- 2 column grid layout for inline styling -->
+    <div class="row">
+      <div class="col">
+        <!-- Simple link -->
+        <p>¿Has olvidado tu contraseña?<a href="/reset"> Recuperar</a></p>
+      </div>
+    </div>
+
+    <div class="d-grid mb-2">
+      <!-- Submit button -->
+      <input type="submit" class="btn btn-primary" value="Iniciar sesión" />
+      <p class="text-center mb-1">O</p>
+      <a href="/api/sessions/github" class="text-center mb-1">
+        <button type="button" class="btn btn-secondary" id="loginGitHub">
+          <i class="fab fa-github"></i> Continua con GitHub
+        </button>
+      </a>
+      
+    </div>
+
+    <!-- Register buttons -->
+    <div class="text-center">
+      <p class="mb-1">¿No tiene cuenta? <a href="/register">Registro</a></p>
+    </div>
+  </form>
 </div>
 
 <script src="/js/login.js"></script>

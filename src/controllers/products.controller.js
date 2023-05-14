@@ -1,5 +1,9 @@
+import CustomError from "../services/errors/CustomError.js";
 import Products from "../dao/dbManager/products.js";
 import ProductsRepository from "../repository/products.repository.js";
+import EErrors from "../services/errors/enums.js";
+import { generateUserErrorInfo } from '../services/errors/info.js';
+
 
 const productsManager = new Products();
 const productsRepository = new ProductsRepository(productsManager);
@@ -43,24 +47,34 @@ const getProduct = async (req, res) => {
 };
 
 
-const saveProduct = async (req, res) => {
+const saveProduct = (req, res) => {
   const data = req.body;
 
-  try {
+  console.log(data)
+
+  // try {
     if (
-      data.title === undefined ||
-      data.description === undefined ||
-      data.code === undefined ||
-      data.price === undefined ||
-      data.stock === undefined ||
-      data.category === undefined
+      data.title === '' ||
+      data.description === '' ||
+      data.code === '' ||
+      data.price === '' ||
+      data.stock === '' ||
+      data.category === ''
     ) {
-      res
-        .status(400)
-        .send({
-          status: "Error",
-          message: "Debe ingresar todos los datos solicitados",
-        });
+      console.log('entra x aca')
+      throw CustomError.createError({
+        name: 'UserError',
+        cause: generateUserErrorInfo({
+          title: data.title,
+          description: data.description,
+          code: data.code,
+          price: data.price,
+          stock: data.stock,
+          category: data.category,
+        }),
+        message: 'Error tratando de crear un usuario',
+        code: EErrors.INVALID_TYPES_ERROR
+    })
     } else {
       const product = {
         title: data.title,
@@ -73,18 +87,18 @@ const saveProduct = async (req, res) => {
         thumbnail: [],
       };
 
-      const productArr = await productsRepository.saveProduct(product);
+      const productArr = productsRepository.saveProduct(product);
       res.send({ message: "success", payload: productArr });
     }
-  } catch (error) {
-    console.log(error)
-    res
-      .status(400)
-      .send({
-        status: "Error",
-        message: "Ha ocurrido un inconveniente en el servidor",
-      });
-  }
+  // } catch (error) {
+  //   console.log(error)
+  //   res
+  //     .status(400)
+  //     .send({
+  //       status: "Error",
+  //       message: "Ha ocurrido un inconveniente en el servidor",
+  //     });
+  // }
 };
 
 

@@ -21,6 +21,7 @@ const agregarProducto = async(producto) => {
         }
     });
     const newUser = await res.json();
+    console.log(newUser)
     return newUser;
 }
 

@@ -1,5 +1,6 @@
-const form = document.getElementById('loginForm');
+const form = document.querySelector('#loginForm');
 const btnGitHub = document.getElementById('loginGitHub');
+console.log('Entra')
 
 
 btnGitHub.addEventListener('click', e => {
@@ -7,8 +8,9 @@ btnGitHub.addEventListener('click', e => {
 
 })
 
-form.addEventListener('submit', e => {
+form.addEventListener('submit', (e) => {
     e.preventDefault();
+    console.log('En324234tra')
 
     const data = new FormData(form);
     const obj = {};

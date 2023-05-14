@@ -44,8 +44,9 @@ const getProductsCart = async (req, res) => {
 
 const addProductCart =  async (req, res) => {
   const { cid, pid } = req.params;
+  const {cantidad } = req.body;
   try {
-    const resp = await cartsRepository.addProductCart(cid, pid);
+    const resp = await cartsRepository.addProductCart(cid, pid, cantidad);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
     res

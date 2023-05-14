@@ -3,7 +3,7 @@ export default class SessionsRepository {
         this.dao = dao;
     }
 
-    resetPassword = async() => {
+    resetPassword = async(email, password) => {
         const resp = this.dao.reset(email, password);
         return resp
     }

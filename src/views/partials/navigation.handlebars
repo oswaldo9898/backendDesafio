@@ -9,11 +9,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
+        {{#if user}}
         <li class="nav-item">
-          {{#if user}}
           <a href="/productos" class="nav-link active colot-text" aria-current="page">TIENDA</a>
-          {{/if }}
         </li>
+        {{/if }}
+        {{#ifeq user.role 'user'}}
+        <li class="nav-item">
+          <a href="/chat" class="nav-link active colot-text" aria-current="page">CHAT</a>
+        </li>
+        {{/ifeq }}
       </ul>
       <ul class="nav w-100 justify-content-end">
         {{#ifeq user.role 'user'}}

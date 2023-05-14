@@ -6,15 +6,14 @@
     </div>
     <div class="informacionProducto">
       <h3 class="tituloProducto">{{producto.title}}</h3>
-      <span class="categoriaProducto">Categoría: {{producto.category}}</span>
+      <span class="categoriaProducto">Categoría: {{producto.category}} - Stock: {{producto.stock}}</span>
       <p class="descripcionProducto">Descripción: {{producto.description}}</p>
 
       <div class='contenedorPrecioCantidad'>
         <p class="precioProducto">$ {{producto.price}}</p>
         <div class='cantidadProducto'>
-          {{!-- <Button classButton='botonProducto' icono="fa-solid fa-minus"  />
-          <div className='valorProducto'>{cantProductoSelect}</div>
-          <button classButton='botonProducto' icono="fa-solid fa-plus" /></button> --}}
+          <span>Cantidad</span>
+          <input type="number" min="1" value="1" name="quantity" id="quantity">
         </div>
       </div>
       <button id={{producto._id}} onclick="agregarACarrito('{{producto._id}}', '{{user.cart}}')" class="button agregarButton"><i class=''></i> AGREGAR AL CARRITO</button>

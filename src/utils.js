@@ -6,6 +6,10 @@ import config from './config/config.js';
 
 // export const PRIVATE_KEY = 'CoderSecret'
 
+import { faker } from '@faker-js/faker';
+
+faker.location = 'es'
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -43,6 +47,21 @@ export const authorization = (rol) => {
         if(req.user.rol!=rol) return res.status(403).send({ error: 'Not permissions' });
         next();
     }
+}
+
+
+export const generateProduct = () => {
+    return {
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        code: faker.random.alphaNumeric(10),
+        price: faker.commerce.price(),
+        stock: faker.random.numeric(1),
+        category: faker.commerce.department(),
+        image: faker.image.avatar(),
+        id: faker.database.mongodbObjectId(),
+    }
+
 }
 
 

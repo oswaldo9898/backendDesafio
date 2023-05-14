@@ -13,8 +13,8 @@ export default class CartsRepository {
         return cart;
     }
 
-    addProductCart = async(cid, pid) => {
-        const resp = await this.dao.addProductCart(cid, pid);
+    addProductCart = async(cid, pid, cantidad=1) => {
+        const resp = await this.dao.addProductCart(cid, pid, cantidad);
         return resp;
     }
 
