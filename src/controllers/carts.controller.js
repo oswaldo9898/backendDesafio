@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ProductsRepository from "../repository/products.repository.js";
 import {createPDF} from './../utils/generatePDF/index.js';
 import { sendEmail } from "../utils/sendEmail/index.js";
+import { productCartErrorInfo } from "../services/errors/info.js";
 
 const cartsManager = new Carts();
 const productssManager = new Products();
@@ -42,12 +43,21 @@ const getProductsCart = async (req, res) => {
 };
 
 
-const addProductCart =  async (req, res) => {
+const addProductCart =  (req, res) => {
   const { cid, pid } = req.params;
   const {cantidad } = req.body;
   try {
-    const resp = await cartsRepository.addProductCart(cid, pid, cantidad);
+    if(pid == ''){
+      throw CustomError.createError({
+        name: 'UserError',
+        cause: productCartErrorInfo({id}),
+        message: 'Error al intentar agregar un producto al carrito',
+        code: EErrors.INVALID_TYPES_ERROR
+      });
+    }
+    const resp = cartsRepository.addProductCart(cid, pid, cantidad);
     res.send({ message: "Success", payload: resp });
+
   } catch (error) {
     res
       .status(400)

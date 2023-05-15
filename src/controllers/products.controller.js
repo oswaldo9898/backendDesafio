@@ -2,7 +2,7 @@ import CustomError from "../services/errors/CustomError.js";
 import Products from "../dao/dbManager/products.js";
 import ProductsRepository from "../repository/products.repository.js";
 import EErrors from "../services/errors/enums.js";
-import { generateUserErrorInfo } from '../services/errors/info.js';
+import { productErrorInfo } from '../services/errors/info.js';
 
 
 const productsManager = new Products();
@@ -50,9 +50,6 @@ const getProduct = async (req, res) => {
 const saveProduct = (req, res) => {
   const data = req.body;
 
-  console.log(data)
-
-  // try {
     if (
       data.title === '' ||
       data.description === '' ||
@@ -61,10 +58,9 @@ const saveProduct = (req, res) => {
       data.stock === '' ||
       data.category === ''
     ) {
-      console.log('entra x aca')
       throw CustomError.createError({
         name: 'UserError',
-        cause: generateUserErrorInfo({
+        cause: productErrorInfo({
           title: data.title,
           description: data.description,
           code: data.code,
@@ -72,9 +68,9 @@ const saveProduct = (req, res) => {
           stock: data.stock,
           category: data.category,
         }),
-        message: 'Error tratando de crear un usuario',
+        message: 'Error tratando de crear un product',
         code: EErrors.INVALID_TYPES_ERROR
-    })
+      });
     } else {
       const product = {
         title: data.title,
@@ -86,42 +82,39 @@ const saveProduct = (req, res) => {
         category: data.category,
         thumbnail: [],
       };
-
       const productArr = productsRepository.saveProduct(product);
       res.send({ message: "success", payload: productArr });
     }
-  // } catch (error) {
-  //   console.log(error)
-  //   res
-  //     .status(400)
-  //     .send({
-  //       status: "Error",
-  //       message: "Ha ocurrido un inconveniente en el servidor",
-  //     });
-  // }
+  
 };
 
 
-const updateProduct = async (req, res) => {
+const updateProduct = (req, res) => {
   const pid = req.params.pid;
   const data = req.body;
 
-  try {
     if (
-      data.title === undefined ||
-      data.description === undefined ||
-      data.code === undefined ||
-      data.price === undefined ||
-      data.stock === undefined ||
-      data.category === undefined ||
-      data.status === undefined
+      data.title === '' ||
+      data.description === '' ||
+      data.code === '' ||
+      data.price === '' ||
+      data.stock === '' ||
+      data.category === '' ||
+      data.status === ''
     ) {
-      res
-        .status(400)
-        .send({
-          status: "Error",
-          message: "Debe ingresar todos los datos solicitados",
-        });
+      throw CustomError.createError({
+        name: 'UserError',
+        cause: productErrorInfo({
+          title: data.title,
+          description: data.description,
+          code: data.code,
+          price: data.price,
+          stock: data.stock,
+          category: data.category,
+        }),
+        message: 'Error tratando de editar un usuario',
+        code: EErrors.INVALID_TYPES_ERROR
+      });
     } else {
       const product = {
         title: data.title,
@@ -133,18 +126,9 @@ const updateProduct = async (req, res) => {
         category: data.category,
         thumbnail: [],
       };
-      const respon = await productsRepository.updateProduct(pid, product);
+      const respon = productsRepository.updateProduct(pid, product);
       res.send({ message: "success", payload: respon });
     }
-  } catch (error) {
-    console.log(error)
-    res
-      .status(400)
-      .send({
-        status: "Error",
-        message: "Ha ocurrido un inconveniente en el servidor",
-      });
-  }
 };
 
 

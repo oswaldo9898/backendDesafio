@@ -9,6 +9,7 @@ const agregarACarrito = (pid) => {
                     'Content-Type': 'application/json'
                 }
             }).then(result => {
+                console.log(result)
                 if (result.status === 200) {
                     Swal.fire({
                         toast: true,
@@ -19,7 +20,15 @@ const agregarACarrito = (pid) => {
                         icon: 'success'
                     });
                 } else {
-                    console.log('error')
+                    console.log('error');
+                    Swal.fire({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        title: `Ocurrio un error`,
+                        icon: 'error'
+                    });
                 }
             })
     }else{
@@ -30,8 +39,7 @@ const agregarACarrito = (pid) => {
             timer: 3000,
             title: `No tiene los permisos`,
             icon: 'info'
-        })
+        });
     }
-    
 
 }

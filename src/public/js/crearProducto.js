@@ -21,7 +21,15 @@ const agregarProducto = async(producto) => {
         }
     });
     const newUser = await res.json();
-    console.log(newUser)
+    if(res.status == 401){
+        Swal.fire({
+            showConfirmButton: false,
+            timer: 4000,
+            title: `Oops...`,
+            text: newUser.description,
+            icon: 'error'
+        });
+    }
     return newUser;
 }
 
@@ -36,6 +44,15 @@ const modificarProducto = async(producto, id) => {
         }
     });
     const UpdateUser = await res.json();
+    if(res.status == 401){
+        Swal.fire({
+            showConfirmButton: false,
+            timer: 4000,
+            title: `Oops...`,
+            text: UpdateUser.description,
+            icon: 'error'
+        });
+    }
     return UpdateUser;
 }
 

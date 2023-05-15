@@ -10,7 +10,6 @@ btnGitHub.addEventListener('click', e => {
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('En324234tra')
 
     const data = new FormData(form);
     const obj = {};
