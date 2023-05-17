@@ -1,9 +1,11 @@
-export const productErrorInfo = (user) => {
+export const productErrorInfo = (product) => {
     return `Una o más propiedades están incompletas o son invalidas.
         Lista de las propiedades requeridas:
-        nombre: necesita que sea de tipo String, recibimos ${user.first_name}
-        apellido: necesita que sea de tipo String, recibimos ${user.last_name}
-        email: necesita que sea de tipo String, recibimos ${user.email}`
+        Titulo: necesita que sea de tipo String, recibimos ${product.title} -
+        Categoria: necesita que sea de tipo String, recibimos ${product.category} -
+        Descripcion: necesita que sea de tipo String, recibimos ${product.description} -
+        Precio: necesita que sea de tipo String, recibimos ${product.price} -
+        Stock: necesita que sea de tipo String, recibimos ${product.stock}`
 }
 
 export const productCartErrorInfo = (user) => {

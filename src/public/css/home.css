@@ -163,3 +163,16 @@ button span{
     background-color: rgb(5, 134, 59);
     color: white;
 }
+
+
+.icono-chat{
+    position: fixed;
+    right: 15px;
+    top: 85%;
+    z-index: 20;
+
+}
+
+.icono-chat a img{
+    height: 70px;
+}

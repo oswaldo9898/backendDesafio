@@ -7,6 +7,7 @@ const router = Router();
 
 router.get('/register', publicAccess, register);
 router.get('/login', publicAccess, login);
+router.get('/', privateAccess);
 router.get('/reset', publicAccess, reset);
 router.get('/current', current);
 router.get('/productos', privateAccess, productos);
