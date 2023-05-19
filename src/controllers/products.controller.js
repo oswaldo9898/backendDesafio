@@ -14,7 +14,7 @@ const getProducts = async (req, res) => {
     const products = await productsRepository.getProducts(limit, page, query, sort);
     return res.send({ status: "success", payload: products });
   } catch (error) {
-    console.log(error)
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -37,6 +37,7 @@ const getProduct = async (req, res) => {
         })
       : res.send({ message: "success", payload: product });
   } catch (e) {
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -142,6 +143,7 @@ const deleteProduct = async (req, res) => {
       res.send({ status: "Error", message: "El producto es invalido" });
     }
   } catch (error) {
+    req.logger.error(error);
     res
       .status(400)
       .send({

@@ -17,6 +17,7 @@ const addCart = async (req, res) => {
     const cartsArr = await cartsRepository.addCart();
     res.send({ message: "Success", payload: cartsArr });
   } catch (error) {
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -33,6 +34,7 @@ const getProductsCart = async (req, res) => {
     const cart = await cartsRepository.getProductsCart(cid);
     res.send({ message: "Success", payload: cart });
   } catch (error) {
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -59,6 +61,7 @@ const addProductCart =  (req, res) => {
     res.send({ message: "Success", payload: resp });
 
   } catch (error) {
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -75,6 +78,7 @@ const deleteProductCart = async (req, res) => {
     const resp = await cartsRepository.deleteProductCart(cid, pid);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -92,7 +96,7 @@ const updateProductsCart = async (req, res) => {
     const resp = await cartsRepository.updateProductsCart(cid, products);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
-    console.log(error);
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -114,6 +118,7 @@ const updateQuantityProductCart = async (req, res) => {
     );
     res.send({ message: "Success", payload: resp });
   } catch (error) {
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -130,6 +135,7 @@ const emptyCart = async (req, res) => {
     const resp = await cartsRepository.emptyCart(cid, pid);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -146,6 +152,7 @@ const probarPopulate = async (req, res) => {
     const resp = await cartsRepository.probarPopulate(cid);
     res.send({ message: "Success", payload: resp });
   } catch (error) {
+    req.logger.error(error);
     res
       .status(400)
       .send({
@@ -195,7 +202,7 @@ const purchase = async(req, res) => {
 
     res.send({ message: "success", payload: resp });
   } catch (error) {
-    console.log(error)
+    req.logger.error(error);
     res
       .status(400)
       .send({

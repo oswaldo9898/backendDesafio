@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
+let nodeEnv = process.argv.slice(2)[0] || process.env.NODE_ENV;
+
 
 export default {
     mongoURL: process.env.MONGO_URL,
@@ -12,4 +14,5 @@ export default {
     adminPassword: process.env.ADMIN_PASSWORD,
     nodemailerPassword: process.env.NODEMAILER_PASSWORD,
     nodemailerEmail: process.env.NODEMAILER_EMAIL,
+    nodeEnv,
 }

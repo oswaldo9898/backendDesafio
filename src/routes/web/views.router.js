@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { adminAccess, privateAccess, publicAccess, userAccess } from '../../middlewares/authenticate.js';
-import { administrar, administrarProducto, cart, chat, compraExitosa, current, login, mockingproducts, productDetail, productos, realtimeproducts, register, reset } from '../../controllers/views.controller.js';
+import { administrar, administrarProducto, cart, chat, compraExitosa, current, loggerTest, login, mockingproducts, noFound, productDetail, productos, realtimeproducts, register, reset } from '../../controllers/views.controller.js';
 
 const router = Router();
 
@@ -19,5 +19,7 @@ router.get('/administrar-producto', privateAccess, adminAccess, administrarProdu
 router.get('/realtimeproducts', privateAccess, adminAccess, realtimeproducts);
 router.get('/chat', privateAccess, userAccess, chat); 
 router.get('/mockingproducts', privateAccess, adminAccess, mockingproducts);
+router.get('/loggerTest', loggerTest);
+router.get('/*', noFound);
 
 export default router;

@@ -54,6 +54,7 @@ const productos = async (req, res) => {
             styles: 'css/home.css'
         });
     } catch (error) {
+        req.logger.error(error);
         res.render('error404', {});
     }
 };
@@ -72,6 +73,7 @@ const productDetail = async (req, res) => {
             styles: 'css/detalleProducto.css'
         });
     } catch (error) {
+        req.logger.error(error);
         res.render('error404', {});
     }
 };
@@ -89,6 +91,7 @@ const cart = async (req, res) => {
             styles: '../css/cart.css'
         });
     } catch (error) {
+        req.logger.error(error);
         res.render('error404', {});
     }
 };
@@ -101,6 +104,7 @@ const compraExitosa = async (req, res) => {
             user: req.session.user,
         });
     } catch (error) {
+        req.logger.error(error);
         res.render('error404', {});
     }
 };
@@ -124,7 +128,7 @@ const administrar = async (req, res) => {
             styles: '../css/administracion.css'
         });
     } catch (error) {
-        console.log(error)
+        req.logger.error(error);
         res.render('error404', {});
     }
 };
@@ -138,7 +142,7 @@ const administrarProducto = async (req, res) => {
             styles: '../css/administrarProducto.css'
         });
     } catch (error) {
-        console.log(error)
+        req.logger.error(error);
         res.render('error404', {});
     }
 };
@@ -152,7 +156,7 @@ const realtimeproducts = async (req, res) => {
             styles: 'css/realTimeProducts.css'
         });
     } catch (error) {
-        console.log(error)
+        req.logger.error(error);
         res.render('error404', {});
     }
 };
@@ -165,7 +169,7 @@ const chat = async (req, res) => {
             user: req.session.user,
         });
     } catch (error) {
-        console.log(error)
+        req.logger.error(error);
         res.render('error404', {});
     }
 };
@@ -184,10 +188,31 @@ const mockingproducts = async (req, res) => {
             styles: 'css/home.css'
         });
     } catch (error) {
-        console.log(error)
+        req.logger.error(error);
         res.render('error404', {});
     }
 }; 
+
+
+const noFound = async (req, res) => {
+    try {
+        req.logger.error('La pagina que desea acceder no fue encontrada');
+        res.render('error404', {});
+    } catch (error) {
+        req.logger.error(error);
+        res.render('error404', {});
+    }
+}; 
+
+const loggerTest = (req, res) => {
+    req.logger.debug('Prueba debug');
+    req.logger.verbose('Prueba verbose');
+    req.logger.http('Prueba http');
+    req.logger.info('Prueba info');
+    req.logger.warn('Prueba warn');
+    req.logger.error('Prueba error');
+    res.send({message: 'Probando el logger'});
+}
 
 
 export {
@@ -203,5 +228,7 @@ export {
     administrarProducto,
     realtimeproducts,
     chat,
-    mockingproducts
+    mockingproducts,
+    loggerTest,
+    noFound
 };

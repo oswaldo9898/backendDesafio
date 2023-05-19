@@ -87,7 +87,7 @@ const reset = async(req, res) => {
 
         return res.send({status:'success', message:'Reset success'});
     } catch (error) {
-        console.log(error);
+        req.logger.error(error);
         return res.status(500).send({status:'error', error});
     }
 };
@@ -100,6 +100,8 @@ const logout = (req, res) => {
         res.redirect('/login');
     })
 };
+
+
 
 export {
     register,

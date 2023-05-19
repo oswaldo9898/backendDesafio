@@ -21,6 +21,9 @@ import cookieParser from 'cookie-parser';
 
 import errorHandler from './middlewares/errors/index.js';
 
+//Logger
+import { addLogger } from './utils/logger/index.js';
+
 
 const productsManager = new Products();
 const messagesManager = new Messages();
@@ -83,6 +86,9 @@ app.set('view engine', 'handlebars');
 /** */
 
 
+
+/**Logger */
+app.use(addLogger);
 
 
 
