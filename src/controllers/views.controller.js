@@ -205,13 +205,17 @@ const noFound = async (req, res) => {
 }; 
 
 const loggerTest = (req, res) => {
-    req.logger.debug('Prueba debug');
-    req.logger.verbose('Prueba verbose');
-    req.logger.http('Prueba http');
-    req.logger.info('Prueba info');
-    req.logger.warn('Prueba warn');
-    req.logger.error('Prueba error');
-    res.send({message: 'Probando el logger'});
+    try {
+        req.logger.debug('Prueba debug');
+        req.logger.verbose('Prueba verbose');
+        req.logger.http('Prueba http');
+        req.logger.info('Prueba info');
+        req.logger.warn('Prueba warn');
+        req.logger.error('Prueba error');
+        res.send({message: 'Probando el logger'});
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
