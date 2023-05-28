@@ -1,8 +1,10 @@
 import userModel from '../dao/models/users.model.js';
-import { createHash, generateToken } from '../utils.js';
+import { createHash, decodeToken, generateToken } from '../utils.js';
 import Users from "../dao/dbManager/users.js"
 import SessionsRepository from '../repository/session.repository.js';
 import CurrentDto from '../dao/DTOs/current.dto.js';
+import { sendEmailResetPassword } from '../utils/sendEmail/index.js';
+import jwt from 'jsonwebtoken';
 
 const usersManager = new Users();
 const sessionsRepository = new SessionsRepository(usersManager);
@@ -49,7 +51,7 @@ const login = async(req, res) => {
 
 
 const failLogin = async (req, res) => {
-    res.send({ status: 'error', message: 'login failed' });
+    res.status(401).send({ status: 'error', message: 'login failed' });
 };
 
 
@@ -73,32 +75,51 @@ const gitHubCallback = (req, res) => {
 };
 
 
-const reset = async(req, res) => {
-    const { email, password } = req.body;
+const recuperarCuenta = async(req, res) => {
+    const { email } = req.body;
 
-    if(!email || !password) return res.status(400).send({status:'error', message:'incomplete values'});
-
+    if(!email) return res.status(400).send({status:'error', message:'incomplete values'});
     try {
-        // const user = await userModel.findOne({ email });
-        // if(!user) return res.status(404).send({status:'error', message:'user not found'});
-        // user.password = createHash(password);
-        // await userModel.updateOne({ email }, user)
-        const resp = sessionsRepository.resetPassword(email, password);
-
-        return res.send({status:'success', message:'Reset success'});
+        const token = await sessionsRepository.recuperarCuenta(email);
+        if(token){
+            await sendEmailResetPassword(email, token);
+            return res.send({status:'success', message:'Reset success'});
+        }else{
+            return res.status(500).send({status:'error', message:'Los datos ingresados no existen'});
+        }
     } catch (error) {
         req.logger.error(error);
-        return res.status(500).send({status:'error', error});
+        console.log(error)
+        return res.status(401).send({status:'error', error});
     }
 };
+
+const cambiarPassword = async(req, res) => {
+    const token = req.params.token;
+    const { passwordNew } = req.body;
+    let payload = decodeToken(token);
+
+    if(!payload) return res.status(401).send({status:'error', message:'Token invalido. El token ha expirado, por favor cree uno nuevo'});
+
+    console.log(payload);
+
+    
+    const resp = await sessionsRepository.cambiarPassword(payload.user.email, passwordNew);
+
+    if(!resp) return res.status(401).send({status:'error', message:'La contraseña que esta intentando ingresar ya esta registrada'});
+
+    console.log(resp);
+
+    return res.send({message:'succes'});
+}
 
 
 
 const logout = (req, res) => {
     req.session.destroy(err => {
-        if(err) return res.status(500).send({status:'error', error:'no se pudo hacer el logout'});
+        if(err) return res.status(401).send({status:'error', error:'no se pudo hacer el logout'});
         res.redirect('/login');
-    })
+    });
 };
 
 
@@ -111,6 +132,7 @@ export {
     current,
     loginGithub,
     gitHubCallback,
-    reset,
+    recuperarCuenta,
+    cambiarPassword,
     logout,
 };

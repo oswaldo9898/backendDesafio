@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import passport from 'passport';
-import { current, failLogin, failRegister, gitHubCallback, login, loginGithub, logout, register, reset } from '../../controllers/session.controller.js';
+import { current, failLogin, failRegister, gitHubCallback, login, loginGithub, logout, register, recuperarCuenta, cambiarPassword } from '../../controllers/session.controller.js';
 
 const router = Router();
 
@@ -12,7 +12,8 @@ router.get('/fail-login', failLogin);
 router.get('/current', passport.authenticate('jwt', { session: false }), current);
 router.get('/github', passport.authenticate('github', {scope: ['user:email']}), loginGithub);/** Inicio de sesión con autenticación de terceros GitHub */
 router.get('/github-callback',  passport.authenticate('github', {failureRedirect: '/login'}), gitHubCallback)
-router.post('/reset', reset);
+router.post('/recuperar-cuenta', recuperarCuenta);
+router.post('/cambiar-password/:token', cambiarPassword);
 router.get('/logout', logout);
 
 

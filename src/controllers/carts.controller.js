@@ -4,7 +4,7 @@ import CartsRepository from "../repository/carts.repository.js";
 import { v4 as uuidv4 } from 'uuid';
 import ProductsRepository from "../repository/products.repository.js";
 import {createPDF} from './../utils/generatePDF/index.js';
-import { sendEmail } from "../utils/sendEmail/index.js";
+import { sendEmailTicket } from "../utils/sendEmail/index.js";
 import { productCartErrorInfo } from "../services/errors/info.js";
 
 const cartsManager = new Carts();
@@ -198,7 +198,7 @@ const purchase = async(req, res) => {
     const resTicket = await cartsRepository.getTicket(resp._id)
 
     createPDF(resTicket);
-    sendEmail(resTicket);
+    sendEmailTicket(resTicket);
 
     res.send({ message: "success", payload: resp });
   } catch (error) {

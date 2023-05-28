@@ -20,8 +20,22 @@ export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSy
 export const isValidPassword = (user, password) => bcrypt.compareSync(password, user.password);
 
 export const generateToken = (user) => {
-    const token = jwt.sign({ user }, privateKey, { expiresIn: '24h' });
+    const token = jwt.sign({ user }, privateKey, { expiresIn: '1h' });
     return token;
+};
+
+
+export const decodeToken = (token) => {
+    const payload = jwt.verify(token, privateKey, function (err, decoded) {
+        
+        if (err) {
+            return null;
+        }else{
+            return decoded;
+        }
+    });
+
+    return payload;
 };
 
 
@@ -30,7 +44,7 @@ export const passportCall = (strategy) => {
     return async (req, res, next) => {
         passport.authenticate(strategy, function (err, user, info) {
             if (err) return next(error);
-            
+
             if (!user) {
                 return res.status(401).send({ error: info.messages ? info.messages : info.toString() })
             }
@@ -42,9 +56,9 @@ export const passportCall = (strategy) => {
 }
 
 export const authorization = (rol) => {
-    return async(req, res, next) => {
+    return async (req, res, next) => {
         console.log(req.user);
-        if(req.user.rol!=rol) return res.status(403).send({ error: 'Not permissions' });
+        if (req.user.rol != rol) return res.status(403).send({ error: 'Not permissions' });
         next();
     }
 }
@@ -65,5 +79,5 @@ export const generateProduct = () => {
 }
 
 
-export default  __dirname ;
+export default __dirname;
 

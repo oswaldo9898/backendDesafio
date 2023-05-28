@@ -21,9 +21,16 @@ const login = async (req, res) => {
 };
 
 
-const reset = async (req, res) => {
-    res.render('reset', {
+const recuperarCuenta = async (req, res) => {
+    res.render('recuperarCuenta', {
         title: 'Recuperar cuenta'
+    });
+};
+
+
+const cambiarPassword = async (req, res) => {
+    res.render('cambiarPassword', {
+        title: 'Cambiar Password'
     });
 };
 
@@ -223,7 +230,8 @@ export {
     register,
     login,
     current,
-    reset,
+    recuperarCuenta,
+    cambiarPassword,
     productos,
     productDetail,
     cart,
