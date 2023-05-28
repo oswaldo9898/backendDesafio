@@ -3,6 +3,7 @@ import { dirname } from 'path';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from './config/config.js';
+import multer from 'multer';
 
 // export const PRIVATE_KEY = 'CoderSecret'
 
@@ -17,7 +18,9 @@ const privateKey = config.privateKey;
 
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
+
 export const isValidPassword = (user, password) => bcrypt.compareSync(password, user.password);
+
 
 export const generateToken = (user) => {
     const token = jwt.sign({ user }, privateKey, { expiresIn: '1h' });
@@ -27,10 +30,10 @@ export const generateToken = (user) => {
 
 export const decodeToken = (token) => {
     const payload = jwt.verify(token, privateKey, function (err, decoded) {
-        
+
         if (err) {
             return null;
-        }else{
+        } else {
             return decoded;
         }
     });
@@ -55,6 +58,8 @@ export const passportCall = (strategy) => {
     }
 }
 
+
+
 export const authorization = (rol) => {
     return async (req, res, next) => {
         console.log(req.user);
@@ -62,6 +67,7 @@ export const authorization = (rol) => {
         next();
     }
 }
+
 
 
 export const generateProduct = () => {
@@ -77,6 +83,27 @@ export const generateProduct = () => {
     }
 
 }
+
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, `${__dirname}/public/img-productos`);
+        console.log('entra al storage');
+    },
+    filename: (req, file, cb) => {
+        const fileName = file.originalname.toLowerCase().split(' ').join('-');
+        console.log('entra al storage');
+        cb(null, `${Date.now()}-${fileName}`);
+    }
+});
+
+export const uploader = multer({
+    storage, onError: (err, next) => {
+        console.log(err);
+        next();
+    }
+})
 
 
 export default __dirname;

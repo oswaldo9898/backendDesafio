@@ -32,9 +32,9 @@ const getProduct = async (req, res) => {
     const product = await productsRepository.getProduct(pid);
     product.length === 0
       ? res.send({
-          status: "Error",
-          message: "Not found: Producto no encontrado",
-        })
+        status: "Error",
+        message: "Not found: Producto no encontrado",
+      })
       : res.send({ message: "success", payload: product });
   } catch (e) {
     req.logger.error(error);
@@ -48,45 +48,47 @@ const getProduct = async (req, res) => {
 };
 
 
-const saveProduct = (req, res) => {
+const saveProduct = async (req, res) => {
   const data = req.body;
+  const file = req.file;
 
-    if (
-      data.title === '' ||
-      data.description === '' ||
-      data.code === '' ||
-      data.price === '' ||
-      data.stock === '' ||
-      data.category === ''
-    ) {
-      throw CustomError.createError({
-        name: 'UserError',
-        cause: productErrorInfo({
-          title: data.title,
-          description: data.description,
-          code: data.code,
-          price: data.price,
-          stock: data.stock,
-          category: data.category,
-        }),
-        message: 'Error tratando de crear un product',
-        code: EErrors.INVALID_TYPES_ERROR
-      });
-    } else {
-      const product = {
+  if (
+    data.title === '' ||
+    data.description === '' ||
+    data.code === '' ||
+    data.price === '' ||
+    data.stock === '' ||
+    data.category === ''
+  ) {
+    throw CustomError.createError({
+      name: 'UserError',
+      cause: productErrorInfo({
         title: data.title,
         description: data.description,
         code: data.code,
         price: data.price,
-        status: true,
         stock: data.stock,
         category: data.category,
-        thumbnail: [],
-      };
-      const productArr = productsRepository.saveProduct(product);
-      res.send({ message: "success", payload: productArr });
-    }
-  
+      }),
+      message: 'Error tratando de crear un producto',
+      code: EErrors.INVALID_TYPES_ERROR
+    });
+  } else {
+    const product = {
+      title: data.title,
+      description: data.description,
+      code: data.code,
+      price: data.price,
+      status: true,
+      stock: data.stock,
+      category: data.category,
+      portada: file?.filename || '',
+      thumbnail: [],
+    };
+    const productArr = await productsRepository.saveProduct(product);
+    res.send({ message: "success", payload: productArr });
+  }
+
 };
 
 
@@ -94,42 +96,42 @@ const updateProduct = (req, res) => {
   const pid = req.params.pid;
   const data = req.body;
 
-    if (
-      data.title === '' ||
-      data.description === '' ||
-      data.code === '' ||
-      data.price === '' ||
-      data.stock === '' ||
-      data.category === '' ||
-      data.status === ''
-    ) {
-      throw CustomError.createError({
-        name: 'UserError',
-        cause: productErrorInfo({
-          title: data.title,
-          description: data.description,
-          code: data.code,
-          price: data.price,
-          stock: data.stock,
-          category: data.category,
-        }),
-        message: 'Error tratando de editar un usuario',
-        code: EErrors.INVALID_TYPES_ERROR
-      });
-    } else {
-      const product = {
+  if (
+    data.title === '' ||
+    data.description === '' ||
+    data.code === '' ||
+    data.price === '' ||
+    data.stock === '' ||
+    data.category === '' ||
+    data.status === ''
+  ) {
+    throw CustomError.createError({
+      name: 'UserError',
+      cause: productErrorInfo({
         title: data.title,
         description: data.description,
         code: data.code,
         price: data.price,
-        status: data.status,
         stock: data.stock,
         category: data.category,
-        thumbnail: [],
-      };
-      const respon = productsRepository.updateProduct(pid, product);
-      res.send({ message: "success", payload: respon });
-    }
+      }),
+      message: 'Error tratando de editar un usuario',
+      code: EErrors.INVALID_TYPES_ERROR
+    });
+  } else {
+    const product = {
+      title: data.title,
+      description: data.description,
+      code: data.code,
+      price: data.price,
+      status: data.status,
+      stock: data.stock,
+      category: data.category,
+      thumbnail: [],
+    };
+    const respon = productsRepository.updateProduct(pid, product);
+    res.send({ message: "success", payload: respon });
+  }
 };
 
 
@@ -151,7 +153,7 @@ const deleteProduct = async (req, res) => {
         message: "Ha ocurrido un inconveniente en el servidor",
       });
   }
-  
+
 };
 
 export {

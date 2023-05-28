@@ -1,0 +1,81 @@
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<div class="d-flex bg-dark" id="content-wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-container" class="bg-primary">
+        {{!-- <div class="logo">
+            <h4 class="text-light font-weight-bold mb-0">DASHBOARD</h4>
+        </div> --}}
+        <div class="menu">
+            <a href="/administrar" class="d-block text-light p-3 border-0 text-decoration-none active"><i
+                    class="icon ion-md-apps lead mx-2"></i>
+                Productos</a>
+            <ahref="/administracion-usuarios" class="d-block text-light p-3 border-0 text-decoration-none"><i
+                    class="icon ion-md-people lead mx-2"></i>
+                Usuarios</a>
+            <a href="#" class="d-block text-light p-3 border-0 text-decoration-none"><i
+                    class="icon ion-md-stats lead mx-2"></i>
+                Estadísticas</a>
+            <a href="#" class="d-block text-light p-3 border-0 text-decoration-none"><i
+                    class="icon ion-md-person lead mx-2"></i>
+                Perfil</a>
+            <a href="#" class="d-block text-light p-3 border-0 text-decoration-none"> <i
+                    class="icon ion-md-settings lead mx-2"></i>
+                Configuración</a>
+        </div>
+    </div>
+    <!-- Fin sidebar -->
+
+    <div class="w-100">
+        <!-- Page Content -->
+        <div id="content" class="bg-grey w-100">
+
+            <section class="bg-light py-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-8">
+                            <h1 class="font-weight-bold mb-0">Usuarios</h1>
+                            <p class="lead text-muted">Lista de usuarios registrados en la base de datos</p>
+                        </div>
+                        <div class="col-lg-3 col-md-4 d-flex">
+                            <a class="btn btn-primary w-100 align-self-center" href="/administrar-producto" >Crear nuevo</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="container  bg-light">
+                    <div class="row">
+                        <div class="col-lg my-3">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Apellidos</th>
+                                        <th scope="col">Nombres</th>
+                                        <th scope="col">email</th>
+                                        <th scope="col">Rol</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="contenido-tabla"></tbody>
+                                {{!-- <div class="content-paginacion"></div> --}}
+                                <tfoot>
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination content-paginacion"></ul>
+                                    </nav>
+                                </tfoot>
+                                
+
+                        </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+</div>
+<script src="/js/administracion-usuarios.js"></script>

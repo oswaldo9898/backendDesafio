@@ -155,6 +155,24 @@ const administrarProducto = async (req, res) => {
 };
 
 
+
+const administracionUsuarios = async (req, res) => {
+    try {
+        res.render('administracionUsers', {
+            title: 'Usuarios',
+            user: req.session.user,
+            styles: '../css/administrar.css'
+        });
+    } catch (error) {
+        req.logger.error(error);
+        res.render('error404', {});
+    }
+};
+
+
+
+
+
 const realtimeproducts = async (req, res) => {
     try {
         res.render('realTimeProducts',
@@ -238,6 +256,7 @@ export {
     compraExitosa,
     administrar,
     administrarProducto,
+    administracionUsuarios,
     realtimeproducts,
     chat,
     mockingproducts,

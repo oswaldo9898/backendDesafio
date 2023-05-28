@@ -1,21 +1,26 @@
 <link rel="stylesheet" href="../assets/css/style.css">
 
-<div class="d-flex" id="content-wrapper">
+<div class="d-flex bg-dark" id="content-wrapper">
     <!-- Sidebar -->
     <div id="sidebar-container" class="bg-primary">
         {{!-- <div class="logo">
             <h4 class="text-light font-weight-bold mb-0">DASHBOARD</h4>
         </div> --}}
         <div class="menu">
-            <a href="#" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mx-2"></i>
+            <a href="/administrar" class="d-block text-light p-3 border-0 text-decoration-none active"><i
+                    class="icon ion-md-apps lead mx-2"></i>
                 Productos</a>
-            <a href="#" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mx-2"></i>
+            <a href="/administracion-usuarios" class="d-block text-light p-3 border-0 text-decoration-none"><i
+                    class="icon ion-md-people lead mx-2"></i>
                 Usuarios</a>
-            <a href="#" class="d-block text-light p-3 border-0"><i class="icon ion-md-stats lead mx-2"></i>
+            <a href="#" class="d-block text-light p-3 border-0 text-decoration-none"><i
+                    class="icon ion-md-stats lead mx-2"></i>
                 Estadísticas</a>
-            <a href="#" class="d-block text-light p-3 border-0"><i class="icon ion-md-person lead mx-2"></i>
+            <a href="#" class="d-block text-light p-3 border-0 text-decoration-none"><i
+                    class="icon ion-md-person lead mx-2"></i>
                 Perfil</a>
-            <a href="#" class="d-block text-light p-3 border-0"> <i class="icon ion-md-settings lead mx-2"></i>
+            <a href="#" class="d-block text-light p-3 border-0 text-decoration-none"> <i
+                    class="icon ion-md-settings lead mx-2"></i>
                 Configuración</a>
         </div>
     </div>
@@ -23,7 +28,7 @@
 
     <div class="w-100">
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        {{!-- <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <div class="container">
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -56,7 +61,7 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> --}}
         <!-- Fin Navbar -->
 
         <!-- Page Content -->
@@ -66,17 +71,17 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-9 col-md-8">
-                            <h1 class="font-weight-bold mb-0">Bienvenido Diego</h1>
-                            <p class="lead text-muted">Revisa la última información</p>
+                            <h1 class="font-weight-bold mb-0">Productos</h1>
+                            <p class="lead text-muted">Lista de productos registrados en la base de datos</p>
                         </div>
                         <div class="col-lg-3 col-md-4 d-flex">
-                            <button class="btn btn-primary w-100 align-self-center">Descargar reporte</button>
+                            <a class="btn btn-primary w-100 align-self-center" href="/administrar-producto" >Crear nuevo</a>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section class="bg-mix py-3">
+            {{!-- <section class="bg-mix py-3">
                 <div class="container">
                     <div class="card rounded-0">
                         <div class="card-body">
@@ -117,12 +122,39 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> --}}
 
             <section>
-                <div class="container">
+                <div class="container  bg-light">
                     <div class="row">
-                        <div class="col-lg-8 my-3">
+                        <div class="col-lg my-3">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Titulo</th>
+                                        <th scope="col">Descripción</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Precio</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="contenido-tabla"></tbody>
+                                {{!-- <div class="content-paginacion"></div> --}}
+                                <tfoot>
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination content-paginacion"></ul>
+                                    </nav>
+                                </tfoot>
+                                
+
+                        </table>
+                        </div>
+
+
+
+
+                        {{!-- <div class="col-lg-8 my-3">
                             <div class="card rounded-0">
                                 <div class="card-header bg-light">
                                     <h6 class="font-weight-bold mb-0">Número de usuarios de paga</h6>
@@ -131,8 +163,8 @@
                                     <canvas id="myChart" width="300" height="150"></canvas>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 my-3">
+                        </div> --}}
+                        {{!-- <div class="col-lg-4 my-3">
                             <div class="card rounded-0">
                                 <div class="card-header bg-light">
                                     <h6 class="font-weight-bold mb-0">Ventas recientes</h6>
@@ -190,7 +222,7 @@
                                     </div>
                                     <button class="btn btn-primary w-100">Ver todas</button>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -200,6 +232,7 @@
 
     </div>
 </div>
+
 {{!-- <div class="contenedor-administracion">
     <h3>Lista de productos</h3>
     <div class="tabla-productos">
@@ -221,4 +254,5 @@
         <div class="content-paginacion"></div>
     </div>
 </div> --}}
+
 <script src="/js/administracion.js"></script>

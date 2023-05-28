@@ -3,6 +3,7 @@ import session from 'express-session';
 import productsRouter from './routes/api/products.router.js';
 import cartsRouter from './routes/api/carts.router.js';
 import sessionRouter from './routes/api/session.router.js';
+import usersRouter from './routes/api/users.router.js';
 import viewsRouter from './routes/web/views.router.js';
 import __dirname  from './utils.js';
 import Products from './dao/dbManager/products.js';
@@ -23,7 +24,7 @@ import errorHandler from './middlewares/errors/index.js';
 
 //Logger
 import { addLogger } from './utils/logger/index.js';
-
+import cors from 'cors';
 
 const productsManager = new Products();
 const messagesManager = new Messages();
@@ -59,6 +60,21 @@ app.use(session({
 }));
 
 
+app.use(cors());
+//Permiso para conectar el backend y frontend
+app.use((req,res,next)=>{
+  res.header('Access-Control-Allow-Origin','*'); 
+  res.header('Access-Control-Allow-Headers','Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Access-Control-Allow-Request-Method');
+  res.header('Access-Control-Allow-Methods','GET, PUT, POST, DELETE, OPTIONS, PATCH');
+  res.header('Allow','GET, PUT, POST, DELETE, OPTIONS, PATCH');
+  next();
+});
+
+app.use(express.urlencoded({extended: true}));
+app.use(express.json({limit: '50mb', extends: true}))
+/** */
+
+
 
 
 /** ESTABLECIENDO RUTA PUBLICA */
@@ -71,6 +87,13 @@ app.use(cookieParser());
 /**CONFIGURACION PARA LA RECEPCION DE JSON */
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
+
+
+
+
+
+
 /** */
 
 /** CONFIGURANDO EL MOTOR DE PLANTILLAS */
@@ -104,6 +127,7 @@ app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionRouter);
+app.use('/api/users', usersRouter);
 
 app.use(errorHandler);
 

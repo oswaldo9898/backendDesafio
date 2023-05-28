@@ -33,6 +33,10 @@ const productsSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    portada: {
+        type: String,
+        require: true,
+    },
     thumbnail: {
         type: Array,
         default: []

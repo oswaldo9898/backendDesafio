@@ -1,29 +1,28 @@
 import userModel from '../dao/models/users.model.js';
 import { createHash, decodeToken, generateToken } from '../utils.js';
-import Users from "../dao/dbManager/users.js"
+import Sessions from "../dao/dbManager/session.js"
 import SessionsRepository from '../repository/session.repository.js';
 import CurrentDto from '../dao/DTOs/current.dto.js';
 import { sendEmailResetPassword } from '../utils/sendEmail/index.js';
-import jwt from 'jsonwebtoken';
 
-const usersManager = new Users();
-const sessionsRepository = new SessionsRepository(usersManager);
+const sessionsManager = new Sessions();
+const sessionsRepository = new SessionsRepository(sessionsManager);
 
 /** Registro de un nuevo usuario en el sistema */
-const register = async(req, res) => {
-    res.send({status:'success', message:'user registered'});
+const register = async (req, res) => {
+    res.send({ status: 'success', message: 'user registered' });
 };
 
 
-const failRegister = async(req, res) => {
-    res.send({status:'error', message:'No se puedo registrar'})
+const failRegister = async (req, res) => {
+    res.send({ status: 'error', message: 'No se puedo registrar' })
 };
 
 
 
 /** Inicio de sesión en el sistema */
-const login = async(req, res) => {
-    if(!req.user) return res.status(400).send({status:'error', message:'invalided credencial'});    
+const login = async (req, res) => {
+    if (!req.user) return res.status(400).send({ status: 'error', message: 'invalided credencial' });
 
     req.session.user = {
         first_name: req.user.first_name,
@@ -46,7 +45,7 @@ const login = async(req, res) => {
     const accessToken = generateToken(user);
 
     res.cookie('coderCookieToken', accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true })
-    .send({status:'success', message:'login success'})
+        .send({ status: 'success', message: 'login success' })
 };
 
 
@@ -63,8 +62,8 @@ const current = (req, res) => {
 
 
 /** Inicio de sesión con autenticación de terceros GitHub */
-const loginGithub = async(req, res) => {
-    res.send({stattus:'success', message:'user registered'});
+const loginGithub = async (req, res) => {
+    res.send({ stattus: 'success', message: 'user registered' });
 };
 
 const gitHubCallback = (req, res) => {
@@ -75,49 +74,45 @@ const gitHubCallback = (req, res) => {
 };
 
 
-const recuperarCuenta = async(req, res) => {
+const recuperarCuenta = async (req, res) => {
     const { email } = req.body;
 
-    if(!email) return res.status(400).send({status:'error', message:'incomplete values'});
+    if (!email) return res.status(400).send({ status: 'error', message: 'incomplete values' });
     try {
         const token = await sessionsRepository.recuperarCuenta(email);
-        if(token){
+        if (token) {
             await sendEmailResetPassword(email, token);
-            return res.send({status:'success', message:'Reset success'});
-        }else{
-            return res.status(500).send({status:'error', message:'Los datos ingresados no existen'});
+            return res.send({ status: 'success', message: 'Reset success' });
+        } else {
+            return res.status(500).send({ status: 'error', message: 'Los datos ingresados no existen' });
         }
     } catch (error) {
         req.logger.error(error);
         console.log(error)
-        return res.status(401).send({status:'error', error});
+        return res.status(401).send({ status: 'error', error });
     }
 };
 
-const cambiarPassword = async(req, res) => {
+const cambiarPassword = async (req, res) => {
     const token = req.params.token;
     const { passwordNew } = req.body;
     let payload = decodeToken(token);
 
-    if(!payload) return res.status(401).send({status:'error', message:'Token invalido. El token ha expirado, por favor cree uno nuevo'});
+    if (!payload) return res.status(401).send({ status: 'error', message: 'Token invalido. El token ha expirado, por favor cree uno nuevo' });
 
-    console.log(payload);
-
-    
     const resp = await sessionsRepository.cambiarPassword(payload.user.email, passwordNew);
 
-    if(!resp) return res.status(401).send({status:'error', message:'La contraseña que esta intentando ingresar ya esta registrada'});
+    if (!resp) return res.status(401).send({ status: 'error', message: 'La contraseña que esta intentando ingresar ya esta registrada' });
 
-    console.log(resp);
-
-    return res.send({message:'succes'});
+    return res.send({ message: 'succes' });
 }
+
 
 
 
 const logout = (req, res) => {
     req.session.destroy(err => {
-        if(err) return res.status(401).send({status:'error', error:'no se pudo hacer el logout'});
+        if (err) return res.status(401).send({ status: 'error', error: 'no se pudo hacer el logout' });
         res.redirect('/login');
     });
 };

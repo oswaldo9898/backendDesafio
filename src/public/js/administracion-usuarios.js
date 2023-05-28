@@ -7,8 +7,8 @@ let prevPage = 0;
 let pageCurret = 1;
 
 
-const getProducts =async (pageSelect=1) => {
-    const res = await fetch(`/api/products/?page=${pageSelect}`);
+const getUsers =async (pageSelect=1) => {
+    const res = await fetch(`/api/users/?page=${pageSelect}`);
     const data = await res.json();
 
     nextPage = data.payload.nextPage;
@@ -20,7 +20,7 @@ const getProducts =async (pageSelect=1) => {
 
 
 const tableDeleteListener = async(event) => {
-    const element = event.target.closest('.delete-producto');
+    const element = event.target.closest('.delete-usuario');
     if(!element)return;
 
     const id = element.getAttribute('data-id');
@@ -30,16 +30,16 @@ const tableDeleteListener = async(event) => {
             method: 'DELETE'
         });
         if(res.status === 200){
-            const data = await getProducts(pageCurret)
-            const arrProductos = data.payload.docs;
-            cargarTabla(arrProductos);
+            const data = await getUsers(pageCurret)
+            const arrUsers = data.payload.docs;
+            cargarTabla(arrUsers);
             actualizarNumeroPagina(page);
             Swal.fire({
                 toast: true,
                 position: 'bottom-end',
                 showConfirmButton: false,
                 timer: 3000,
-                title: `Producto eliminado`,
+                title: `usuario eliminado`,
                 icon: 'success'
             });
         }
@@ -52,22 +52,21 @@ const tableDeleteListener = async(event) => {
 
 
 
-const cargarTabla = (arrProductos) => {
+const cargarTabla = (arrUsuarios) => {
     elementTabla.addEventListener('click', tableDeleteListener);
 
     let tableHTML = '';
-    arrProductos.forEach(product => {
+    arrUsuarios.forEach(usuario => {
         tableHTML += `
             <tr>
-                <td>${ product.title }</td>
-                <td>${ product.description }</td>
-                <td>${ product.category }</td>
-                <td>${ product.stock}</td>
-                <td>$ ${ product.price }</td>
+                <td>${ usuario.last_name }</td>
+                <td>${ usuario.first_name }</td>
+                <td>${ usuario.email }</td>
+                <td>${ usuario.role}</td>
                 <td>
-                    <a href="/administrar-producto?pid=${product._id}" class="update-user" data-id=${product._id}>Editar</a>
+                    <a href="/administrar-producto?pid=${usuario._id}" class="update-user" data-id=${usuario._id}>Editar</a>
                     |
-                    <a href="#/" class="delete-producto" data-id=${product._id}>Eliminar</a>
+                    <a href="#/" class="delete-producto" data-id=${usuario._id}>Eliminar</a>
                 </td>
             </tr>
         `
@@ -86,7 +85,7 @@ const paginacion = () => {
     nextButton.addEventListener('click', async() => {
 
         if(nextPage!=null){
-            const data = await getProducts(nextPage)
+            const data = await getUsers(nextPage)
             const arrProductos = data.payload.docs;
             cargarTabla(arrProductos);
             actualizarNumeroPagina(page);
@@ -109,7 +108,7 @@ const paginacion = () => {
     prevButton.addEventListener('click', async() => {
 
         if(prevPage!=null){
-            const data = await getProducts(prevPage)
+            const data = await getUsers(prevPage)
             const arrProductos = data.payload.docs;
             cargarTabla(arrProductos);
             actualizarNumeroPagina(page);
@@ -139,10 +138,12 @@ const actualizarNumeroPagina = (page) => {
 }
 
 const init = async() => {
-    const data = await getProducts();
-    const arrProductos = data.payload.docs;
+    const data = await getUsers();
+    const arrUsuarios = data.payload.docs;
+
+    console.log(data);
     
-    cargarTabla(arrProductos);
+    cargarTabla(arrUsuarios);
     paginacion();
 }
 
