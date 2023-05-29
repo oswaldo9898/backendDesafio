@@ -28,14 +28,14 @@
           </a>
         </li>
         {{/ifeq}}
-        {{#ifeq user.role 'admin'}}
+        {{#ifand user.role }}
         <li class="nav-item">
           <a class="nav-link colot-text" href="/administrar">
             <i class="fa-solid fa-gear"></i>
             Administración
           </a>
         </li>
-        {{/ifeq}}
+        {{/ifand}}
         <li class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle colot-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Hola {{user.first_name}} {{user.last_name}}

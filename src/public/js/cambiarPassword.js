@@ -64,7 +64,7 @@ form.addEventListener('submit', async (e) => {
         } else {
             Swal.fire({
                 showConfirmButton: false,
-                timer: 3000,
+                timer: 4000,
                 title: 'Datos invalidos',
                 text: 'Recuerde que la contraseña debe contener mínimo 8 caracteres, una letra mayúscula, un símbolo y un número.',
                 icon: 'info'
@@ -79,5 +79,5 @@ form.addEventListener('submit', async (e) => {
             icon: 'error'
         });
     }
-    btnRecuperar.removeAttribute("disabled");
+    btnGuardar.removeAttribute("disabled");
 });

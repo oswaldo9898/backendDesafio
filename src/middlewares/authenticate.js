@@ -15,6 +15,11 @@ export const adminAccess = (req, res, next) => {
     next();
 }
 
+export const adminPremiumAccess = (req, res, next) => {
+    if (req.session.user.role !== 'admin' && req.session.user.role !== 'premium') return res.redirect('/productos');
+    next();
+}
+
 export const userAccess = (req, res, next) => {
     if (req.session.user.role !== 'user') return res.redirect('/productos');
     next();
