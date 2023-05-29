@@ -10,7 +10,7 @@
             <a href="/administrar" class="d-block text-light p-3 border-0 text-decoration-none active"><i
                     class="icon ion-md-apps lead mx-2"></i>
                 Productos</a>
-            <ahref="/administracion-usuarios" class="d-block text-light p-3 border-0 text-decoration-none"><i
+            <a href="/administracion-usuarios" class="d-block text-light p-3 border-0 text-decoration-none"><i
                     class="icon ion-md-people lead mx-2"></i>
                 Usuarios</a>
             <a href="#" class="d-block text-light p-3 border-0 text-decoration-none"><i
@@ -37,9 +37,6 @@
                             <h1 class="font-weight-bold mb-0">Usuarios</h1>
                             <p class="lead text-muted">Lista de usuarios registrados en la base de datos</p>
                         </div>
-                        <div class="col-lg-3 col-md-4 d-flex">
-                            <a class="btn btn-primary w-100 align-self-center" href="/administrar-producto" >Crear nuevo</a>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -65,17 +62,46 @@
                                         <ul class="pagination content-paginacion"></ul>
                                     </nav>
                                 </tfoot>
-                                
 
-                        </table>
-                        </div>
+
+                            </table>
                         </div>
                     </div>
                 </div>
-            </section>
-
         </div>
+        </section>
 
     </div>
+
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccione Rol del Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <select name="rol" id="rolSelect" class="form-select" aria-label="Default select example">
+                            <option selected>Seleccionar</option>
+                            <option value="user">User</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="cambiarRol('{{user.role}}')" >Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
 <script src="/js/administracion-usuarios.js"></script>

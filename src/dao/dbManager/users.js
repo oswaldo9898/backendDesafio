@@ -11,4 +11,10 @@ export default class Users {
     }
 
 
+    updateRole = async(id, role) => {
+        const result = await userModel.findByIdAndUpdate({ _id: id }, {role});
+        return result;
+    }
+
+
 }

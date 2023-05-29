@@ -157,11 +157,20 @@ const administrarProducto = async (req, res) => {
 
 
 const administracionUsuarios = async (req, res) => {
+    const { limit, page, query, sort } = req.query;
     try {
+        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);
+        const arrayProducts = docs.map(product => product.toObject());
         res.render('administracionUsers', {
             title: 'Usuarios',
             user: req.session.user,
-            styles: '../css/administrar.css'
+            arrayProducts,
+            hasPrevPage,
+            hasNextPage,
+            nextPage,
+            prevPage,
+            totalPages,
+            styles: '../css/administracion.css'
         });
     } catch (error) {
         req.logger.error(error);

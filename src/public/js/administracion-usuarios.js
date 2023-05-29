@@ -5,6 +5,7 @@ let page = document.createElement('li');
 let nextPage = 0;
 let prevPage = 0;
 let pageCurret = 1;
+let userIdCambiar;
 
 
 const getUsers =async (pageSelect=1) => {
@@ -19,41 +20,41 @@ const getUsers =async (pageSelect=1) => {
 }
 
 
-const tableDeleteListener = async(event) => {
-    const element = event.target.closest('.delete-usuario');
+const tableCambiarRolListener = async(event) => {
+    const element = event.target.closest('.cambiarUser');
     if(!element)return;
 
-    const id = element.getAttribute('data-id');
+    userIdCambiar = element.getAttribute('user-id');
 
-    try {
-        const res = await fetch(`/api/products/${id}`, {
-            method: 'DELETE'
-        });
-        if(res.status === 200){
-            const data = await getUsers(pageCurret)
-            const arrUsers = data.payload.docs;
-            cargarTabla(arrUsers);
-            actualizarNumeroPagina(page);
-            Swal.fire({
-                toast: true,
-                position: 'bottom-end',
-                showConfirmButton: false,
-                timer: 3000,
-                title: `usuario eliminado`,
-                icon: 'success'
-            });
-        }
+    // try {
+    //     const res = await fetch(`/api/products/${id}`, {
+    //         method: 'DELETE'
+    //     });
+    //     if(res.status === 200){
+    //         const data = await getUsers(pageCurret)
+    //         const arrUsers = data.payload.docs;
+    //         cargarTabla(arrUsers);
+    //         actualizarNumeroPagina(page);
+    //         Swal.fire({
+    //             toast: true,
+    //             position: 'bottom-end',
+    //             showConfirmButton: false,
+    //             timer: 3000,
+    //             title: `usuario eliminado`,
+    //             icon: 'success'
+    //         });
+    //     }
         
-    } catch (error) {
-        console.log(error);
-        alert('No se pudo eliminar');
-    }
+    // } catch (error) {
+    //     console.log(error);
+    //     alert('No se pudo eliminar');
+    // }
 };
 
 
 
 const cargarTabla = (arrUsuarios) => {
-    elementTabla.addEventListener('click', tableDeleteListener);
+    elementTabla.addEventListener('click', tableCambiarRolListener);
 
     let tableHTML = '';
     arrUsuarios.forEach(usuario => {
@@ -64,14 +65,13 @@ const cargarTabla = (arrUsuarios) => {
                 <td>${ usuario.email }</td>
                 <td>${ usuario.role}</td>
                 <td>
-                    <a href="/administrar-producto?pid=${usuario._id}" class="update-user" data-id=${usuario._id}>Editar</a>
-                    |
-                    <a href="#/" class="delete-producto" data-id=${usuario._id}>Eliminar</a>
+                    <button type="button" user-id=${usuario._id} class="btn btn-primary cambiarUser" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat"><i class="fa-solid fa-user-pen"></i> Cambiar Rol</button>
                 </td>
             </tr>
         `
     });
     elementTabla.innerHTML = tableHTML;
+    // <a class="update-user" data-id=${usuario._id}><i class="fa-solid fa-user-pen"></i> Cambiar Rol</a>
 }
 
 
@@ -130,6 +130,72 @@ const paginacion = () => {
 }
 
 
+
+const modificarRol = async (id, role) => {
+    let user = {
+        id,
+        role
+    }
+
+    const res = await fetch(`/api/users/`, {
+        method: 'PUT',
+        body: JSON.stringify(user),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    const UpdateUser = await res.json();
+    if (res.status == 401) {
+        Swal.fire({
+            showConfirmButton: false,
+            timer: 4000,
+            title: `Oops...`,
+            text: UpdateUser.description,
+            icon: 'error'
+        });
+    }
+    return UpdateUser;
+}
+
+
+
+const cambiarRol = async(rolUsuarioLogeado) => {
+    const rolSelect = document.querySelector('#rolSelect');
+
+    if(rolUsuarioLogeado === 'admin'){
+        let role =  rolSelect.value;
+
+        if(role !== 'Seleccionar'){
+            const result = await modificarRol(userIdCambiar, role);
+            if(result.status == 'success'){
+                const data = await getUsers(pageCurret);
+                const arrUsers = data.payload.docs;
+                cargarTabla(arrUsers);
+                actualizarNumeroPagina(page);
+                $('#exampleModal').modal('hide');//Cerrar modal
+            }
+        }else{
+            Swal.fire({
+                showConfirmButton: false,
+                timer: 3000,
+                title: 'Información',
+                text: 'Seleccione una opción valida.',
+                icon: 'info'
+            });
+        }
+
+    }else{
+        Swal.fire({
+            showConfirmButton: false,
+            timer: 3000,
+            title: 'Acceso denegado',
+            text: 'Usted no tiene el permiso para realizar esta actividad.',
+            icon: 'info'
+        });
+    }
+}
+
+
 const actualizarNumeroPagina = (page) => {
     page.classList.add('page-item');
     page.classList.add('p-3');
@@ -140,8 +206,6 @@ const actualizarNumeroPagina = (page) => {
 const init = async() => {
     const data = await getUsers();
     const arrUsuarios = data.payload.docs;
-
-    console.log(data);
     
     cargarTabla(arrUsuarios);
     paginacion();

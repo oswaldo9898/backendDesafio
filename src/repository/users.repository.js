@@ -8,4 +8,10 @@ export default class SessionsRepository {
         const users = await this.dao.getAll(limit, page, query, sort);
         return users;
     }
+
+
+    updateRole = async(id, role) => {
+        const result = await this.dao.updateRole(id, role);
+        return result;
+    }
 }

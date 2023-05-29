@@ -37,11 +37,14 @@ form.addEventListener('submit', async (e) => {
             const resp = await cambiarPassword(obj, userToken);
             if (resp.status == 'error') {
                 Swal.fire({
-                    showConfirmButton: false,
                     timer: 3000,
                     title: 'Error',
                     text: resp.message,
-                    icon: 'error'
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Confirmar!'
+                }).then((result) => {
+                        window.location.replace('/recuperar-cuenta');
                 });
             } else {
                 Swal.fire({

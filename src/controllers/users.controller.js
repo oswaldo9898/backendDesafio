@@ -26,8 +26,26 @@ const getUsers = async (req, res) => {
 };
 
 
+const updateRole = async (req, res) => {
+    const { id, role } = req.body;
+    try {
+        const result = await usersRepository.updateRole(id, role);
+        return res.send({ status: "success", payload: result });
+    } catch (error) {
+        req.logger.error(error);
+        res
+            .status(400)
+            .send({
+                status: "Error",
+                message: "Ha ocurrido un inconveniente en el servidor",
+            });
+    }
+};
+
+
 
 
 export {
     getUsers,
+    updateRole,
 };

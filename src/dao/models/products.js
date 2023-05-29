@@ -41,6 +41,10 @@ const productsSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    owner: {
+        type: Schema.ObjectId, ref:'users',
+        require: true,
+    },
     id: Number
 });
 
