@@ -5,7 +5,7 @@ import { adminAccess, privateAccess } from '../../middlewares/authenticate.js';
 const router = Router();
 
 router.get("/", privateAccess, getUsers);
-router.put("/", privateAccess, adminAccess ,updateRole);
+router.put("/premium/:uid", privateAccess, adminAccess ,updateRole);
 
 
 

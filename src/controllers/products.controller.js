@@ -3,6 +3,7 @@ import Products from "../dao/dbManager/products.js";
 import ProductsRepository from "../repository/products.repository.js";
 import EErrors from "../services/errors/enums.js";
 import { productErrorInfo } from '../services/errors/info.js';
+import config from "../config/config.js";
 
 
 const productsManager = new Products();
@@ -52,41 +53,46 @@ const saveProduct = async (req, res) => {
   const data = req.body;
   const file = req.file;
 
-  if (
-    data.title === '' ||
-    data.description === '' ||
-    data.code === '' ||
-    data.price === '' ||
-    data.stock === '' ||
-    data.category === ''
-  ) {
-    throw CustomError.createError({
-      name: 'UserError',
-      cause: productErrorInfo({
+  try {
+    if (
+      data.title === '' ||
+      data.description === '' ||
+      data.code === '' ||
+      data.price === '' ||
+      data.stock === '' ||
+      data.category === ''
+    ) {
+      // throw CustomError.createError({
+      //   name: 'UserError',
+      //   cause: productErrorInfo({
+      //     title: data.title,
+      //     description: data.description,
+      //     code: data.code,
+      //     price: data.price,
+      //     stock: data.stock,
+      //     category: data.category,
+      //   }),
+      //   message: 'Error tratando de crear un producto',
+      //   code: EErrors.INVALID_TYPES_ERROR
+      // });
+    } else {
+      const product = {
         title: data.title,
         description: data.description,
         code: data.code,
         price: data.price,
+        status: true,
         stock: data.stock,
         category: data.category,
-      }),
-      message: 'Error tratando de crear un producto',
-      code: EErrors.INVALID_TYPES_ERROR
-    });
-  } else {
-    const product = {
-      title: data.title,
-      description: data.description,
-      code: data.code,
-      price: data.price,
-      status: true,
-      stock: data.stock,
-      category: data.category,
-      portada: file?.filename || '',
-      thumbnail: [],
-    };
-    const productArr = await productsRepository.saveProduct(product);
-    res.send({ message: "success", payload: productArr });
+        portada: file?.filename || '',
+        owner: data?.owner || '',
+        thumbnail: [],
+      };
+      const productArr = await productsRepository.saveProduct(product);
+      res.send({ message: "success", payload: productArr });
+    }
+  } catch (error) {
+    console.log(error);
   }
 
 };
@@ -136,11 +142,21 @@ const updateProduct = (req, res) => {
 
 
 const deleteProduct = async (req, res) => {
-  const pid = req.params.pid;
+  const {pid, userSesion} = req.params;
   try {
     if (pid) {
-      const respon = await productsRepository.deleteProduct(pid);
-      res.send({ message: "success", payload: respon });
+      if(userSesion == config.adminEmail){
+        const respon = await productsRepository.deleteProduct(pid);
+        return res.send({ message: "success", payload: respon });
+      }else{
+        const product = await productsRepository.getProduct(pid);
+        if(product.owner == userSesion){
+          const respon = await productsRepository.deleteProduct(pid);
+          return res.send({ message: "success", payload: respon });
+        }else{
+          return res.status(401).send({ message: "error", message:"Recuerde que solo puede eliminar los productos que usted creo." });
+        }
+      }
     } else {
       res.send({ status: "Error", message: "El producto es invalido" });
     }

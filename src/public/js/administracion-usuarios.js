@@ -23,32 +23,7 @@ const getUsers =async (pageSelect=1) => {
 const tableCambiarRolListener = async(event) => {
     const element = event.target.closest('.cambiarUser');
     if(!element)return;
-
     userIdCambiar = element.getAttribute('user-id');
-
-    // try {
-    //     const res = await fetch(`/api/products/${id}`, {
-    //         method: 'DELETE'
-    //     });
-    //     if(res.status === 200){
-    //         const data = await getUsers(pageCurret)
-    //         const arrUsers = data.payload.docs;
-    //         cargarTabla(arrUsers);
-    //         actualizarNumeroPagina(page);
-    //         Swal.fire({
-    //             toast: true,
-    //             position: 'bottom-end',
-    //             showConfirmButton: false,
-    //             timer: 3000,
-    //             title: `usuario eliminado`,
-    //             icon: 'success'
-    //         });
-    //     }
-        
-    // } catch (error) {
-    //     console.log(error);
-    //     alert('No se pudo eliminar');
-    // }
 };
 
 
@@ -71,7 +46,6 @@ const cargarTabla = (arrUsuarios) => {
         `
     });
     elementTabla.innerHTML = tableHTML;
-    // <a class="update-user" data-id=${usuario._id}><i class="fa-solid fa-user-pen"></i> Cambiar Rol</a>
 }
 
 
@@ -133,11 +107,10 @@ const paginacion = () => {
 
 const modificarRol = async (id, role) => {
     let user = {
-        id,
         role
     }
 
-    const res = await fetch(`/api/users/`, {
+    const res = await fetch(`/api/users/premium/${id}`, {
         method: 'PUT',
         body: JSON.stringify(user),
         headers: {
@@ -152,6 +125,15 @@ const modificarRol = async (id, role) => {
             title: `Oops...`,
             text: UpdateUser.description,
             icon: 'error'
+        });
+    }else{
+        Swal.fire({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000,
+            title: `Rol actualizado`,
+            icon: 'success'
         });
     }
     return UpdateUser;

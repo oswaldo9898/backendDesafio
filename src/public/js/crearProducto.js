@@ -27,6 +27,14 @@ const agregarProducto = async (producto) => {
                     icon: 'success'
                 });
                 window.location.replace('/administrar');
+            }else{
+                Swal.fire({
+                    showConfirmButton: false,
+                    timer: 3000,
+                    title: 'Upss...',
+                    text: 'Ocurrio un error en el servidor, intente nuevamente más tarde.',
+                    icon: 'error'
+                });
             }
     });
     return user;
@@ -56,8 +64,8 @@ const modificarProducto = async (producto, id) => {
 }
 
 
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+const clickGuardar =  async (email) => {
+    let rex = /^[0-9]+(.[0-9]+)?$/;
     const formData = new FormData(form);
     const fd = new FormData();
     const producto = { ...productoCargado }
@@ -67,35 +75,29 @@ form.addEventListener('submit', async (event) => {
         producto[key] = value;
     }
 
-    fd.append('title', producto.title);
-    fd.append('category', producto.category);
-    fd.append('description', producto.description);
-    fd.append('price', producto.price);
-    fd.append('stock', producto.stock);
-    fd.append('imgProducto', producto.imgProducto);
-    fd.append('code', Date.now());
+    if(rex.test(producto.price)){
+        fd.append('title', producto.title);
+        fd.append('category', producto.category);
+        fd.append('description', producto.description);
+        fd.append('price', producto.price);
+        fd.append('stock', producto.stock);
+        fd.append('imgProducto', producto.imgProducto);
+        fd.append('code', Date.now());
+        fd.append('owner', email);
+    }else{
+        Swal.fire({
+            showConfirmButton: false,
+            timer: 4000,
+            title: 'Datos invalidos',
+            text: 'El precio que ha ingresado no es valido, ejemplo: 1.01',
+            icon: 'info'
+        });
+        return;
+    }
+    
 
     if (!pid) {
         const res = await agregarProducto(fd);
-        // if (res.message === 'success') {
-        //     Swal.fire({
-        //         toast: true,
-        //         position: 'bottom-end',
-        //         showConfirmButton: false,
-        //         timer: 3000,
-        //         title: `Producto creado`,
-        //         icon: 'success'
-        //     });
-        //     window.location.replace('/administrar');
-        // } else {
-        //     Swal.fire({
-        //         toast: true,
-        //         position: 'bottom-end',
-        //         showConfirmButton: false,
-        //         timer: 3000,
-        //         icon: 'error'
-        //     });
-        // }
     } else {
         const res = await modificarProducto(producto, pid);
         if (res.message === 'success') {
@@ -110,7 +112,7 @@ form.addEventListener('submit', async (event) => {
             window.location.replace('/administrar');
         }
     }
-});
+};
 
 
 const setFormValues = (producto) => {

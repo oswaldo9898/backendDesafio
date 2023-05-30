@@ -25,6 +25,7 @@ const login = async (req, res) => {
     if (!req.user) return res.status(400).send({ status: 'error', message: 'invalided credencial' });
 
     req.session.user = {
+        id: req.user._id,
         first_name: req.user.first_name,
         last_name: req.user.last_name,
         age: req.user.age,

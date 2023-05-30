@@ -58,14 +58,15 @@
                                     <input type="text" name="category" placeholder="Categoria" class="input-data" />
                                     <textarea name="description" placeholder="Descripción del producto" id="" cols="10"
                                         rows="10" class="input-data"></textarea>
-                                    <input type="text" name="price" pattern="^[0-9]+(.[0-9]+)?$" placeholder="Precio"
+                                    <input type="text" name="price" pattern="^[0-9]+(,[0-9]+)?$" placeholder="Precio"
                                         class="input-data" />
                                     <input type="number" name="stock" placeholder="Cantidad" class="input-data" />
                                     <input type="file" name="imgProducto" class="input-data">
-                                    <button type="submit">
+                                    
+                                </form>
+                                <button type="btn btn-success" onclick="clickGuardar('{{user.email}}')">
                                         Guardar
                                     </button>
-                                </form>
                             </div>
 
 

@@ -23,27 +23,50 @@ const tableDeleteListener = async(event) => {
     const element = event.target.closest('.delete-producto');
     if(!element)return;
 
+    const userSesionElement = document.getElementById('userSesion');
     const id = element.getAttribute('data-id');
+    const userSesion = userSesionElement.value;
 
     try {
-        const res = await fetch(`/api/products/${id}`, {
-            method: 'DELETE'
+        Swal.fire({
+            title: '¿Está seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!'
+        }).then(async (result) => {
+            
+            if (result.isConfirmed) {
+                
+                const res = await fetch(`/api/products/${id}/${userSesion}`, {
+                    method: 'DELETE'
+                });
+                if(res.status === 200){
+                    const data = await getProducts(pageCurret)
+                    const arrProductos = data.payload.docs;
+                    cargarTabla(arrProductos);
+                    actualizarNumeroPagina(page);
+                    Swal.fire({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        title: `Producto eliminado`,
+                        icon: 'success'
+                    });
+                }else if (res.status === 401){
+                    Swal.fire({
+                        showConfirmButton: false,
+                        timer: 3000,
+                        title: 'Acceso denegado',
+                        text: 'Usted no tiene el permiso para realizar esta actividad.',
+                        icon: 'info'
+                    });
+                }
+            }
         });
-        if(res.status === 200){
-            const data = await getProducts(pageCurret)
-            const arrProductos = data.payload.docs;
-            cargarTabla(arrProductos);
-            actualizarNumeroPagina(page);
-            Swal.fire({
-                toast: true,
-                position: 'bottom-end',
-                showConfirmButton: false,
-                timer: 3000,
-                title: `Producto eliminado`,
-                icon: 'success'
-            });
-        }
-        
     } catch (error) {
         console.log(error);
         alert('No se pudo eliminar');
@@ -53,10 +76,12 @@ const tableDeleteListener = async(event) => {
 
 
 const cargarTabla = (arrProductos) => {
+
     elementTabla.addEventListener('click', tableDeleteListener);
 
     let tableHTML = '';
     arrProductos.forEach(product => {
+        if(product.owner == undefined) product.owner = 'adminCoder@coder.com';
         tableHTML += `
             <tr>
                 <td>${ product.title }</td>
@@ -64,10 +89,11 @@ const cargarTabla = (arrProductos) => {
                 <td>${ product.category }</td>
                 <td>${ product.stock}</td>
                 <td>$ ${ product.price }</td>
+                <td>${ product.owner }</td>
                 <td>
                     <a href="/administrar-producto?pid=${product._id}" class="update-user" data-id=${product._id}>Editar</a>
                     |
-                    <a href="#/" class="delete-producto" data-id=${product._id}>Eliminar</a>
+                    <a class="delete-producto" data-id=${product._id} owner=${product.owner}>Eliminar</a>
                 </td>
             </tr>
         `
@@ -138,10 +164,12 @@ const actualizarNumeroPagina = (page) => {
     page.innerText = pageCurret;
 }
 
+
+
+
 const init = async() => {
     const data = await getProducts();
     const arrProductos = data.payload.docs;
-    
     cargarTabla(arrProductos);
     paginacion();
 }

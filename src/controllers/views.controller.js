@@ -142,6 +142,7 @@ const administrar = async (req, res) => {
 
 
 const administrarProducto = async (req, res) => {
+    console.log(req.session.user)
     try {
         res.render('administrarProducto', {
             title: 'Producto',

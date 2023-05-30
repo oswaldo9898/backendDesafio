@@ -27,7 +27,8 @@ const getUsers = async (req, res) => {
 
 
 const updateRole = async (req, res) => {
-    const { id, role } = req.body;
+    const { role } = req.body;
+    const id = req.params.uid;
     try {
         const result = await usersRepository.updateRole(id, role);
         return res.send({ status: "success", payload: result });
