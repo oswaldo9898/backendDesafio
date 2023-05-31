@@ -48,7 +48,6 @@ const productos = async (req, res) => {
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
 
-
         res.render('products', {
             title: 'Tienda online',
             user: req.session.user,
@@ -142,7 +141,6 @@ const administrar = async (req, res) => {
 
 
 const administrarProducto = async (req, res) => {
-    console.log(req.session.user)
     try {
         res.render('administrarProducto', {
             title: 'Producto',

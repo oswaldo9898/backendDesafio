@@ -13,9 +13,11 @@
     margin: 0 50px;
 }
 
-.productosContenedor #cartId{
+.productosContenedor #cartId, #userSesion{
     display: none;
 }
+
+
 
 .titulo {
     margin: 25px;

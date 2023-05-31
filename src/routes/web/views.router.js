@@ -10,6 +10,7 @@ router.get('/login', publicAccess, login);
 router.get('/', privateAccess);
 router.get('/recuperar-cuenta', publicAccess, recuperarCuenta);
 router.get('/cambiar-password', publicAccess, cambiarPassword);
+
 router.get('/current', current);
 router.get('/productos', privateAccess, productos);
 router.get('/product-detail', privateAccess, productDetail);

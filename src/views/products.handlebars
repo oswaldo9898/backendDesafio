@@ -31,6 +31,7 @@
 
 <div class="productosContenedor">
     <input id="cartId" value={{user.cart}} />
+    <input id="userSesion" value={{user.email}} />
     <div class="cardsProducts">
         {{#each arrayProducts}}
         <div class="cardProducto">
@@ -52,7 +53,7 @@
             </div>
 
             <span className="separador"></span>
-            <button class="agregarButton" id={{this._id}} onclick="agregarACarrito('{{this._id}}')">
+            <button class="agregarButton" id={{this._id}} onclick="agregarACarrito('{{this._id}}', '{{this.owner}}')">
                 <span>AGREGAR AL CARRITO</span>
             </button>
         </div>

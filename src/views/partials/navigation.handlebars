@@ -14,20 +14,20 @@
           <a href="/productos" class="nav-link active colot-text" aria-current="page">TIENDA</a>
         </li>
         {{/if }}
-        {{#ifeq user.role 'user'}}
+        {{#ifusers user.role }}
         <li class="nav-item">
           <a href="/chat" class="nav-link active colot-text" aria-current="page">CHAT</a>
         </li>
-        {{/ifeq }}
+        {{/ifusers }}
       </ul>
       <ul class="nav w-100 justify-content-end">
-        {{#ifeq user.role 'user'}}
+        {{#ifusers user.role }}
         <li class="nav-item">
           <a class="nav-link" href="/carts/{{user.cart}}">
             <img src="../../assets/cart-shop.png" alt="Bootstrap" width="40" height="40">
           </a>
         </li>
-        {{/ifeq}}
+        {{/ifusers}}
         {{#ifand user.role }}
         <li class="nav-item">
           <a class="nav-link colot-text" href="/administrar">

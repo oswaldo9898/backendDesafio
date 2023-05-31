@@ -94,6 +94,10 @@ const recuperarCuenta = async (req, res) => {
     }
 };
 
+
+
+
+
 const cambiarPassword = async (req, res) => {
     const token = req.params.token;
     const { passwordNew } = req.body;

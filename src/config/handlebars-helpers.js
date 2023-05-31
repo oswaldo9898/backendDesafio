@@ -11,4 +11,10 @@ export const helpers = {
     }
     return options.inverse(this);
   },
+  ifusers: function (v1, options) {
+    if (v1 === 'user' || v1 === 'premium') {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  },
 };

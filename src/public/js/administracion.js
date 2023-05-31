@@ -7,6 +7,10 @@ let prevPage = 0;
 let pageCurret = 1;
 
 
+const userSesionElement = document.getElementById('userSesion');
+const userSesion = userSesionElement.value;
+
+
 const getProducts =async (pageSelect=1) => {
     const res = await fetch(`/api/products/?page=${pageSelect}`);
     const data = await res.json();
@@ -23,56 +27,89 @@ const tableDeleteListener = async(event) => {
     const element = event.target.closest('.delete-producto');
     if(!element)return;
 
-    const userSesionElement = document.getElementById('userSesion');
     const id = element.getAttribute('data-id');
-    const userSesion = userSesionElement.value;
+    const owner = element.getAttribute('owner');
 
     try {
-        Swal.fire({
-            title: '¿Está seguro?',
-            text: "No podrás revertir esto!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, eliminar!'
-        }).then(async (result) => {
-            
-            if (result.isConfirmed) {
+        if(owner == userSesion || userSesion == 'adminCoder@coder.com'){
+
+            Swal.fire({
+                title: '¿Está seguro?',
+                text: "No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar!'
+            }).then(async (result) => {
                 
-                const res = await fetch(`/api/products/${id}/${userSesion}`, {
-                    method: 'DELETE'
-                });
-                if(res.status === 200){
-                    const data = await getProducts(pageCurret)
-                    const arrProductos = data.payload.docs;
-                    cargarTabla(arrProductos);
-                    actualizarNumeroPagina(page);
-                    Swal.fire({
-                        toast: true,
-                        position: 'bottom-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        title: `Producto eliminado`,
-                        icon: 'success'
+                if (result.isConfirmed) {
+                    
+                    const res = await fetch(`/api/products/${id}/${userSesion}`, {
+                        method: 'DELETE'
                     });
-                }else if (res.status === 401){
-                    Swal.fire({
-                        showConfirmButton: false,
-                        timer: 3000,
-                        title: 'Acceso denegado',
-                        text: 'Usted no tiene el permiso para realizar esta actividad.',
-                        icon: 'info'
-                    });
+
+                    if(res.status === 200){
+                        const data = await getProducts(pageCurret)
+                        const arrProductos = data.payload.docs;
+                        cargarTabla(arrProductos);
+                        actualizarNumeroPagina(page);
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            title: `Producto eliminado`,
+                            icon: 'success'
+                        });
+                    }else if (res.status === 401){
+                        Swal.fire({
+                            showConfirmButton: false,
+                            timer: 3000,
+                            title: 'Acceso denegado',
+                            text: 'Usted no tiene el permiso para realizar esta actividad.',
+                            icon: 'info'
+                        });
+                    }
                 }
-            }
-        });
+
+            });
+        }else{
+            Swal.fire({
+                showConfirmButton: false,
+                timer: 3000,
+                title: 'Acceso denegado',
+                text: 'Usted no tiene el permiso para realizar esta actividad.',
+                icon: 'info'
+            });
+        }
     } catch (error) {
         console.log(error);
         alert('No se pudo eliminar');
     }
 };
 
+
+
+const editarProducto = () => {
+    const element = event.target.closest('.update-producto');
+    if(!element)return;
+
+    const idProduct = element.getAttribute('data-id');
+    const owner = element.getAttribute('owner');
+
+    if(owner == userSesion || userSesion == 'adminCoder@coder.com'){
+        window.location.replace(`/administrar-producto?pid=${idProduct}`);
+    }else{
+        Swal.fire({
+            showConfirmButton: false,
+            timer: 3000,
+            title: 'Acceso denegado',
+            text: 'Usted no tiene el permiso para realizar esta actividad.',
+            icon: 'info'
+        });
+    }
+}
 
 
 const cargarTabla = (arrProductos) => {
@@ -91,7 +128,7 @@ const cargarTabla = (arrProductos) => {
                 <td>$ ${ product.price }</td>
                 <td>${ product.owner }</td>
                 <td>
-                    <a href="/administrar-producto?pid=${product._id}" class="update-user" data-id=${product._id}>Editar</a>
+                    <a class="update-producto" data-id=${product._id} owner=${product.owner} onclick="editarProducto()">Editar</a>
                     |
                     <a class="delete-producto" data-id=${product._id} owner=${product.owner}>Eliminar</a>
                 </td>
