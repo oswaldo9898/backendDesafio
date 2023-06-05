@@ -45,7 +45,7 @@ export default class Carts {
       return { message: 'El carrito no existe' };
     }
 
-    const product = await productsManager.getProductById(pid);
+    const product = await productsManager.getProduct(pid);
 
     if (!product) {
       return { message: 'El producto que desea agregar no existe' };

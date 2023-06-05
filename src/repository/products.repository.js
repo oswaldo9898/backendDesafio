@@ -4,27 +4,27 @@ export default class ProductsRepository {
     }
 
     getProducts = async(limit, page, query, sort) => {
-        const products = await this.dao.getAll(limit, page, query, sort);
+        const products = await this.dao.getProducts(limit, page, query, sort);
         return products;
     }
 
     getProduct = async(pid) => {
-        const product = await this.dao.getProductById(pid);
+        const product = await this.dao.getProduct(pid);
         return product;
     }
 
     saveProduct = async(product) => {
-        const productArr = await this.dao.save(product);
+        const productArr = await this.dao.saveProduct(product);
         return productArr;
     }
 
     updateProduct = async(pid, product) => {
-        const respon = await this.dao.update(pid, product);
+        const respon = await this.dao.updateProduct(pid, product);
         return respon;
     }
 
     deleteProduct = async(pid) => {
-        const respon = await this.dao.delete(pid);
+        const respon = await this.dao.deleteProduct(pid);
         return respon;
     }
 

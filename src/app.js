@@ -9,7 +9,6 @@ import __dirname  from './utils.js';
 import Products from './dao/dbManager/products.js';
 import Messages from './dao/dbManager/messages.js';
 
-// import mongoose from 'mongoose';
 import './dao/db.config.js'; 
 
 import handlebars from 'express-handlebars';
@@ -25,6 +24,9 @@ import errorHandler from './middlewares/errors/index.js';
 //Logger
 import { addLogger } from './utils/logger/index.js';
 import cors from 'cors';
+
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 const productsManager = new Products();
 const messagesManager = new Messages();
@@ -92,12 +94,7 @@ app.use(express.urlencoded({extended:true}));
 
 
 
-
-
-/** */
-
 /** CONFIGURANDO EL MOTOR DE PLANTILLAS */
-
 /** PARTIALS-HELPER */
 const hbs = handlebars.create({
   helpers
@@ -118,8 +115,23 @@ app.use(addLogger);
 /**configuracion de passport*/
 initializePassport();
 app.use(passport.initialize());
-// app.use(passport.session());
 /**  */
+
+
+/** Configrando Swagger */
+const swaggerOptions = {
+  definition:{
+    openapi: '3.0.1',
+    info:{
+      title: 'Documentación del proyecto de ecommerce',
+      description: 'API desarrollada para el comercio de productos online'
+    }
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`]
+}
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+//////////////////////////////////////////////////////////////////////////*
 
 
 /** RUTAS */

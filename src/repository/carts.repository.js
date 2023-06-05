@@ -49,8 +49,8 @@ export default class CartsRepository {
     }
 
 
-    purchase = async(cid) => {
-        const resp = await this.dao.purchase(cid);
+    purchase = async(ticket) => {
+        const resp = await this.dao.purchase(ticket);
         return resp;
     }
 

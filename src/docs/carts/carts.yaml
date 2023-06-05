@@ -1,0 +1,401 @@
+paths:
+  /api/carts:
+    post:
+      summary: Crear un nuevo carrito
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: El carrito fue registrado satisfactoriamente en la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+  /api/carts/{cid}:
+    get:
+      summary: Obtienen todos los productos del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito
+          schema: 
+            type: String
+      responses:
+        "200":
+          description: Los productos del carrito fueron obtenidos satisfactoriamente de la base de datos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Products'
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+    put:
+      summary: Edita todos los producto de un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito
+          schema: 
+            type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/registerProductCart'
+      responses:
+        "200":
+          description: Los productos del carrito fueron actualizado satisfactoriamente de la base de datos
+        "404":
+          description: El carrito no fue encontrado en la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+    delete:
+      summary: Elimina un carrito especifico a partir de su id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito
+          schema: 
+            type: String
+      responses:
+        "200":
+          description: El carrito ha sido eliminado satisfactoriamente de la base de datos
+        "404":
+          description: El carrito no fue encontrado en la base de datos o el usuario no tiene los permisos para eliminar el producto
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Agregar un producto al carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito
+          schema: 
+            type: String
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto
+          schema: 
+            type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/addProductCart'
+      responses:
+        "200":
+          description: El producto se agrego al carrito satisfactoriamente en la base de datos
+        "404":
+          description: El carrito no fue encontrado en la base de datos o el producto no fue encontrado
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+    put:
+      summary: Editar cantidad de un producto en el carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito
+          schema: 
+            type: String
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto
+          schema: 
+            type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/addProductCart'
+      responses:
+        "200":
+          description: Se edito la cantidad del producto en el carrito satisfactoriamente en la base de datos
+        "404":
+          description: El carrito no fue encontrado en la base de datos o el producto no fue encontrado
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+  delete:
+      summary: Eliminar un producto en el carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito
+          schema: 
+            type: String
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto
+          schema: 
+            type: String
+      responses:
+        "200":
+          description: El producto se agrego al carrito satisfactoriamente en la base de datos
+        "404":
+          description: El carrito no fue encontrado en la base de datos o el producto no fue encontrado
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Realizar el proceso de pago del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito
+          schema: 
+            type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/purchaseCart'
+      responses:
+        "200":
+          description: El pago se ha realizado satisfactoriamente
+        "404":
+          description: El carrito no fue encontrado en la base de datos o no existe stock suficiente de los productos
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+  /api/carts/obtener-ticket/{id}:
+    get:
+      summary: Obtener ticket de la compra realizada
+      tags:
+        - Carts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: El id del ticket
+          schema: 
+            type: String
+      responses:
+        "200":
+          description: El ticket fue obtenido satisfactoriamente de la base de datos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Ticket'
+        "404":
+          description: El ticket no fue encontrado en la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+    
+
+
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por MongoDB
+        title:
+          type: String
+          description: Titulo del producto
+        description:
+          type: String
+          description: Descripción del producto
+        code:
+          type: String
+          description: Código del producto
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: Boolean
+          description: Estado del producto
+        stock:
+          type: Number
+          description: Stock o cantidad disponible del producto
+        category:
+          type: String
+          description: Categoria del producto
+        portada:
+          type: String
+          description: Portada del producto
+        thumbnail:
+          type: Array
+          description: Thumbnail del producto
+        owner:
+          type: String
+          description: Email del creador del producto
+      example:
+        _id: ObjectId("6465ACD852AS75A95")
+        title: UNO BTS
+        description: Es el juego a juego que sabes. Los jugadores pasan por deshacerse de todas sus tarjetas a juego con una tarjeta en su mano con la actual tarjeta que se muestra.
+        code: bts-0123
+        price: $5
+        status: true
+        stock: 12
+        category: bts
+        portada: https://konbini-otaku.vercel.app/_next/image?url=https%3A%2F%2Fi.postimg.cc%2FzvB3GnYC%2FCamiseta-de-Tokyo-Revengers.jpg&w=1920&q=75
+        thumbnail: []
+        owner: admin@admin.com
+    Ticket:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por MongoDB
+        code:
+          type: String
+          description: Código del ticket autogenerado
+        amount:
+          type: Number
+          description: Total a pagar del ticket
+        purchaser:
+          type: String
+          description: Email del usuario que realizo la compra
+        createdAt:
+          type: Number
+          description: Fecha de registro del ticket
+        updatedAt:
+          type: Number
+          description: Fecha de modificacion del ticket
+        products:
+          type: object
+          properties:
+            title:
+              type: String
+              description: Titulo del producto
+            description:
+              type: String
+              description: Descripción del producto
+            code:
+              type: String
+              description: Código del producto
+            price:
+              type: Number
+              description: Precio del producto
+            stock:
+              type: Number
+              description: Stock o cantidad disponible del producto
+            category:
+              type: String
+              description: Categoria del producto
+            portada:
+              type: String
+              description: Portada del producto
+            thumbnail:
+              type: Array
+              description: Thumbnail del producto
+            owner:
+              type: String
+              description: Email del creador del producto
+      example:
+        _id: ObjectId("6465ACD852AS75A95")
+        code: 112705df-dcc0-4d70-998f-76a2a9f58388
+        amount: 8.5
+        purchaser: oswaldogarces98@gmail.com
+        createdAt: 2023-05-06T21:56:49.323+00:00
+        updatedAt: 2023-05-06T21:56:49.323+00:00
+        products:
+          title: UNO BTS
+          description: Es el juego a juego que sabes. Los jugadores pasan por deshacerse de todas sus tarjetas a juego con una tarjeta en su mano con la actual tarjeta que se muestra.
+          code: bts-0123
+          price: $5
+          stock: 12
+          category: bts
+          portada: https://konbini-otaku.vercel.app/_next/image?url=https%3A%2F%2Fi.postimg.cc%2FzvB3GnYC%2FCamiseta-de-Tokyo-Revengers.jpg&w=1920&q=75
+          thumbnail: []
+          owner: admin@admin.com
+  requestBodies:
+    registerProductCart:
+      type: object
+      properties:
+        products:
+          type: object
+          properties:
+            title:
+              type: String
+              description: Titulo del producto
+            description:
+              type: String
+              description: Descripción del producto
+            code:
+              type: String
+              description: Código del producto
+            price:
+              type: Number
+              description: Precio del producto
+            stock:
+              type: Number
+              description: Stock o cantidad disponible del producto
+            category:
+              type: String
+              description: Categoria del producto
+            portada:
+              type: String
+              description: Portada del producto
+            thumbnail:
+              type: Array
+              description: Thumbnail del producto
+            owner:
+              type: String
+              description: Email del creador del producto
+        quantify:
+          type: Number
+          description: Cantidad de producto
+      example:
+        products:
+          title: UNO BTS
+          description: Es el juego a juego que sabes. Los jugadores pasan por deshacerse de todas sus tarjetas a juego con una tarjeta en su mano con la actual tarjeta que se muestra.
+          code: bts-0123
+          price: $5
+          stock: 12
+          category: bts
+          portada: https://konbini-otaku.vercel.app/_next/image?url=https%3A%2F%2Fi.postimg.cc%2FzvB3GnYC%2FCamiseta-de-Tokyo-Revengers.jpg&w=1920&q=75
+          thumbnail: []
+          owner: admin@admin.com
+        quantify: 1
+    addProductCart:
+      type: object
+      properties:
+        cantidad:
+          type: Number
+          description: Cantidad de productos
+      example:
+        cantidad: 1
+    purchaseCart:
+      type: object
+      properties:
+        amount:
+          type: Number
+          description: Total a pagar por la compra
+        purchaser:
+          type: string
+          description: Email del usaurio que realiza la compra
+      example:
+        amount: 75,10
+        purchaser: oswaldogarces98@gmail.com

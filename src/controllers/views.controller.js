@@ -45,7 +45,7 @@ const current = async (req, res) => {
 const productos = async (req, res) => {
     const { limit, page, query, sort } = req.query;
     try {
-        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);
+        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getProducts(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
 
         res.render('products', {
@@ -69,7 +69,7 @@ const productos = async (req, res) => {
 const productDetail = async (req, res) => {
     const { pid } = req.query;
     try {
-        const resp = await productsManager.getProductById(pid);
+        const resp = await productsManager.getProduct(pid);
         const producto = resp.toObject();
 
         res.render('detalleProducto', {
@@ -119,7 +119,7 @@ const compraExitosa = async (req, res) => {
 const administrar = async (req, res) => {
     const { limit, page, query, sort } = req.query;
     try {
-        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);
+        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getProducts(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
 
         res.render('administracion', {
@@ -158,7 +158,7 @@ const administrarProducto = async (req, res) => {
 const administracionUsuarios = async (req, res) => {
     const { limit, page, query, sort } = req.query;
     try {
-        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getAll(limit, page, query, sort);
+        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getProducts(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
         res.render('administracionUsers', {
             title: 'Usuarios',

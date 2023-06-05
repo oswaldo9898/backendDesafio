@@ -1,0 +1,194 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtienen todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos fueron obtenidos satisfactoriamente de la base de datos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Products'
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+    post:
+      summary: Registra un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/registerProduct'
+      responses:
+        "200":
+          description: El producto fue registrado satisfactoriamente de la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+  /api/products/{pid}:
+    get:
+      summary: Obtienen un producto especifico a partir de su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto
+          schema: 
+            type: String
+      responses:
+        "200":
+          description: El producto fue obtenido satisfactoriamente de la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Products'
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+    put:
+      summary: Edita un producto especifico a partir de su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto
+          schema: 
+            type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/registerProduct'
+      responses:
+        "200":
+          description: El producto fue actualizado satisfactoriamente de la base de datos
+        "404":
+          description: El producto no fue encontrado en la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+  /api/products/{pid}/{userSesion}:
+    delete:
+      summary: Elimina un producto especifico a partir de su id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto
+          schema: 
+            type: String
+        - name: userSesion
+          in: path
+          required: true
+          description: Email del usaurio creador del producto
+          schema:    
+            type: String
+      responses:
+        "200":
+          description: El producto ha sido eliminado satisfactoriamente de la base de datos
+        "404":
+          description: El producto no fue encontrado en la base de datos o el usuario no tiene los permisos para eliminar el producto
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo en la conexión a la base de datos
+    
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por MongoDB
+        title:
+          type: String
+          description: Titulo del producto
+        description:
+          type: String
+          description: Descripción del producto
+        code:
+          type: String
+          description: Código del producto
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: Boolean
+          description: Estado del producto
+        stock:
+          type: Number
+          description: Stock o cantidad disponible del producto
+        category:
+          type: String
+          description: Categoria del producto
+        portada:
+          type: String
+          description: Portada del producto
+        thumbnail:
+          type: Array
+          description: Thumbnail del producto
+        owner:
+          type: String
+          description: Email del creador del producto
+      example:
+        _id: ObjectId("6465ACD852AS75A95")
+        title: UNO BTS
+        description: Es el juego a juego que sabes. Los jugadores pasan por deshacerse de todas sus tarjetas a juego con una tarjeta en su mano con la actual tarjeta que se muestra.
+        code: bts-0123
+        price: $5
+        status: true
+        stock: 12
+        category: bts
+        portada: https://konbini-otaku.vercel.app/_next/image?url=https%3A%2F%2Fi.postimg.cc%2FzvB3GnYC%2FCamiseta-de-Tokyo-Revengers.jpg&w=1920&q=75
+        thumbnail: []
+        owner: admin@admin.com
+  requestBodies:
+    registerProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Titulo del producto
+        description:
+          type: String
+          description: Descripción del producto
+        code:
+          type: String
+          description: Código del producto
+        price:
+          type: Number
+          description: Precio del producto
+        stock:
+          type: Number
+          description: Stock o cantidad disponible del producto
+        category:
+          type: String
+          description: Categoria del producto
+        portada:
+          type: String
+          description: Portada del producto
+        thumbnail:
+          type: Array
+          description: Thumbnail del producto
+        owner:
+          type: String
+          description: Email del creador del producto
+      example:
+        title: UNO BTS
+        description: Es el juego a juego que sabes. Los jugadores pasan por deshacerse de todas sus tarjetas a juego con una tarjeta en su mano con la actual tarjeta que se muestra.
+        code: bts-0123
+        price: $5
+        stock: 12
+        category: bts
+        portada: https://konbini-otaku.vercel.app/_next/image?url=https%3A%2F%2Fi.postimg.cc%2FzvB3GnYC%2FCamiseta-de-Tokyo-Revengers.jpg&w=1920&q=75
+        thumbnail: []
+        owner: admin@admin.com

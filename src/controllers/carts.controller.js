@@ -212,7 +212,7 @@ const purchase = async(req, res) => {
   }
 }
 
-const obtenerTicket = async(req, res) =>{
+const getTicket = async(req, res) =>{
   const { id } = req.params;
   const resTicket = await cartsRepository.getTicket(id);
   res.send({ message: "success", payload: resTicket });
@@ -228,5 +228,5 @@ export {
   emptyCart,
   probarPopulate,
   purchase,
-  obtenerTicket
+  getTicket
 };
