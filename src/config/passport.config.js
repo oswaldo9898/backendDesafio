@@ -50,6 +50,7 @@ const initializePassport = () => {
             const result = await userModel.create(newUser);
             return done(null, result);
         } catch (error) {
+            console.log(error)
             return done(`Error al registrar usuario ${error}`)
         }
     }));
@@ -95,6 +96,7 @@ const initializePassport = () => {
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
         secretOrKey: privateKey
     }, async (jwt_payload, done) => {
+        console.log('entra')
         try {
             // if (!jwt_payload.sadfsdf) return done(null, false, { messages: 'Atributo no encontrado' });
             return done(null, jwt_payload.user);

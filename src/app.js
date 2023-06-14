@@ -28,6 +28,8 @@ import cors from 'cors';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
 
+import MongoStore from 'connect-mongo';
+
 const productsManager = new Products();
 const messagesManager = new Messages();
 
@@ -38,9 +40,9 @@ const messagesManager = new Messages();
 const app = express();
 
 /**Parametros de conexion */
-// const USER = 'oswaldogarces98';
-// const PASSWORD = 'nIcHH2K83fj7dWZP';
-// const DATA_BASE = 'ecommerce';
+const USER = 'oswaldogarces98';
+const PASSWORD = 'nIcHH2K83fj7dWZP';
+const DATA_BASE = 'ecommerce';
 
 // try{
 //   await mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`);
@@ -51,11 +53,11 @@ const app = express();
 
 //Persistencia en BBDD
 app.use(session({
-  // store: MongoStore.create({
-  //     mongoUrl: `mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`,
-  //     mongoOptions: { useNewUrlParser: true },
-  //     ttl: 3600
-  // }),
+  store: MongoStore.create({
+      mongoUrl: `mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`,
+      mongoOptions: { useNewUrlParser: true },
+      ttl: 3600
+  }),
   secret:'secretCoder',
   resave: true,
   saveUninitialized: true

@@ -28,17 +28,16 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   const pid = req.params.pid;
-
   try {
     const product = await productsRepository.getProduct(pid);
-    product.length === 0
-      ? res.send({
+    product === null
+      ? res.status(404).send({
         status: "Error",
         message: "Not found: Producto no encontrado",
       })
-      : res.send({ message: "success", payload: product });
+      : res.send({ status: "success", payload: product });
   } catch (e) {
-    req.logger.error(error);
+    //req.logger.error(error);
     res
       .status(400)
       .send({
@@ -143,6 +142,7 @@ const updateProduct = (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const {pid, userSesion} = req.params;
+
   try {
     if (pid) {
       if(userSesion == config.adminEmail){
@@ -154,11 +154,12 @@ const deleteProduct = async (req, res) => {
           const respon = await productsRepository.deleteProduct(pid);
           return res.send({ message: "success", payload: respon });
         }else{
-          return res.status(401).send({ message: "error", message:"Recuerde que solo puede eliminar los productos que usted creo." });
+          return res.status(401).send({ status: "Error", message:"Recuerde que solo puede eliminar los productos que usted creo." });
         }
       }
     } else {
-      res.send({ status: "Error", message: "El producto es invalido" });
+      console.log('Entraaaaaaaaaaaaaaaaa')
+      return res.status(400).send({ status: "Error", message:"Recuerde que solo puede eliminar los productos que usted creo." });
     }
   } catch (error) {
     req.logger.error(error);
