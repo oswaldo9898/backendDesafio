@@ -7,24 +7,24 @@ const requester = supertest('http://localhost:8080');
 describe('Testing de sessions', () => {
     let cookie, token;
 
-    // it('POST de /api/sessions/register registrar nuevo usuario en la base de datos', async() => {
+    it('POST de /api/sessions/register registrar nuevo usuario en la base de datos', async() => {
 
-    //     const userRegisterMock = {
-    //         first_name: 'usuario', 
-    //         last_name: 'Test', 
-    //         email: 'test@test.com', 
-    //         age: 18,
-    //         role: 'user',
-    //         password: '12345'
-    //     }
+        const userRegisterMock = {
+            first_name: 'usuario', 
+            last_name: 'Test', 
+            email: 'test@test.com', 
+            age: 18,
+            role: 'user',
+            password: '12345'
+        }
 
-    //     const {statusCode, _body}  = await requester.post('/api/sessions/register')
-    //     .send(userRegisterMock);
+        const {statusCode, _body}  = await requester.post('/api/sessions/register')
+        .send(userRegisterMock);
 
-    //     expect(statusCode).to.be.eql(200);
-    //     expect(_body).to.have.property('status');
-    //     expect(_body.status).to.be.eql('success');
-    // });
+        expect(statusCode).to.be.eql(200);
+        expect(_body).to.have.property('status');
+        expect(_body.status).to.be.eql('success');
+    });
 
     
     it('POST de /api/sessions/login debe logearse correctamente y retornar una cookie', async() => {
@@ -73,8 +73,6 @@ describe('Testing de sessions', () => {
 
         token = _body.token;
 
-        console.log(token)
-
         expect(statusCode).to.be.eql(200);
         expect(_body.status).to.be.eql('success');
         expect(_body).to.have.property('token');
@@ -95,7 +93,7 @@ describe('Testing de sessions', () => {
     });
 
 
-    it('POST de /api/sessions/cambiar-password/:token envia un token y una nueva contraseña para que se pueda cambair la contraseña', async() => {
+    it('POST de /api/sessions/cambiar-password/:token envia un token y una nueva contraseña para que se pueda cambiar la contraseña', async() => {
 
         const newPassword = {
             passwordNew: 'Aeioasdfsdfsdfsdfsvxcvu12%'
@@ -103,14 +101,39 @@ describe('Testing de sessions', () => {
 
         const {statusCode, _body}  = await requester.post(`/api/sessions/cambiar-password/${token}`)
         .send(newPassword);
-        
-
-        console.log(statusCode);
-        console.log(_body);
 
         expect(statusCode).to.be.eql(200);
+        expect(_body.status).to.be.eql('success');
     });
 
 
+    it('POST de /api/sessions/cambiar-password/:token corroborar que no se pueda agregar la misma contraseña', async() => {
+
+        const newPassword = {
+            passwordNew: 'Aeioasdfsdfsdfsdfsvxcvu12%'
+        }
+
+        const {statusCode, _body}  = await requester.post(`/api/sessions/cambiar-password/${token}`)
+        .send(newPassword);
+
+        expect(statusCode).to.be.eql(404);
+        expect(_body.status).to.be.eql('Error');
+    });
+
+
+    it('POST de /api/sessions/cambiar-password/:token corroborar que no acepte un token invalido, devuelva un error', async() => {
+
+        const newPassword = {
+            passwordNew: 'Aeioasdfsdfsdfsdfsvxcvu12%'
+        }
+        let  fakeToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzMWQ0ZmYzYTMwYTU4YWVlYTE1YzdiIiwiZmlyc3RfbmFtZSI6Ik9zd2FsZG8iLCJsYXN0X25hbWUiOiJHYXJjZXMiLCJlbWFpbCI6Im9zd2FsZG9nYXJjZXM5OEBnbWFpbC5jb20iLCJyb2xlIjoicHJlbWl1bSJ9LCJpYXQiOjE2ODU5OTQ1NzksImV4cCI6MTY4NTk5ODE3OX0.QpNdMsPNbI6tEHwMQy6aHOHKhokYi8BFO3Q9IuqRsNc'
+
+        const {statusCode, _body}  = await requester.post(`/api/sessions/cambiar-password/${fakeToken}`)
+        .send(newPassword);
+
+        expect(statusCode).to.be.eql(403);
+        expect(_body.status).to.be.eql('Error');
+        expect(_body.message).to.be.eql('Token invalido. El token ha expirado, por favor cree uno nuevo');
+    });
 
 })

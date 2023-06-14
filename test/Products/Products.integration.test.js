@@ -78,7 +78,6 @@ describe('Testing de productos', () => {
         expect(_body).to.be.ok;
         expect(_body).to.have.property('payload');
         expect(_body.status).to.be.eql('success');
-
     });
 
 
@@ -128,9 +127,6 @@ describe('Testing de productos', () => {
         let userSession = 'adminCoder@coder.com';
         const {statusCode, _body} = await requester.delete(`/api/products/${pid}/${userSession}`)
         .set('Cookie', [`${cookie.name}=${cookie.value}`]);
-
-        // console.log(statusCode);
-        // console.log(_body);
 
         expect(statusCode).to.be.eql(200);
         expect(_body).to.be.ok;

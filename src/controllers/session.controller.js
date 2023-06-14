@@ -82,7 +82,7 @@ const recuperarCuenta = async (req, res) => {
     try {
         const token = await sessionsRepository.recuperarCuenta(email);
         if (token) {
-            await sendEmailResetPassword(email, token);
+            sendEmailResetPassword(email, token);
             return res.send({ status: 'success', message: 'Reset success', token });
         } else {
             return res.status(404).send({ status: 'Error', message: 'Los datos ingresados no existen' });
@@ -103,12 +103,12 @@ const cambiarPassword = async (req, res) => {
     const { passwordNew } = req.body;
     let payload = decodeToken(token);
 
-    if (!payload) return res.status(401).send({ status: 'error', message: 'Token invalido. El token ha expirado, por favor cree uno nuevo' });
+    if (!payload) return res.status(403).send({ status: 'Error', message: 'Token invalido. El token ha expirado, por favor cree uno nuevo'});
 
     const resp = await sessionsRepository.cambiarPassword(payload.user.email, passwordNew);
-    if (!resp) return res.status(401).send({ status: 'error', message: 'La contraseña que esta intentando ingresar ya esta registrada' });
+    if (!resp) return res.status(404).send({ status: 'Error', message: 'La contraseña que esta intentando ingresar ya esta registrada' });
 
-    return res.send({ message: 'succes' });
+    return res.send({status:'success', message: 'Password cambiada exitosamente' });
 }
 
 

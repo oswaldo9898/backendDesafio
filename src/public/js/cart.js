@@ -82,7 +82,7 @@ const init = async() => {
                 }
             });
             const result = await res.json();
-            if(result.message === 'success'){
+            if(result.status === 'success'){
                 Swal.fire({
                     toast: true,
                     position: 'bottom-end',

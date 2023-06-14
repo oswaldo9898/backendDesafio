@@ -32,7 +32,7 @@ const getProductsCart = async (req, res) => {
   const { cid } = req.params;
   try {
     const cart = await cartsRepository.getProductsCart(cid);
-    res.send({ message: "Success", payload: cart });
+    res.send({ status: "success", payload: cart });
   } catch (error) {
     req.logger.error(error);
     res
@@ -45,9 +45,9 @@ const getProductsCart = async (req, res) => {
 };
 
 
-const addProductCart =  (req, res) => {
+const addProductCart =  async(req, res) => {
   const { cid, pid } = req.params;
-  const {cantidad } = req.body;
+  const { cantidad } = req.body;
   try {
     if(pid == ''){
       throw CustomError.createError({
@@ -57,8 +57,8 @@ const addProductCart =  (req, res) => {
         code: EErrors.INVALID_TYPES_ERROR
       });
     }
-    const resp = cartsRepository.addProductCart(cid, pid, cantidad);
-    res.send({ message: "Success", payload: resp });
+    const resp = await cartsRepository.addProductCart(cid, pid, cantidad);
+    res.send({ status: "success", message: "Se agrego el producto correctamente" });
 
   } catch (error) {
     req.logger.error(error);
@@ -76,7 +76,7 @@ const deleteProductCart = async (req, res) => {
   const { cid, pid } = req.params;
   try {
     const resp = await cartsRepository.deleteProductCart(cid, pid);
-    res.send({ message: "Success", payload: resp });
+    res.send({ status: "success", payload: resp });
   } catch (error) {
     req.logger.error(error);
     res
@@ -94,7 +94,7 @@ const updateProductsCart = async (req, res) => {
   const products = req.body;
   try {
     const resp = await cartsRepository.updateProductsCart(cid, products);
-    res.send({ message: "Success", payload: resp });
+    res.send({ status: "success", payload: resp });
   } catch (error) {
     req.logger.error(error);
     res
@@ -110,15 +110,19 @@ const updateProductsCart = async (req, res) => {
 const updateQuantityProductCart = async (req, res) => {
   const { cid, pid } = req.params;
   const { cantidad } = req.body;
+  console.log(cid);
+  console.log(pid);
+  console.log(cantidad);
   try {
     const resp = await cartsRepository.updateQuantityProductCart(
       cid,
       pid,
       cantidad
     );
-    res.send({ message: "Success", payload: resp });
+    res.send({ status: "success", payload: resp });
   } catch (error) {
     req.logger.error(error);
+    console.log(error);
     res
       .status(400)
       .send({
@@ -133,7 +137,7 @@ const emptyCart = async (req, res) => {
   const { cid, pid } = req.params;
   try {
     const resp = await cartsRepository.emptyCart(cid, pid);
-    res.send({ message: "Success", payload: resp });
+    res.send({ status: "success", payload: resp });
   } catch (error) {
     req.logger.error(error);
     res
@@ -200,7 +204,7 @@ const purchase = async(req, res) => {
     createPDF(resTicket);
     sendEmailTicket(resTicket);
 
-    res.send({ message: "success", payload: resp });
+    res.send({ status: "success", payload: resp });
   } catch (error) {
     req.logger.error(error);
     res

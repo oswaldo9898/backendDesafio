@@ -28,8 +28,8 @@ export default class CartsRepository {
         return resp;
     }
 
-    updateQuantityProductCart = async() => {
-        const resp = await this.dao.updateQuantityProductCart();
+    updateQuantityProductCart = async(cid, pid, cantidad) => {
+        const resp = await this.dao.updateQuantityProductCart(cid, pid, cantidad);
         return resp;
     }
 

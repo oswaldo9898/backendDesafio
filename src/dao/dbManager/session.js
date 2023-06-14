@@ -24,8 +24,6 @@ export default class Users {
 
     cambiarPassword = async(email, passwordNew) => {
         const user = await userModel.findOne({ email });
-        console.log(user)
-        console.log(passwordNew)
 
         if(!user) return null;
 
