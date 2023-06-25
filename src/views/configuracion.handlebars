@@ -1,0 +1,106 @@
+
+<section class="content mt-5 my-5">
+  <div class="container-fluid">
+    <div class="row">
+
+
+
+      <div class="col-md-4">
+        <!-- Profile Image -->
+        <div class="card card-primary card-outline">
+          <div class="card-body box-profile">
+            <div class="text-center">
+              <img class="img-fluid img-thumbnail imgPerfil" src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'alt="User profile picture">
+            </div>
+
+            <h3 class="profile-username text-center"> {{user.first_name}} {{user.last_name}} </h3>
+
+            <ul class="list-group list-group-unbordered mb-3">
+              <li class="list-group-item">
+                <b>Rol:</b> <label class="float-right">{{user.role}}</label>
+              </li>
+              <li class="list-group-item">
+                <b>E-mail:</b> <label class="float-right">{{user.email}}</label>
+              </li>
+              <li class="list-group-item">
+                <b>Edad:</b> <label class="float-right">{{user.age}} años</label>
+              </li>
+            </ul>
+            <a class="btn btn-danger btn-block" style="cursor: pointer" href="/api/sessions/logout">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <b>Cerra sesión</b>
+            </a>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+
+
+
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+              <li class="nav-item"><a class="nav-link" href="#datos" data-toggle="tab">Cargar Datos Personales</a></li>
+              {{!-- <li class="nav-item"><a class="nav-link" href="#email" data-toggle="tab" aria-controls="email" role="tab" data-mdb-toggle="tab">Correo electrónico</a></li>
+              <li class="nav-item"><a class="nav-link" href="#password" data-toggle="tab">Contraseña</a></li> --}}
+            </ul>
+          </div><!-- /.card-header -->
+
+          <div class="card-body">
+            <div class="tab-content">
+
+              <div class="active tab-pane" id="datos">
+
+                <form class="form-horizontal" id="formIdentificacion">
+                  <div class="form-group cardDatos">
+                    <label for="inputName1" class="col-sm-2 col-form-label">Identificación</label>
+                    
+                    <div class="datos">
+                      <input type="file" class="form-control" id="identificacion" name="identificacion" required>
+                      <button type="button" class="btn btn-primary" onclick="subirIdentificacion('{{user.id}}')" >Subir</button>
+                    </div>
+
+                  </div>
+                </form>
+
+                <form class="form-horizontal" id="formComprobante">
+                  <div class="form-group cardDatos">
+                    <label for="inputName4" class="col-sm-2 col-form-label">Comprobante domicilio</label>
+                    
+                    <div class="datos">
+                      <input type="file" class="form-control" id="comprobante" name="comprobante" required>
+                      <button type="button" class="btn btn-primary" onclick="subirComprobante('{{user.id}}')">Subir</button>
+                    </div>
+                  </div>
+                </form>
+
+                <form class="form-horizontal" id="formEstado">
+                  <div class="form-group cardDatos">
+                    <label for="inputName3" class="col-sm-2 col-form-label">Estado de Cuenta</label>
+
+                    <div class="datos">
+                      <input type="file"class="form-control" id="estado" name="estado" required>
+                        <button type="button" class="btn btn-primary" onclick="subirEstado('{{user.id}}')">Subir</button>
+                    </div>
+                  </div>
+                </form>
+
+              </div>
+              <!-- /.tab-pane -->
+
+              
+            </div>
+            <!-- /.tab-content -->
+          </div><!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/configuracion.js"></script>

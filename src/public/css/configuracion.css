@@ -1,0 +1,28 @@
+
+.imgPerfil {
+    width: 150px;
+}
+
+.cardDatos {
+    display: flex;
+    align-items: center;
+
+    padding: 10px 5px;
+    font-size: 18px;
+}
+
+.cardDatos .datos{
+    display: flex;
+    height: 45px;
+}
+
+.cardDatos .datos button{
+    width: 150px;
+    margin-left: 20px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.cardDatos .datos input{
+    font-size: 18px;
+}

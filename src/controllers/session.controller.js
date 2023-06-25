@@ -4,9 +4,14 @@ import Sessions from "../dao/dbManager/session.js"
 import SessionsRepository from '../repository/session.repository.js';
 import CurrentDto from '../dao/DTOs/current.dto.js';
 import { sendEmailResetPassword } from '../utils/sendEmail/index.js';
+import Users from "../dao/dbManager/users.js"
+import UsersRepository from '../repository/users.repository.js';
 
 const sessionsManager = new Sessions();
 const sessionsRepository = new SessionsRepository(sessionsManager);
+
+const usersManager = new Users();
+const usersRepository = new UsersRepository(usersManager);
 
 /** Registro de un nuevo usuario en el sistema */
 const register = async (req, res) => {
@@ -43,6 +48,7 @@ const login = async (req, res) => {
         role: req.user.role
     }
 
+    usersRepository.updateLast_connection(req.user._id);
     const accessToken = generateToken(user);
 
     res.cookie('coderCookieToken', accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true })
@@ -115,6 +121,8 @@ const cambiarPassword = async (req, res) => {
 
 
 const logout = (req, res) => {
+    let id = req.session.user.id;
+    usersRepository.updateLast_connection(id);
     req.session.destroy(err => {
         if (err) return res.status(401).send({ status: 'error', error: 'no se pudo hacer el logout' });
         res.redirect('/login');

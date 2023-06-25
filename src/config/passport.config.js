@@ -84,6 +84,7 @@ const initializePassport = () => {
                     _id: Date.now()
                 }
             }
+            
             return done(null, user);
 
         } catch (error) {

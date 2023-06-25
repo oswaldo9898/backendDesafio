@@ -88,12 +88,11 @@ export const generateProduct = () => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, `${__dirname}/public/img-productos`);
-        console.log('entra al storage');
+        var { ruta } = req.query;
+        cb(null, `${__dirname}/public/${ruta}`);
     },
     filename: (req, file, cb) => {
         const fileName = file.originalname.toLowerCase().split(' ').join('-');
-        console.log('entra al storage');
         cb(null, `${Date.now()}-${fileName}`);
     }
 });

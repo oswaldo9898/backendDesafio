@@ -33,6 +33,13 @@ const usersSchema = new mongoose.Schema({
         type: String,
         default: 'user',
         require: true
+    },
+    documents: [{
+        name: {type: String},
+        reference:{type: String}
+    }],
+    last_connection: {
+        type: Date
     }
 });
 

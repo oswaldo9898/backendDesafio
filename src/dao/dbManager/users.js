@@ -17,4 +17,10 @@ export default class Users {
     }
 
 
+    updateLast_connection = async(id, last_connection) => {
+        const result = await userModel.findByIdAndUpdate({ _id: id }, {last_connection});
+        return result;
+    }
+
+
 }

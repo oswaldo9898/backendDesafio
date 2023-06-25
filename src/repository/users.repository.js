@@ -14,4 +14,11 @@ export default class SessionsRepository {
         const result = await this.dao.updateRole(id, role);
         return result;
     }
+
+    updateLast_connection = async(id) => {
+        const last_connection = new Date;
+        //console.log( last_connection.toLocaleString() )
+        const result = await this.dao.updateLast_connection(id, last_connection);
+        return result;
+    }
 }

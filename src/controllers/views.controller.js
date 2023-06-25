@@ -115,6 +115,19 @@ const compraExitosa = async (req, res) => {
     }
 };
 
+const configuracion = async (req, res) => {
+    try {
+        res.render('configuracion', {
+            title: 'configuracion',
+            user: req.session.user,
+            styles: '../css/configuracion.css'
+        });
+    } catch (error) {
+        req.logger.error(error);
+        res.render('error404', {});
+    }
+};
+
 
 const administrar = async (req, res) => {
     const { limit, page, query, sort } = req.query;
@@ -262,6 +275,7 @@ export {
     productDetail,
     cart,
     compraExitosa,
+    configuracion,
     administrar,
     administrarProducto,
     administracionUsuarios,
