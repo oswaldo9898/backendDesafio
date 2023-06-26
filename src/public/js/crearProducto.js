@@ -12,10 +12,10 @@ const obtenerProducto = async (id) => {
 }
 
 
-const agregarProducto = async (producto) => {
+const agregarProducto = async (producto, ruta) => {
     let user;
 
-    axios.post("/api/products/", producto, {})
+    axios.post(`/api/products/?ruta=${ruta}`, producto, {})
         .then((res) => {
             if(res.status == 200){
                 user = res.data;
@@ -97,7 +97,7 @@ const clickGuardar =  async (email) => {
     
 
     if (!pid) {
-        const res = await agregarProducto(fd);
+        const res = await agregarProducto(fd, 'products');
     } else {
         const res = await modificarProducto(producto, pid);
         if (res.message === 'success') {
