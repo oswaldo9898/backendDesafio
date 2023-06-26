@@ -11,6 +11,12 @@ export default class Users {
     }
 
 
+    getUser = async(id) => {
+        let user = await userModel.findOne({ _id: id });
+        return user;
+    }
+
+
     updateRole = async(id, role) => {
         const result = await userModel.findByIdAndUpdate({ _id: id }, {role});
         return result;
@@ -22,5 +28,10 @@ export default class Users {
         return result;
     }
 
+
+    saveDocument = async(id, document) => {
+        const result = await userModel.findByIdAndUpdate({ _id: id }, { $push: { documents: { "name": document.name, "reference": document.reference}}});
+        return result;
+    }
 
 }

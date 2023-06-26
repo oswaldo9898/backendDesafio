@@ -29,11 +29,21 @@ const getUsers = async (req, res) => {
 const updateRole = async (req, res) => {
     const { role } = req.body;
     const id = req.params.uid;
+    
     try {
-        const result = await usersRepository.updateRole(id, role);
-        return res.send({ status: "success", payload: result });
+        const user = await usersRepository.getUser(id);
+
+        const documents = user.documents;
+        
+        if(documents.length === 3 ){
+            const result = await usersRepository.updateRole(id, role);
+            return res.send({ status: "success", payload: result });
+        }
+        return res.status(401).send({ status: "Error", message:"El usuario no ha terminado de cargar su documentación" });
+
     } catch (error) {
         req.logger.error(error);
+        console.log(error)
         res
             .status(400)
             .send({
@@ -47,7 +57,6 @@ const updateRole = async (req, res) => {
 const updateLast_connection = async (req, res) => {
     const last_connection = new Date();
     const id = req.params.uid;
-    console.log( last_connection )
     // try {
     //     const result = await usersRepository.updateRole(id, last_connection);
     //     return res.send({ status: "success", payload: result });
@@ -65,11 +74,23 @@ const updateLast_connection = async (req, res) => {
 const saveDocument = async (req, res) => {
     const id = req.params.uid;
     const { name } = req.body;
-    console.log(`id: ${id}, el nombre: ${name}`);
+    const file = req.file;
+
     try {
-        
+        let document = {
+            name,
+            reference: file.filename
+        }
+        const result = await usersRepository.saveDocument(id, document);
+        return res.send({ status: "success", payload: result });
+
     } catch (error) {
-        
+        req.logger.error(error);
+        res
+            .status(400)
+            .send({
+                status: "Error",
+                message: "Ha ocurrido un inconveniente en el servidor",});
     }
 }; 
 

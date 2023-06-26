@@ -118,12 +118,13 @@ const modificarRol = async (id, role) => {
         }
     });
     const UpdateUser = await res.json();
+    
     if (res.status == 401) {
         Swal.fire({
             showConfirmButton: false,
             timer: 4000,
             title: `Oops...`,
-            text: UpdateUser.description,
+            text: UpdateUser.message,
             icon: 'error'
         });
     }else{

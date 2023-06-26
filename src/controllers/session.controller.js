@@ -29,16 +29,6 @@ const failRegister = async (req, res) => {
 const login = async (req, res) => {
     if (!req.user) return res.status(400).send({ status: 'error', message: 'invalided credencial' });
 
-    req.session.user = {
-        id: req.user._id,
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        age: req.user.age,
-        email: req.user.email,
-        cart: req.user.cart,
-        role: req.user.role
-    }
-
     const user = {
         first_name: req.user.first_name,
         last_name: req.user.last_name,
@@ -48,7 +38,21 @@ const login = async (req, res) => {
         role: req.user.role
     }
 
-    usersRepository.updateLast_connection(req.user._id);
+    req.session.user = {
+        id: req.user._id,
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        age: req.user.age,
+        email: req.user.email,
+        cart: req.user.cart,
+        role: req.user.role,
+    }
+
+    if(req.user.role !== 'admin'){
+        usersRepository.updateLast_connection(req.user._id);
+        req.session.user.documents = req.user.documents;
+    }
+
     const accessToken = generateToken(user);
 
     res.cookie('coderCookieToken', accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true })
@@ -121,8 +125,12 @@ const cambiarPassword = async (req, res) => {
 
 
 const logout = (req, res) => {
-    let id = req.session.user.id;
-    usersRepository.updateLast_connection(id);
+    
+    if(req.session.user.role !== 'admin'){
+        let id = req.session.user.id;
+        usersRepository.updateLast_connection(id);
+    }
+    
     req.session.destroy(err => {
         if (err) return res.status(401).send({ status: 'error', error: 'no se pudo hacer el logout' });
         res.redirect('/login');

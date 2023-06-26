@@ -17,7 +17,7 @@ const subirDocumento = async (uid, documento, ruta) => {
                     text: 'El documento se subio exitosamente',
                     icon: 'success'
                 });
-                //window.location.replace('/administrar');
+                window.location.replace('/configuracion');
             }else{
                 Swal.fire({
                     showConfirmButton: false,
@@ -36,16 +36,14 @@ const subirIdentificacion =  async (uid) => {
     const fd = new FormData();
     const dato = {};
 
-
     for (const [key, value] of formData) {
-        console.log(key)
         dato[key] = value;
     }
-    console.log(dato)
+
     fd.append('documento', dato.identificacion);
     fd.append('name', 'identificacion');
 
-    const res = await subirDocumento(uid, fd, 'profiles');
+    const res = await subirDocumento(uid, fd, 'documents');
     
 };
 
@@ -57,13 +55,11 @@ const subirComprobante =  async (uid) => {
 
 
     for (const [key, value] of formData) {
-        console.log(key)
         dato[key] = value;
     }
-    console.log(dato)
+    
     fd.append('documento', dato.comprobante);
     fd.append('name', 'comprobante_domicilio');
-
 
     const res = await subirDocumento(uid, fd,'documents');
     
@@ -75,12 +71,10 @@ const subirEstado =  async (uid) => {
     const fd = new FormData();
     const dato = {};
 
-
     for (const [key, value] of formData) {
-        console.log(key)
         dato[key] = value;
     }
-    console.log(dato)
+    
     fd.append('documento', dato.estado);
     fd.append('name', 'estado_cuenta');
 

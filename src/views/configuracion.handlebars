@@ -57,10 +57,14 @@
                   <div class="form-group cardDatos">
                     <label for="inputName1" class="col-sm-2 col-form-label">Identificación</label>
                     
+                    {{#ifdocuments 'identificacion' documents}}
                     <div class="datos">
-                      <input type="file" class="form-control" id="identificacion" name="identificacion" required>
+                      <input type="file" class="form-control" id="identificacion" name="identificacion" accept=".pdf" required>
                       <button type="button" class="btn btn-primary" onclick="subirIdentificacion('{{user.id}}')" >Subir</button>
                     </div>
+                    {{else}}
+                    <p><i class="fa-solid fa-check" style="color: #24f708;"></i> El documento ya esta cargado</p>
+                    {{/ifdocuments }}
 
                   </div>
                 </form>
@@ -69,10 +73,14 @@
                   <div class="form-group cardDatos">
                     <label for="inputName4" class="col-sm-2 col-form-label">Comprobante domicilio</label>
                     
+                    {{#ifdocuments 'comprobante_domicilio' documents}}
                     <div class="datos">
-                      <input type="file" class="form-control" id="comprobante" name="comprobante" required>
+                      <input type="file" class="form-control" id="comprobante" name="comprobante" accept=".pdf" required>
                       <button type="button" class="btn btn-primary" onclick="subirComprobante('{{user.id}}')">Subir</button>
                     </div>
+                    {{else}}
+                    <p><i class="fa-solid fa-check" style="color: #24f708;"></i> El documento ya esta cargado</p>
+                    {{/ifdocuments }}
                   </div>
                 </form>
 
@@ -80,10 +88,14 @@
                   <div class="form-group cardDatos">
                     <label for="inputName3" class="col-sm-2 col-form-label">Estado de Cuenta</label>
 
+                    {{#ifdocuments 'estado_cuenta' documents}}
                     <div class="datos">
-                      <input type="file"class="form-control" id="estado" name="estado" required>
+                      <input type="file"class="form-control" id="estado" name="estado" accept=".pdf" required>
                         <button type="button" class="btn btn-primary" onclick="subirEstado('{{user.id}}')">Subir</button>
                     </div>
+                    {{else}}
+                    <p><i class="fa-solid fa-check" style="color: #24f708;"></i> El documento ya esta cargado</p>
+                    {{/ifdocuments }}
                   </div>
                 </form>
 

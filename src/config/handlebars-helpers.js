@@ -17,4 +17,12 @@ export const helpers = {
     }
     return options.inverse(this);
   },
+
+  ifdocuments: function (v1, v2, options) {
+    const document = v2.find(document => document.name === v1);
+    if (!document) {      
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  },
 };

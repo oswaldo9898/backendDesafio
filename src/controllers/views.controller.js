@@ -1,9 +1,12 @@
 import Carts from "../dao/dbManager/carts.js";
 import Products from "../dao/dbManager/products.js";
+import userModel from './../dao/models/users.model.js';
 import { generateProduct } from "../utils.js";
 
 const productsManager = new Products();
 const cartsManager = new Carts();
+
+
 
 const register = async (req, res) => {
     res.render('register', {
@@ -116,10 +119,13 @@ const compraExitosa = async (req, res) => {
 };
 
 const configuracion = async (req, res) => {
+    let uid= req.session.user.id
     try {
+        let userDocuments = await userModel.findOne({ _id: uid });
         res.render('configuracion', {
             title: 'configuracion',
             user: req.session.user,
+            documents: userDocuments.documents,
             styles: '../css/configuracion.css'
         });
     } catch (error) {

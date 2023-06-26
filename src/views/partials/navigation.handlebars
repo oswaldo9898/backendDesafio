@@ -41,9 +41,11 @@
             Hola {{user.first_name}} {{user.last_name}}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item colot-text" href="#">Rol: {{user.role}}</a></li>
-            <li><a class="dropdown-item colot-text" href="/configuracion"><i class="fa-solid fa-gear"></i> Configuracion</a></li>
-            <li><a class="dropdown-item colot-text" href="/api/sessions/logout">Salir</a></li>
+            <li><a class="dropdown-item colot-text" href="#"><i class="fa-solid fa-user"></i> Rol: {{user.role}}</a></li>
+            {{#ifusers user.role }}
+            <li><a class="dropdown-item colot-text" href="/configuracion"><i class="fa-solid fa-gear"></i> Cuenta</a></li>
+            {{/ifusers}}
+            <li><a class="dropdown-item colot-text" href="/api/sessions/logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a></li>
           </ul>
         </li>
       </ul>
