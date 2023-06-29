@@ -86,7 +86,7 @@ const saveProduct = async (req, res) => {
         status: true,
         stock: data.stock,
         category: data.category,
-        portada: file?.filename || '',
+        portada: file?.filename || 'sinfoto',
         owner: data?.owner || '',
         thumbnail: [],
       };
