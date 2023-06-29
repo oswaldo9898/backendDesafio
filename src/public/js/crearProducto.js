@@ -42,24 +42,47 @@ const agregarProducto = async (producto, ruta) => {
 
 
 
-const modificarProducto = async (producto, id) => {
-    const res = await fetch(`/api/products/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(producto),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+const modificarProducto = async (producto, id, ruta) => {
+
+    axios.put(`/api/products/${id}?ruta=${ruta}`, producto, {})
+        .then((res) => {
+            if(res.status == 200){
+                user = res.data;
+                Swal.fire({
+                    showConfirmButton: false,
+                    timer: 4000,
+                    title: `Exitoso`,
+                    text: 'Producto creado exitosamente',
+                    icon: 'success'
+                });
+                window.location.replace('/administrar');
+            }else{
+                Swal.fire({
+                    showConfirmButton: false,
+                    timer: 4000,
+                    title: `Oops...`,
+                    text: UpdateUser.description,
+                    icon: 'error'
+                });
+            }
     });
-    const UpdateUser = await res.json();
-    if (res.status == 401) {
-        Swal.fire({
-            showConfirmButton: false,
-            timer: 4000,
-            title: `Oops...`,
-            text: UpdateUser.description,
-            icon: 'error'
-        });
-    }
+    // const res = await fetch(`/api/products/${id}`, {
+    //     method: 'PUT',
+    //     body: JSON.stringify(producto),
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     }
+    // });
+    // const UpdateUser = await res.json();
+    // if (res.status == 401) {
+    //     Swal.fire({
+    //         showConfirmButton: false,
+    //         timer: 4000,
+    //         title: `Oops...`,
+    //         text: UpdateUser.description,
+    //         icon: 'error'
+    //     });
+    // }
     return UpdateUser;
 }
 
@@ -99,7 +122,7 @@ const clickGuardar =  async (email) => {
     if (!pid) {
         const res = await agregarProducto(fd, 'products');
     } else {
-        const res = await modificarProducto(producto, pid);
+        const res = await modificarProducto(fd, pid, 'products');
         if (res.message === 'success') {
             Swal.fire({
                 toast: true,

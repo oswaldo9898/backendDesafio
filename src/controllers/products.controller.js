@@ -5,6 +5,9 @@ import EErrors from "../services/errors/enums.js";
 import { productErrorInfo } from '../services/errors/info.js';
 import config from "../config/config.js";
 
+import fs from "fs";
+import path from 'path';
+
 
 const productsManager = new Products();
 const productsRepository = new ProductsRepository(productsManager);
@@ -100,42 +103,57 @@ const saveProduct = async (req, res) => {
 const updateProduct = (req, res) => {
   const pid = req.params.pid;
   const data = req.body;
+  const file = req.file;
 
-  if (
-    data.title === '' ||
-    data.description === '' ||
-    data.code === '' ||
-    data.price === '' ||
-    data.stock === '' ||
-    data.category === '' ||
-    data.status === ''
-  ) {
-    throw CustomError.createError({
-      name: 'UserError',
-      cause: productErrorInfo({
+  console.log('entraaaa asqi');
+
+  try {
+
+    if (
+      data.title === '' ||
+      data.description === '' ||
+      data.code === '' ||
+      data.price === '' ||
+      data.stock === '' ||
+      data.category === ''
+    ) {
+      console.log('no pasa')
+      // throw CustomError.createError({
+      //   name: 'UserError',
+      //   cause: productErrorInfo({
+      //     title: data.title,
+      //     description: data.description,
+      //     code: data.code,
+      //     price: data.price,
+      //     stock: data.stock,
+      //     category: data.category,
+      //   }),
+      //   message: 'Error tratando de editar un usuario',
+      //   code: EErrors.INVALID_TYPES_ERROR
+      // });
+    } else {
+      const product = {
         title: data.title,
         description: data.description,
         code: data.code,
         price: data.price,
+        status: data.status,
         stock: data.stock,
         category: data.category,
-      }),
-      message: 'Error tratando de editar un usuario',
-      code: EErrors.INVALID_TYPES_ERROR
-    });
-  } else {
-    const product = {
-      title: data.title,
-      description: data.description,
-      code: data.code,
-      price: data.price,
-      status: data.status,
-      stock: data.stock,
-      category: data.category,
-      thumbnail: [],
-    };
-    const respon = productsRepository.updateProduct(pid, product);
-    res.send({ message: "success", payload: respon });
+        thumbnail: [],
+      };
+
+      if(file?.filename){
+        product.portada = file.filename;
+      }
+
+      console.log(product)
+
+      const respon = productsRepository.updateProduct(pid, product);
+      res.send({ message: "success", payload: respon });
+    }
+  }catch(e){
+    console.log(e)
   }
 };
 
@@ -173,10 +191,25 @@ const deleteProduct = async (req, res) => {
 
 };
 
+
+const getPortada = async function(req, res){
+  var img = req.params['img'] || 'default_producto.png';
+  fs.stat('./src/public/products/'+img, function(err){
+      if(!err){
+          let path_img = './src/public/products/'+img;
+          res.status(200).sendFile(path.resolve(path_img));
+      }else{
+          let path_img = './src/public/products/default_producto.png';
+          res.status(200).sendFile(path.resolve(path_img));
+      }
+  });
+}
+
 export {
   getProducts,
   getProduct,
   saveProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getPortada
 }

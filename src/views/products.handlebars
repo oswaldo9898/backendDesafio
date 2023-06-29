@@ -37,7 +37,8 @@
         <div class="cardProducto">
             <div class="cardImg">
                 <a>
-                    <img class="img" src={{this.portada}} alt={{this.title}} />
+                    {{!-- <img class="img" src={{this.portada}} alt={{this.title}} /> --}}
+                    <img class="img" src="http://localhost:8080/api/products/getPortada/{{this.portada}}" alt={{this.title}} />
                 </a>
             </div>
 

@@ -2,7 +2,8 @@
 
   <div class="contenidoGeneral">
     <div class="imgProducto">
-      <img src={{producto.portada}} alt={{producto.title}} />
+      <img class="img" src="http://localhost:8080/api/products/getPortada/{{producto.portada}}" alt={{this.title}} />
+
     </div>
     <div class="informacionProducto">
       <h3 class="tituloProducto">{{producto.title}}</h3>
