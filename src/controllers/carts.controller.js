@@ -175,10 +175,11 @@ const purchase = async(req, res) => {
 
   try {
     const productsCart = await cartsRepository.getProductsCart(cid);
-    for (const productCart of productsCart){
-      const product = await productsRepository.getProduct(productCart.product._id);//Obtengo el producto de la base de datos
-      if(product.stock >= productCart.quantify){ 
 
+    for (const productCart of productsCart){ // Recorreo cada producto en el carrito
+      const product = await productsRepository.getProduct(productCart.product._id);//Obtengo el producto de la base de datos
+
+      if(product.stock >= productCart.quantify){
         let productValido = {
           product: product._id,
           quantify: productCart.quantify
@@ -199,7 +200,7 @@ const purchase = async(req, res) => {
     data.products = productsBuy;
     const resp = await cartsRepository.purchase(data);//Creo el ticket en la base de datos
 
-    const resTicket = await cartsRepository.getTicket(resp._id)
+    const resTicket = await cartsRepository.getTicket(resp._id)//Obtiene el ticket recien creado
 
     createPDF(resTicket);
     sendEmailTicket(resTicket);

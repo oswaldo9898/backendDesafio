@@ -10,6 +10,12 @@ export default class SessionsRepository {
     }
 
 
+    getAllUsers = async() => {
+        const users = await this.dao.getAllUsers();
+        return users;
+    }
+
+
     getUser = async(id) => {
         const users = await this.dao.getUser(id);
         return users;
@@ -34,4 +40,12 @@ export default class SessionsRepository {
         const result = await this.dao.saveDocument(id, document);
         return result;
     }
+
+
+    deleteUser = async(id) => {
+        const result = await this.dao.deleteUser(id);
+        return result;
+    }
+
+
 }

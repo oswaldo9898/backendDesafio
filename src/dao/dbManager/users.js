@@ -11,6 +11,12 @@ export default class Users {
     }
 
 
+    getAllUsers = async() => {
+        const users = await userModel.find()
+        return users;
+    }
+
+
     getUser = async(id) => {
         let user = await userModel.findOne({ _id: id });
         return user;
@@ -33,5 +39,13 @@ export default class Users {
         const result = await userModel.findByIdAndUpdate({ _id: id }, { $push: { documents: { "name": document.name, "reference": document.reference}}});
         return result;
     }
+
+    deleteUser = async(id) => {
+        let user = await userModel.findByIdAndDelete({_id:id});
+        return user;
+    }
+
+
+    
 
 }

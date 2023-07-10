@@ -176,7 +176,6 @@ const deleteProduct = async (req, res) => {
         }
       }
     } else {
-      console.log('Entraaaaaaaaaaaaaaaaa')
       return res.status(400).send({ status: "Error", message:"Recuerde que solo puede eliminar los productos que usted creo." });
     }
   } catch (error) {
