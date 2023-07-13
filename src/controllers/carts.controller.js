@@ -223,6 +223,22 @@ const getTicket = async(req, res) =>{
   res.send({ message: "success", payload: resTicket });
 }
 
+const cantProductos = async(req, res) => {
+  let totalProducts = 0;
+  try {
+    let cid = req.session.user.cart;
+    const cart = await cartsRepository.getProductsCart(cid);
+
+    cart.map(product => {
+      totalProducts += product.quantify;
+    });
+    
+    res.send({ message: "success", payload: totalProducts });
+  } catch (error) {
+    console.log(error)
+  }
+} 
+
 export {
   addCart,
   getProductsCart,
@@ -233,5 +249,6 @@ export {
   emptyCart,
   probarPopulate,
   purchase,
-  getTicket
+  getTicket,
+  cantProductos
 };

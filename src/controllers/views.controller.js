@@ -51,7 +51,7 @@ const productos = async (req, res) => {
         const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getProducts(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
 
-        res.render('products', {
+        res.render('home', {
             title: 'Tienda online',
             user: req.session.user,
             arrayProducts,

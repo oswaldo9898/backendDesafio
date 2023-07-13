@@ -4,6 +4,7 @@ import ProductsRepository from "../repository/products.repository.js";
 import EErrors from "../services/errors/enums.js";
 import { productErrorInfo } from '../services/errors/info.js';
 import config from "../config/config.js";
+import { sendEmailDeletAccount, sendEmailDeletProduct } from '../utils/sendEmail/index.js';
 
 import fs from "fs";
 import path from 'path';
@@ -163,20 +164,29 @@ const deleteProduct = async (req, res) => {
 
   try {
     if (pid) {
+      const product = await productsRepository.getProduct(pid);
+
       if(userSesion == config.adminEmail){
+
+        if(product.owner !== userSesion){
+          sendEmailDeletProduct(product.owner, product.title);
+        }
         const respon = await productsRepository.deleteProduct(pid);
         return res.send({ message: "success", payload: respon });
+
       }else{
-        const product = await productsRepository.getProduct(pid);
+
         if(product.owner == userSesion){
+          sendEmailDeletProduct(product.owner, product.title);
           const respon = await productsRepository.deleteProduct(pid);
           return res.send({ message: "success", payload: respon });
+
         }else{
           return res.status(401).send({ status: "Error", message:"Recuerde que solo puede eliminar los productos que usted creo." });
         }
       }
     } else {
-      return res.status(400).send({ status: "Error", message:"Recuerde que solo puede eliminar los productos que usted creo." });
+      return res.status(400).send({ status: "Error", message:"Error no se envio el id del producto" });
     }
   } catch (error) {
     req.logger.error(error);

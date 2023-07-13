@@ -4,7 +4,7 @@
     </a>
 </div>
 
-<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+<section id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img src='../../assets/flyer1.png' class="d-block w-100" alt="...">
@@ -26,12 +26,16 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
-</div>
+</section>
 
 
-<div class="productosContenedor">
+<section class="productosContenedor">
     <input id="cartId" value={{user.cart}} />
     <input id="userSesion" value={{user.email}} />
+
+    <h2 class="tituloPeincipal">¡Lo más nuevo!</h2>
+    <p class="titulo-p">¡NO TE PIERDAS DE LAS NUEVAS LLEGADAS A TIENDA!</p>
+    
     <div class="cardsProducts">
         {{#each arrayProducts}}
         <div class="cardProducto">
@@ -60,7 +64,7 @@
         </div>
         {{/each}}
     </div>
-</div>
+</section>
 
 
 <div class="botonesNavegacion">

@@ -158,18 +158,18 @@ const messages = []
 io.on('connection', async socket => {
   console.log('Nuevo cliente conectado');
 
-  const products = await productsManager.getAll();
+  const products = await productsManager.getProducts();
   socket.emit('allProducts', products);
 
   socket.on('deleteProduct', async (idProduct) => {
     await productsManager.delete(idProduct);
-    const products = await productsManager.getAll();
+    const products = await productsManager.getProducts();
     socket.emit('allProducts', products);
   });
   
   socket.on('addProduct', async (newProduct) => {
     await productsManager.save(newProduct);
-    const products = await productsManager.getAll();
+    const products = await productsManager.getProducts();
     socket.emit('allProducts', products);
   });
 

@@ -40,11 +40,20 @@ const subirIdentificacion =  async (uid) => {
         dato[key] = value;
     }
 
-    fd.append('documento', dato.identificacion);
-    fd.append('name', 'identificacion');
+    if(dato.identificacion.name.trim().length === 0){
+        Swal.fire({
+            showConfirmButton: false,
+            timer: 3000,
+            title: 'Upss...',
+            text: 'Recuerde: Debe cargar un archivo',
+            icon: 'info'
+        });
+    }else{
+        fd.append('documento', dato.identificacion);
+        fd.append('name', 'identificacion');
+        const res = await subirDocumento(uid, fd, 'documents');
+    }
 
-    const res = await subirDocumento(uid, fd, 'documents');
-    
 };
 
 
@@ -57,12 +66,20 @@ const subirComprobante =  async (uid) => {
     for (const [key, value] of formData) {
         dato[key] = value;
     }
-    
-    fd.append('documento', dato.comprobante);
-    fd.append('name', 'comprobante_domicilio');
 
-    const res = await subirDocumento(uid, fd,'documents');
-    
+    if(dato.comprobante.name.trim().length === 0){
+        Swal.fire({
+            showConfirmButton: false,
+            timer: 3000,
+            title: 'Upss...',
+            text: 'Recuerde: Debe cargar un archivo',
+            icon: 'info'
+        });
+    }else{
+        fd.append('documento', dato.comprobante);
+        fd.append('name', 'comprobante_domicilio');
+        const res = await subirDocumento(uid, fd,'documents');
+    }    
 };
 
 
@@ -74,10 +91,18 @@ const subirEstado =  async (uid) => {
     for (const [key, value] of formData) {
         dato[key] = value;
     }
-    
-    fd.append('documento', dato.estado);
-    fd.append('name', 'estado_cuenta');
 
-    const res = await subirDocumento(uid, fd,'documents');
-    
+    if(dato.estado.name.trim().length === 0){
+        Swal.fire({
+            showConfirmButton: false,
+            timer: 3000,
+            title: 'Upss...',
+            text: 'Recuerde: Debe cargar un archivo',
+            icon: 'info'
+        });
+    }else{
+        fd.append('documento', dato.estado);
+        fd.append('name', 'estado_cuenta');
+        const res = await subirDocumento(uid, fd,'documents');
+    }
 };

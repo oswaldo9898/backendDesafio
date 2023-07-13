@@ -2,50 +2,68 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Anime Shop</a>
+    <a class="navbar-brand logo" href="/productos">AnimeShop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
+
         {{#if user}}
-        <li class="nav-item">
-          <a href="/productos" class="nav-link active colot-text" aria-current="page">TIENDA</a>
+        <li class="nav-item item-navegacion">
+          <a href="/productos" class="nav-link active colot-text" aria-current="page">Productos</a>
         </li>
         {{/if }}
+
         {{#ifusers user.role }}
-        <li class="nav-item">
+        <li class="nav-item  item-navegacion">
           <a href="/chat" class="nav-link active colot-text" aria-current="page">CHAT</a>
         </li>
         {{/ifusers }}
+
       </ul>
+
+
       <ul class="nav w-100 justify-content-end">
+
         {{#ifusers user.role }}
         <li class="nav-item">
-          <a class="nav-link" href="/carts/{{user.cart}}">
-            <img src="../../assets/cart-shop.png" alt="Bootstrap" width="40" height="40">
+          <a class="nav-link logoCart" href="/carts/{{user.cart}}">
+            {{!-- <img src="../../assets/cart-shop.png" alt="Bootstrap" width="40" height="40"> --}}
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cantCart">-</span>
           </a>
         </li>
         {{/ifusers}}
-        {{#ifand user.role }}
-        <li class="nav-item">
-          <a class="nav-link colot-text" href="/administrar">
-            <i class="fa-solid fa-gear"></i>
-            Administración
-          </a>
-        </li>
-        {{/ifand}}
+
+
         <li class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle colot-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Hola {{user.first_name}} {{user.last_name}}
+            HOLA {{user.first_name}} {{user.last_name}}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item colot-text" href="#"><i class="fa-solid fa-user"></i> Rol: {{user.role}}</a></li>
+
+            <li>
+              <a class="dropdown-item colot-text rol" href="#">
+                <i class="fa-solid fa-circle-user"></i> Rol: {{user.role}}
+              </a>
+            </li>
+            
+            {{#ifand user.role }}
+            <li class="nav-item">
+              <a class="nav-link colot-text" href="/administrar">
+                <i class="fa-solid fa-gear"></i>
+                ADMINISTRACIÓN
+              </a>
+            </li>
+            {{/ifand}}
+
             {{#ifusers user.role }}
-            <li><a class="dropdown-item colot-text" href="/configuracion"><i class="fa-solid fa-gear"></i> Cuenta</a></li>
+            <li><a class="dropdown-item colot-text" href="/configuracion"><i class="fa-solid fa-user-pen"></i> CUENTA</a></li>
             {{/ifusers}}
-            <li><a class="dropdown-item colot-text" href="/api/sessions/logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a></li>
+
+            <li><a class="dropdown-item colot-text" href="/api/sessions/logout"><i class="fa-solid fa-right-from-bracket"></i> CERRAR SESIÓN</a></li>
           </ul>
         </li>
       </ul>
@@ -54,59 +72,5 @@
   </div>
 </nav>
 
-
-
-
-
-
-
-
-{{!-- <header>
-  <div class="menu">
-    <nav>
-      <ul>
-        <li>
-          {{#if user}}
-          <a href="/productos"><i class="fa-solid fa-shop"></i>
-            TIENDA</a>
-          {{/if }}
-
-        </li>
-      </ul>
-    </nav>
-    <div class="cart-cuenta">
-      <div class="cartShop">
-        {{#ifeq user.role 'user'}}
-
-        <a class="navbar-brand" href="/carts/{{user.cart}}">
-          <img src="../../assets/cart-shop.png" alt="Bootstrap" width="30" height="24">
-        </a>
-        {{/ifeq}}
-        {{#ifeq user.role 'admin'}}
-        <a class='admin' href="/administrar"><i class="fa-solid fa-gear"></i>
-          Administración
-        </a>
-        {{/ifeq}}
-      </div>
-
-      {{#if user}}
-      <div class="miCuenta">
-        <li>
-          <div class='nav_link'>
-            Hola {{user.first_name}} {{user.last_name}}
-          </div>
-          <ul>
-            <li>
-              <NavLink to="/orders">Rol: {{user.role}}</NavLink>
-            </li>
-            <li><a href="/api/sessions/logout"><button>Salir</button></a></li>
-          </ul>
-        </li>
-      </div>
-      {{/if }}
-
-    </div>
-  </div>
-</header> --}}
 
 <script src="/js/navigation.js"></script>

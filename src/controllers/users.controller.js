@@ -3,7 +3,7 @@ import { createHash, decodeToken, generateToken } from '../utils.js';
 import Users from "../dao/dbManager/users.js"
 import UsersRepository from '../repository/users.repository.js';
 import CurrentDto from '../dao/DTOs/current.dto.js';
-import { sendEmailDeletAccount, sendEmailResetPassword } from '../utils/sendEmail/index.js';
+import { sendEmailDeletAccount } from '../utils/sendEmail/index.js';
 
 const usersManager = new Users();
 const usersRepository = new UsersRepository(usersManager);
