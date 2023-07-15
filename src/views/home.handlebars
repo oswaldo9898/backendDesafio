@@ -69,11 +69,17 @@
 
 <div class="botonesNavegacion">
     {{#if hasPrevPage}}
-    <a href="/productos?page={{prevPage}}" class="botonNavegacion"><button>Anterior</button></a>
+    <a href="/productos?page={{prevPage}}" class="botonNavegacion"><button><i class="fa-solid fa-chevron-left"></i> Anterior</button></a>
+    {{else}}
+    <a class="botonNavegacion "><button class="disable"><i class="fa-solid fa-chevron-left"></i> Anterior</button></a>
     {{/if}}
 
+    <p>{{actual}}</p>
+
     {{#if hasNextPage}}
-    <a href="/productos?page={{nextPage}}" class="botonNavegacion"><button>Siguiente</button></a>
+    <a href="/productos?page={{nextPage}}" class="botonNavegacion"><button>Siguiente <i class="fa-solid fa-chevron-right"></i></button></a>
+    {{else}}
+    <a class="botonNavegacion "><button class="disable">Siguiente <i class="fa-solid fa-chevron-right"></i></button></a>
     {{/if}}
 </div>
 

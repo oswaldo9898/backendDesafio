@@ -142,7 +142,7 @@ const cargarTabla = (arrProductos) => {
 
 const paginacion = () => {
     
-    const nextButton = document.createElement('li');
+    const nextButton = document.createElement('button');
     nextButton.classList.add('page-item');
     nextButton.innerText = ' Siguiente >';
     
@@ -164,7 +164,7 @@ const paginacion = () => {
         }
     });
 
-    const prevButton = document.createElement('li');
+    const prevButton = document.createElement('button');
     prevButton.classList.add('page-item');
     prevButton.innerText = '< Anterior ';
     prevButton.classList.add('disable');

@@ -1,9 +1,8 @@
 <div class="contenidoPrincipalDetail">
 
-  <div class="contenidoGeneral">
+  <section class="contenidoGeneral">
     <div class="imgProducto">
       <img class="img" src="http://localhost:8080/api/products/getPortada/{{producto.portada}}" alt={{this.title}} />
-
     </div>
     <div class="informacionProducto">
       <h3 class="tituloProducto">{{producto.title}}</h3>
@@ -18,9 +17,38 @@
         </div>
       </div>
       <button id={{producto._id}} onclick="agregarACarrito('{{producto._id}}', '{{user.cart}}')" class="button agregarButton"><i class=''></i> AGREGAR AL CARRITO</button>
+    </div>
+  </section>
+
+  <section class="recomendaciones">
+    <h2>PRODUCTOS RECOMENDADOS</h2>
+    <div class="cardsProducts">
+
+      {{#each arrayProdRecom}}
+        <article class="cardProducto">
+            <div class="cardImg">
+                <a>
+                    {{!-- <img class="img" src={{this.portada}} alt={{this.title}} /> --}}
+                    <img class="img" src="http://localhost:8080/api/products/getPortada/{{this.portada}}" alt={{this.title}} />
+                </a>
+            </div>
+
+            <div class="cardBody">
+                <a class="nav_link" href="/product-detail?pid={{this._id}}">
+                    <h3>{{this.title}}</h3>
+                </a>
+
+                <div class="cardPrice">
+                    <p>${{this.price}}</p>
+                </div>
+            </div>
+        </article>
+      {{/each}}
 
     </div>
-  </div>
+  </section>
+
+
 
 </div>
 <script src="/js/detalleProducto.js"></script>

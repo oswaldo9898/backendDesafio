@@ -19,6 +19,11 @@ export default class Products {
         return products;
     }
 
+    getProductRecomend = async(category) => {
+        const products = await productModel.find({category}).limit(4);
+        return products;
+    }
+
     updateProduct = async(id, product) => {
         const result = await productModel.updateOne({_id:id}, product);
         return result;

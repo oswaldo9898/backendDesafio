@@ -48,7 +48,7 @@ const current = async (req, res) => {
 const productos = async (req, res) => {
     const { limit, page, query, sort } = req.query;
     try {
-        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getProducts(limit, page, query, sort);
+        const { docs, page: actual, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getProducts(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
 
         res.render('home', {
@@ -58,6 +58,7 @@ const productos = async (req, res) => {
             hasPrevPage,
             hasNextPage,
             nextPage,
+            actual,
             prevPage,
             totalPages,
             styles: 'css/home.css'
@@ -75,13 +76,19 @@ const productDetail = async (req, res) => {
         const resp = await productsManager.getProduct(pid);
         const producto = resp.toObject();
 
+        const prodRecom =  await productsManager.getProductRecomend(producto.category);
+        const arrayProdRecom = prodRecom.map(product => product.toObject());
+        //const prodRecom = resProdRecom.toObject();
+
         res.render('detalleProducto', {
             title: producto.title,
             producto,
+            arrayProdRecom,
             user: req.session.user,
             styles: 'css/detalleProducto.css'
         });
     } catch (error) {
+        console.log(error)
         req.logger.error(error);
         res.render('error404', {});
     }
