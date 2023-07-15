@@ -3,6 +3,7 @@
 //dotenv.config();
 let nodeEnv = process.argv.slice(2)[0] || process.env.NODE_ENV;
 
+console.log(process.env.ADMIN_EMAIL)
 
 export default {
     mongoURL: process.env.MONGO_URL,
