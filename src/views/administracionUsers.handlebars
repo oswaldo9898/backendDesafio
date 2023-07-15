@@ -4,11 +4,11 @@
     <!-- Sidebar -->
     <div id="sidebar-container" class="bg-primary">
         <div class="menu">
-            <a href="/administrar" class="d-block text-light p-3 border-0 text-decoration-none active"><i
+            <a href="/administrar" class="d-block text-light p-3 border-0 text-decoration-none "><i
                     class="icon ion-md-apps lead mx-2"></i>
                 Productos</a>
             {{#ifeq user.role 'admin' }}
-            <a href="/administracion-usuarios" class="d-block text-light p-3 border-0 text-decoration-none"><i
+            <a href="/administracion-usuarios" class="d-block text-light p-3 border-0 text-decoration-none active"><i
                     class="icon ion-md-people lead mx-2"></i>
                 Usuarios</a>
             {{/ifeq}}

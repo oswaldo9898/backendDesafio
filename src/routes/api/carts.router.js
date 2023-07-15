@@ -15,15 +15,5 @@ router.delete("/:cid", emptyCart);
 router.post("/:cid/purchase", purchase);
 router.get("/obtener-ticket/:id", getTicket);
 
-// router.post("/", addCart);
-// router.get("/:cid", getProductsCart);
-// router.post("/:cid/products/:pid", addProductCart);
-// router.delete("/:cid/products/:pid", deleteProductCart);
-// router.put("/:cid", updateProductsCart);
-// router.put("/:cid/products/:pid", updateQuantityProductCart);
-// router.delete("/:cid", emptyCart);
-// router.post("/:cid/purchase", purchase);
-// router.get("/obtener-ticket/:id", getTicket);
-
 
 export default router;

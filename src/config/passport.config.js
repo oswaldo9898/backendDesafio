@@ -32,7 +32,6 @@ const initializePassport = () => {
         try {
             const user = await userModel.findOne({email:username});
             if(user){
-                console.log('el usuario ya existe');
                 return done(null, false)
             }
 
@@ -97,7 +96,6 @@ const initializePassport = () => {
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
         secretOrKey: privateKey
     }, async (jwt_payload, done) => {
-        console.log('entra')
         try {
             // if (!jwt_payload.sadfsdf) return done(null, false, { messages: 'Atributo no encontrado' });
             return done(null, jwt_payload.user);

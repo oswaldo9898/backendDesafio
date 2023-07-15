@@ -12,12 +12,4 @@ router.put("/:pid", privateAccess, adminPremiumAccess, uploader.single('imgProdu
 router.delete("/:pid/:userSesion", privateAccess, adminPremiumAccess, deleteProduct);
 router.get('/getPortada/:img', getPortada);
 
-
-// router.get("/", getProducts);
-// router.get("/:pid", getProduct);
-// router.post("/", uploader.single('imgProducto'), saveProduct);
-// router.put("/:pid", updateProduct);
-// router.delete("/:pid/:userSesion", deleteProduct);
-
-
 export default router;

@@ -5,9 +5,8 @@ import { uploader } from '../../utils.js';
 
 const router = Router();
 
-// router.get("/", privateAccess, getUsers);
 router.get("/getUsers", privateAccess, getUsers);
-router.get("/", getAllUsers);
+router.get("/", adminAccess, getAllUsers);
 router.put("/premium/:uid", privateAccess, adminAccess ,updateRole);
 router.delete("/", privateAccess, adminAccess, deleteUsers);
 router.delete("/:uid", privateAccess, adminAccess, deleteUser);

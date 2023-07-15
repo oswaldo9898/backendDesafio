@@ -65,19 +65,7 @@ const saveProduct = async (req, res) => {
       data.stock === '' ||
       data.category === ''
     ) {
-      // throw CustomError.createError({
-      //   name: 'UserError',
-      //   cause: productErrorInfo({
-      //     title: data.title,
-      //     description: data.description,
-      //     code: data.code,
-      //     price: data.price,
-      //     stock: data.stock,
-      //     category: data.category,
-      //   }),
-      //   message: 'Error tratando de crear un producto',
-      //   code: EErrors.INVALID_TYPES_ERROR
-      // });
+      res.send({ status: "error", message: 'Error tratando de crear un producto, datos incompletos' });
     } else {
       const product = {
         title: data.title,
@@ -92,7 +80,7 @@ const saveProduct = async (req, res) => {
         thumbnail: [],
       };
       const productArr = await productsRepository.saveProduct(product);
-      res.send({ message: "success", payload: productArr });
+      res.send({ status: "success", payload: productArr });
     }
   } catch (error) {
     console.log(error);
@@ -106,8 +94,6 @@ const updateProduct = (req, res) => {
   const data = req.body;
   const file = req.file;
 
-  console.log('entraaaa asqi');
-
   try {
 
     if (
@@ -118,7 +104,6 @@ const updateProduct = (req, res) => {
       data.stock === '' ||
       data.category === ''
     ) {
-      console.log('no pasa')
       // throw CustomError.createError({
       //   name: 'UserError',
       //   cause: productErrorInfo({
@@ -147,8 +132,6 @@ const updateProduct = (req, res) => {
       if(file?.filename){
         product.portada = file.filename;
       }
-
-      console.log(product)
 
       const respon = productsRepository.updateProduct(pid, product);
       res.send({ message: "success", payload: respon });

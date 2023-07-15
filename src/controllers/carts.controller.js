@@ -110,9 +110,6 @@ const updateProductsCart = async (req, res) => {
 const updateQuantityProductCart = async (req, res) => {
   const { cid, pid } = req.params;
   const { cantidad } = req.body;
-  console.log(cid);
-  console.log(pid);
-  console.log(cantidad);
   try {
     const resp = await cartsRepository.updateQuantityProductCart(
       cid,

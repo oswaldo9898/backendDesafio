@@ -80,18 +80,6 @@ const updateRole = async (req, res) => {
 const updateLast_connection = async (req, res) => {
     const last_connection = new Date();
     const id = req.params.uid;
-    // try {
-    //     const result = await usersRepository.updateRole(id, last_connection);
-    //     return res.send({ status: "success", payload: result });
-    // } catch (error) {
-    //     req.logger.error(error);
-    //     res
-    //         .status(400)
-    //         .send({
-    //             status: "Error",
-    //             message: "Ha ocurrido un inconveniente en el servidor",
-    //         });
-    // }
 };
 
 const saveDocument = async (req, res) => {
@@ -125,7 +113,6 @@ const deleteUsers = async (req, res) => {
         const users = await usersRepository.getAllUsers();
 
         users.map(async (user) => {
-            console.log(user.last_connection);
             let fecha_actual = new Date();
 
             if (user.last_connection) {
@@ -133,7 +120,6 @@ const deleteUsers = async (req, res) => {
                 let horas = Math.round(tiempo / (1000 * 60 * 60));
 
                 if (horas > 48) {
-                    console.log('eliminar....');
                     sendEmailDeletAccount(user.email);
                     await usersRepository.deleteUser(user._id);
                 }

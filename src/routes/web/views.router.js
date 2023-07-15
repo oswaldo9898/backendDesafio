@@ -28,6 +28,5 @@ router.get('/realtimeproducts', privateAccess, adminAccess, realtimeproducts);
 router.get('/chat', privateAccess, userAccess, chat); 
 router.get('/mockingproducts', privateAccess, adminAccess, mockingproducts);
 router.get('/loggerTest', loggerTest);
-//router.get('/*', noFound);
 
 export default router;

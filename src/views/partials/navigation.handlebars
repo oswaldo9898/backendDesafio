@@ -12,13 +12,13 @@
 
         {{#if user}}
         <li class="nav-item item-navegacion">
-          <a href="/productos" class="nav-link active colot-text" aria-current="page">Productos</a>
+          <a href="/productos" class="nav-link colot-text" aria-current="page">Productos</a>
         </li>
         {{/if }}
 
         {{#ifusers user.role }}
         <li class="nav-item  item-navegacion">
-          <a href="/chat" class="nav-link active colot-text" aria-current="page">CHAT</a>
+          <a href="/chat" class="nav-link colot-text" aria-current="page">CHAT</a>
         </li>
         {{/ifusers }}
 
@@ -30,7 +30,6 @@
         {{#ifusers user.role }}
         <li class="nav-item">
           <a class="nav-link logoCart" href="/carts/{{user.cart}}">
-            {{!-- <img src="../../assets/cart-shop.png" alt="Bootstrap" width="40" height="40"> --}}
             <i class="fa-solid fa-cart-shopping"></i>
             <span id="cantCart">-</span>
           </a>

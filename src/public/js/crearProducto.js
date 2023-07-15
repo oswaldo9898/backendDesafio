@@ -17,7 +17,7 @@ const agregarProducto = async (producto, ruta) => {
 
     axios.post(`/api/products/?ruta=${ruta}`, producto, {})
         .then((res) => {
-            if(res.status == 200){
+            if(res.data.status == 'success'){
                 user = res.data;
                 Swal.fire({
                     showConfirmButton: false,
@@ -32,7 +32,7 @@ const agregarProducto = async (producto, ruta) => {
                     showConfirmButton: false,
                     timer: 3000,
                     title: 'Upss...',
-                    text: 'Ocurrio un error en el servidor, intente nuevamente más tarde.',
+                    text: res.data.message,
                     icon: 'error'
                 });
             }
@@ -66,23 +66,6 @@ const modificarProducto = async (producto, id, ruta) => {
                 });
             }
     });
-    // const res = await fetch(`/api/products/${id}`, {
-    //     method: 'PUT',
-    //     body: JSON.stringify(producto),
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     }
-    // });
-    // const UpdateUser = await res.json();
-    // if (res.status == 401) {
-    //     Swal.fire({
-    //         showConfirmButton: false,
-    //         timer: 4000,
-    //         title: `Oops...`,
-    //         text: UpdateUser.description,
-    //         icon: 'error'
-    //     });
-    // }
     return UpdateUser;
 }
 

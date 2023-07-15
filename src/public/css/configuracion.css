@@ -11,6 +11,10 @@
     font-size: 18px;
 }
 
+.cardDatos label {
+    font-weight: 700;
+}
+
 .cardDatos .datos{
     display: flex;
     height: 45px;
@@ -25,4 +29,7 @@
 
 .cardDatos .datos input{
     font-size: 18px;
+}
+.cardDatos p{
+    padding-top: 2%;
 }

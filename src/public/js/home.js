@@ -5,8 +5,6 @@ const agregarACarrito = (pid, owner) => {
     const cid = cartId.value;
     const user = userSesion.value;
 
-    console.log(user);
-    console.log(owner);
 
     if( cid !== '/'){
         if(user != owner){
@@ -16,7 +14,6 @@ const agregarACarrito = (pid, owner) => {
                         'Content-Type': 'application/json'
                     }
                 }).then(result => {
-                    console.log(result)
                     if (result.status === 200) {
                         Swal.fire({
                             toast: true,
@@ -27,7 +24,6 @@ const agregarACarrito = (pid, owner) => {
                             icon: 'success'
                         });
                     } else {
-                        console.log('error');
                         Swal.fire({
                             toast: true,
                             position: 'bottom-end',

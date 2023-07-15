@@ -1,48 +1,3 @@
-{{!-- <div class='cartList'>
-  <input type="text" value="{{user.cart}}" id="cartId" />
-  <div class="detalleProducto">
-    <div class='tablaProducts'>
-      <div class='tituloTabla'>
-        <div class='tablaProducto'>Producto</div>
-        <div class='tablaPrecio'>Precio</div>
-        <div class='tablaCantidad'>Cantidad</div>
-      </div>
-      {{#each productsCart}}
-      <div key={{this.product._id}} class="cartProduct">
-        <button class="centrarContenido deleteProduct" onclick="eliminarProducto('{{this.product._id}}')">
-          <i class="fa-solid fa-trash" title="Eliminar producto"></i>
-        </button>
-        <div class="imgProductCart centrarContenido">
-          <img src={{this.product.portada}} alt='Producto' />
-        </div>
-        <div class="titleProductCart centrarContenido">
-          <a href={'/producto/{{this.product._id}}'}>{{this.product.title}}</a>
-        </div>
-        <div class="priceProductCart centrarContenido">
-          {{this.product.price}}
-        </div>
-        <div class="CantidadProductCart centrarContenido">
-          {{this.quantify}}
-        </div>
-      </div>
-      {{/each}}
-      <div class="total-pagar">
-
-      </div>
-    </div>
-  </div>
-  <div class="pago">
-    <h3>Datos del cliente</h3>
-    <label for="">Nombre completo</label>
-    <input type="text" value="{{user.first_name}} {{user.last_name}}" disabled>
-    <label for="">Correo electronico</label>
-    <input type="text" value="{{user.email}}" id="emailUser" disabled>
-    <button class="boton-pagar">Realizar Pago</button>
-  </div>
-</div>
-
-<script src="/js/cart.js"></script> --}}
-
 <input type="text" value="{{user.cart}}" id="cartId" />
 
 <section class="h-100 h-custom" style="background-color: #eee;">
@@ -63,10 +18,6 @@
                   <div>
                     <p class="mb-1">Carrito de compras</p>
                     <p class="mb-0">Tiene {{productsCart.length}} producto(s) en su carrito</p>
-                  </div>
-                  <div>
-                    <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">price <i
-                          class="fas fa-angle-down mt-1"></i></a></p>
                   </div>
                 </div>
 
@@ -91,7 +42,7 @@
                         <div style="width: 80px;">
                           <h5 class="mb-0">${{this.product.price}}</h5>
                         </div>
-                        <a  style="color: #cecece;" onclick="eliminarProducto('{{this.product._id}}')" ><i class="fas fa-trash-alt"></i></a>
+                        <a class="btnEliminar" onclick="eliminarProducto('{{this.product._id}}')" ><i class="fas fa-trash-alt"></i></a>
                       </div>
                     </div>
                   </div>
@@ -126,36 +77,9 @@
                         <label class="form-label" for="typeText">Correo electronico</label>
                       </div>
 
-                      {{!-- <div class="row mb-4">
-                        <div class="col-md-6">
-                          <div class="form-outline form-white">
-                            <input type="text" id="typeExp" class="form-control form-control-lg" placeholder="MM/YYYY"
-                              size="7" id="exp" minlength="7" maxlength="7" />
-                            <label class="form-label" for="typeExp">Expiration</label>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-outline form-white">
-                            <input type="password" id="typeText" class="form-control form-control-lg"
-                              placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
-                            <label class="form-label" for="typeText">Cvv</label>
-                          </div>
-                        </div>
-                      </div> --}}
-
                     </form>
 
                     <hr class="my-4">
-
-                    {{!-- <div class="d-flex justify-content-between">
-                      <p class="mb-2">Subtotal</p>
-                      <p class="mb-2">$4798.00</p>
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-                      <p class="mb-2">Shipping</p>
-                      <p class="mb-2">$20.00</p>
-                    </div> --}}
 
                     <div class="d-flex justify-content-between mb-4 total-pagar" >
                     </div>

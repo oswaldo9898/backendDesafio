@@ -30,7 +30,6 @@ export default class SessionsRepository {
 
     updateLast_connection = async(id) => {
         const last_connection = new Date;
-        //console.log( last_connection.toLocaleString() )
         const result = await this.dao.updateLast_connection(id, last_connection);
         return result;
     }
@@ -46,6 +45,5 @@ export default class SessionsRepository {
         const result = await this.dao.deleteUser(id);
         return result;
     }
-
 
 }

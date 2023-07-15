@@ -65,7 +65,7 @@ form.addEventListener('submit', async (e) => {
             Swal.fire({
                 showConfirmButton: false,
                 timer: 4000,
-                title: 'Datos invalidos',
+                title: 'Contraseña invalida',
                 text: 'Recuerde que la contraseña debe contener mínimo 8 caracteres, una letra mayúscula, un símbolo y un número.',
                 icon: 'info'
             });

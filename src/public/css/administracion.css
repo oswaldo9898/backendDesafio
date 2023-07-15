@@ -99,3 +99,10 @@ td {
 #userSesion{
     display: none;
 }
+
+.active {
+    background-color: rgb(91, 91, 91) !important;
+    pointer-events: none; 
+    cursor: default; 
+}
+
