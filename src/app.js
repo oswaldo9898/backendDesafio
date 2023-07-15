@@ -33,6 +33,9 @@ import MongoStore from 'connect-mongo';
 const productsManager = new Products();
 const messagesManager = new Messages();
 
+import config from "./config/config.js";
+
+
 // const productManager = new ProductManager(
 //   join(__dirname, "/archivo/productos.json")
 // );
@@ -54,7 +57,8 @@ const DATA_BASE = 'ecommerce';
 //Persistencia en BBDD
 app.use(session({
   store: MongoStore.create({
-      mongoUrl: `mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`,
+      // mongoUrl: `mongodb+srv://${USER}:${PASSWORD}@cluster0.maeqnip.mongodb.net/${DATA_BASE}?retryWrites=true&w=majority`,
+      mongoUrl: config.mongoURL,
       mongoOptions: { useNewUrlParser: true },
       ttl: 3600
   }),
