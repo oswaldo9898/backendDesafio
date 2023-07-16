@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 
-dotenv.config();
+// dotenv.config();
 let nodeEnv = process.argv.slice(2)[0] || process.env.NODE_ENV;
 
 
