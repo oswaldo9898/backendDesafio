@@ -14,5 +14,6 @@ export default {
     adminPassword: process.env.ADMIN_PASSWORD,
     nodemailerPassword: process.env.NODEMAILER_PASSWORD,
     nodemailerEmail: process.env.NODEMAILER_EMAIL,
+    port: process.env.PORT,
     nodeEnv,
 }

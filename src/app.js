@@ -149,8 +149,8 @@ app.use('/api/users', usersRouter);
 
 app.use(errorHandler);
 
-const server = app.listen(8080, ()=>{
-  console.log('Servidor listening port 8080');
+const server = app.listen(config.port, ()=>{
+  console.log(`Servidor listening port${config.port}`);
 });
 
 
