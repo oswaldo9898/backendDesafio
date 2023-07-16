@@ -50,7 +50,7 @@ export const sendEmailResetPassword = async (email, token) => {
             <p style="margin: 2px; font-size: 15px">
               LA DURACIÓN DE ESTE ENLACE ES DE 1 HORA, PASADO ESTE TIEMPO DEBERA GENERAR UN NUEVO ENLACE</p>
             <div style="width: 100%;margin:20px 0; display: inline-block;text-align: center">
-              <a style="text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db" href="http://localhost:8080/cambiar-password?user=${token}">CLIC AQUÍ</a>	
+              <a style="text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db" href="https://backenddesafio-development.up.railway.app/cambiar-password?user=${token}">CLIC AQUÍ</a>	
             </div>
             <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">TIENDA ONLINE 2023</p>
           </div>
@@ -83,7 +83,7 @@ export const sendEmailDeletAccount = async (email) => {
             <p style="margin: 2px; font-size: 15px">
               Recuerde que puede volver a crear una nueva cuenta en nuestro sitio.</p>
             <div style="width: 100%;margin:20px 0; display: inline-block;text-align: center">
-              <a style="text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db" href="http://localhost:8080/register">REGISTRARSE</a>	
+              <a style="text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db" href="https://backenddesafio-development.up.railway.app/register">REGISTRARSE</a>	
             </div>
             <p style="color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0">TIENDA ONLINE 2023</p>
           </div>
