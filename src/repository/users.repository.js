@@ -40,6 +40,11 @@ export default class SessionsRepository {
         return result;
     }
 
+    getDocuments = async(uid) => {
+        const userDocuments = await this.dao.getDocuments(uid);
+        return userDocuments;
+    }
+
 
     deleteUser = async(id) => {
         const result = await this.dao.deleteUser(id);

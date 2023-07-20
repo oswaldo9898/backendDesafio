@@ -1,22 +1,12 @@
-import userModel from '../dao/models/users.model.js';
-import { createHash, decodeToken, generateToken } from '../utils.js';
-import Sessions from "../dao/dbManager/session.js"
-import SessionsRepository from '../repository/session.repository.js';
+import * as sessionsService from './../services/session.service.js';
 import CurrentDto from '../dao/DTOs/current.dto.js';
-import { sendEmailResetPassword } from '../utils/sendEmail/index.js';
-import Users from "../dao/dbManager/users.js"
-import UsersRepository from '../repository/users.repository.js';
 
-const sessionsManager = new Sessions();
-const sessionsRepository = new SessionsRepository(sessionsManager);
-
-const usersManager = new Users();
-const usersRepository = new UsersRepository(usersManager);
 
 /** Registro de un nuevo usuario en el sistema */
 const register = async (req, res) => {
     res.send({ status: 'success', message: 'user registered' });
 };
+
 
 
 const failRegister = async (req, res) => {
@@ -29,15 +19,6 @@ const failRegister = async (req, res) => {
 const login = async (req, res) => {
     if (!req.user) return res.status(400).send({ status: 'error', message: 'invalided credencial' });
 
-    const user = {
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        age: req.user.age,
-        email: req.user.email,
-        cart: req.user.cart,
-        role: req.user.role
-    }
-
     req.session.user = {
         id: req.user._id,
         first_name: req.user.first_name,
@@ -49,14 +30,13 @@ const login = async (req, res) => {
     }
 
     if(req.user.role !== 'admin'){
-        usersRepository.updateLast_connection(req.user._id);
         req.session.user.documents = req.user.documents;
     }
 
-    const accessToken = generateToken(user);
+    const accessToken = sessionsService.login(req.user);
 
     res.cookie('coderCookieToken', accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true })
-        .send({ status: 'success', message: 'login success' })
+        .send({ status: 'success', message: 'login success' });
 };
 
 
@@ -90,16 +70,14 @@ const recuperarCuenta = async (req, res) => {
 
     if (!email) return res.status(400).send({ status: 'error', message: 'incomplete values' });
     try {
-        const token = await sessionsRepository.recuperarCuenta(email);
-        if (token) {
-            sendEmailResetPassword(email, token);
+        const token = await sessionsService.recuperarCuenta(email);
+        if (token != null) {
             return res.send({ status: 'success', message: 'Reset success', token });
         } else {
             return res.status(404).send({ status: 'Error', message: 'Los datos ingresados no existen' });
         }
     } catch (error) {
         req.logger.error(error);
-        console.log(error)
         return res.status(401).send({ status: 'error', error });
     }
 };
@@ -111,30 +89,34 @@ const recuperarCuenta = async (req, res) => {
 const cambiarPassword = async (req, res) => {
     const token = req.params.token;
     const { passwordNew } = req.body;
-    let payload = decodeToken(token);
 
-    if (!payload) return res.status(403).send({ status: 'Error', message: 'Token invalido. El token ha expirado, por favor cree uno nuevo'});
-
-    const resp = await sessionsRepository.cambiarPassword(payload.user.email, passwordNew);
-    if (!resp) return res.status(404).send({ status: 'Error', message: 'La contraseña que esta intentando ingresar ya esta registrada' });
-
-    return res.send({status:'success', message: 'Password cambiada exitosamente' });
+    try {
+        const resp = await sessionsService.cambiarPassword(token, passwordNew);
+        return res.send(resp);
+    } catch (error) {
+        req.logger.error(error);
+        return res.status(401).send({ status: 'error', error });
+    }
 }
 
 
 
 
 const logout = (req, res) => {
-    
-    if(req.session.user.role !== 'admin'){
-        let id = req.session.user.id;
-        usersRepository.updateLast_connection(id);
+    try {
+        if(req.session.user.role !== 'admin'){
+            let id = req.session.user.id;
+            sessionsService.logout(id);
+        }
+        
+        req.session.destroy(err => {
+            if (err) return res.status(401).send({ status: 'error', error: 'no se pudo hacer el logout' });
+            res.redirect('/login');
+        });
+    } catch (error) {
+        req.logger.error(error);
+        return res.status(401).send({ status: 'error', error });
     }
-    
-    req.session.destroy(err => {
-        if (err) return res.status(401).send({ status: 'error', error: 'no se pudo hacer el logout' });
-        res.redirect('/login');
-    });
 };
 
 

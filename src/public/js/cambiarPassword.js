@@ -35,6 +35,7 @@ form.addEventListener('submit', async (e) => {
 
         if (re.test(password)) {
             const resp = await cambiarPassword(obj, userToken);
+            console.log(resp)
             if (resp.status == 'error') {
                 Swal.fire({
                     timer: 3000,

@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import config from '../../config/config.js';
 
 
-export const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465, //465
   secure: true, // true for 465, false for other ports
@@ -18,3 +18,7 @@ export const transporter = nodemailer.createTransport({
 transporter.verify().then(() => {
   console.log('Nodemailer esta corriendo');
 });
+
+export {
+  transporter
+}

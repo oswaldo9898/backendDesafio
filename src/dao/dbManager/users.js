@@ -40,6 +40,11 @@ export default class Users {
         return result;
     }
 
+    getDocuments = async(uid) => {
+        const userDocuments = await userModel.findOne({ _id: uid });
+        return userDocuments;
+    }
+
     deleteUser = async(id) => {
         let user = await userModel.findByIdAndDelete({_id:id});
         return user;

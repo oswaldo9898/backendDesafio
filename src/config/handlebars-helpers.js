@@ -1,4 +1,4 @@
-export const helpers = {
+const helpers = {
   ifeq: function (v1, v2, options) {
     if (v1 === v2) {
       return options.fn(this);
@@ -26,3 +26,7 @@ export const helpers = {
     return options.inverse(this);
   },
 };
+
+export {
+  helpers
+}

@@ -13,6 +13,11 @@ export default class ProductsRepository {
         return product;
     }
 
+    getProductRecomend = async(category) => {
+        const products = await this.dao.getProductRecomend(category);
+        return products;
+    }
+
     saveProduct = async(product) => {
         const productArr = await this.dao.saveProduct(product);
         return productArr;

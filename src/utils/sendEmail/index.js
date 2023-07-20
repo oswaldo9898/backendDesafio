@@ -1,8 +1,8 @@
 import { transporter } from './mailer.js';
 import config from '../../config/config.js';
-import __dirname from './../../utils.js';
+import {__dirname }from './../../utils.js';
 
-export const sendEmailTicket = async (ticket) => {
+const sendEmailTicket = async (ticket) => {
   try {
     await transporter.sendMail({
       from: `Tienda online" <${config.nodemailerEmail}>`, // sender address
@@ -32,7 +32,7 @@ export const sendEmailTicket = async (ticket) => {
 }
 
 
-export const sendEmailResetPassword = async (email, token) => {
+const sendEmailResetPassword = async (email, token) => {
   try {
     await transporter.sendMail({
       from: `Tienda online" <${config.nodemailerEmail}>`, // sender address
@@ -65,7 +65,7 @@ export const sendEmailResetPassword = async (email, token) => {
 
 
 
-export const sendEmailDeletAccount = async (email) => {
+const sendEmailDeletAccount = async (email) => {
   try {
     await transporter.sendMail({
       from: `Tienda online" <${config.nodemailerEmail}>`, // sender address
@@ -97,7 +97,7 @@ export const sendEmailDeletAccount = async (email) => {
 }
 
 
-export const sendEmailDeletProduct = async (email, product) => {
+const sendEmailDeletProduct = async (email, product) => {
   try {
     await transporter.sendMail({
       from: `Tienda online" <${config.nodemailerEmail}>`, // sender address
@@ -126,4 +126,12 @@ export const sendEmailDeletProduct = async (email, product) => {
   } catch (error) {
     console.log(error);
   }
+}
+
+
+export {
+  sendEmailTicket,
+  sendEmailResetPassword,
+  sendEmailDeletAccount,
+  sendEmailDeletProduct,
 }

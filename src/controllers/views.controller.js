@@ -1,10 +1,8 @@
-import Carts from "../dao/dbManager/carts.js";
-import Products from "../dao/dbManager/products.js";
-import userModel from './../dao/models/users.model.js';
+import * as productsService from './../services/products.service.js';
+import * as usersService from './../services/users.service.js';
+import * as cartsService from './../services/carts.service.js';
 import { generateProduct } from "../utils.js";
 
-const productsManager = new Products();
-const cartsManager = new Carts();
 
 
 
@@ -48,7 +46,7 @@ const current = async (req, res) => {
 const productos = async (req, res) => {
     const { limit, page, query, sort } = req.query;
     try {
-        const { docs, page: actual, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getProducts(limit, page, query, sort);
+        const { docs, page: actual, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsService.getProducts(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
 
         res.render('home', {
@@ -73,10 +71,10 @@ const productos = async (req, res) => {
 const productDetail = async (req, res) => {
     const { pid } = req.query;
     try {
-        const resp = await productsManager.getProduct(pid);
+        const resp = await productsService.getProduct(pid);
         const producto = resp.toObject();
 
-        const prodRecom =  await productsManager.getProductRecomend(producto.category);
+        const prodRecom =  await productsService.getProductRecomend(producto.category);
         const arrayProdRecom = prodRecom.map(product => product.toObject());
         //const prodRecom = resProdRecom.toObject();
 
@@ -98,7 +96,7 @@ const productDetail = async (req, res) => {
 const cart = async (req, res) => {
     const { cid } = req.params;
     try {
-        const resp = await cartsManager.getProductsCart(cid);
+        const resp = await cartsService.getProductsCart(cid);
         const productsCart = resp.toObject();
         res.render('cart', {
             title: 'Carrito de compras',
@@ -128,7 +126,7 @@ const compraExitosa = async (req, res) => {
 const configuracion = async (req, res) => {
     let uid= req.session.user.id
     try {
-        let userDocuments = await userModel.findOne({ _id: uid });
+        let userDocuments = await usersService.getDocuments( uid );
         res.render('configuracion', {
             title: 'configuracion',
             user: req.session.user,
@@ -145,7 +143,7 @@ const configuracion = async (req, res) => {
 const administrar = async (req, res) => {
     const { limit, page, query, sort } = req.query;
     try {
-        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsManager.getProducts(limit, page, query, sort);
+        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = await productsService.getProducts(limit, page, query, sort);
         const arrayProducts = docs.map(product => product.toObject());
 
         res.render('administracion', {

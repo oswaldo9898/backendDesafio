@@ -1,18 +1,10 @@
-import userModel from '../dao/models/users.model.js';
-import { createHash, decodeToken, generateToken } from '../utils.js';
-import Users from "../dao/dbManager/users.js"
-import UsersRepository from '../repository/users.repository.js';
-import CurrentDto from '../dao/DTOs/current.dto.js';
-import { sendEmailDeletAccount } from '../utils/sendEmail/index.js';
-
-const usersManager = new Users();
-const usersRepository = new UsersRepository(usersManager);
+import * as usersService from './../services/users.service.js';
 
 
 const getUsers = async (req, res) => {
     const { limit, page, query, sort } = req.query;
     try {
-        const users = await usersRepository.getUsers(limit, page, query, sort);
+        const users = await usersService.getUsers(limit, page, query, sort);
         return res.send({ status: "success", payload: users });
     } catch (error) {
         req.logger.error(error);
@@ -28,14 +20,9 @@ const getUsers = async (req, res) => {
 
 
 const getAllUsers = async (req, res) => {
-    const resUser = [];
     try {
-        const users = await usersRepository.getAllUsers();
-        users.map(user => {
-            const currentDto = new CurrentDto(user);
-            resUser.push(currentDto);
-        });
-        return res.send({ status: "success", payload: resUser });
+        const users = await usersService.getAllUsers();
+        return res.send({ status: "success", payload: users });
     } catch (error) {
         req.logger.error(error);
         res
@@ -54,12 +41,8 @@ const updateRole = async (req, res) => {
     const id = req.params.uid;
 
     try {
-        const user = await usersRepository.getUser(id);
-
-        const documents = user.documents;
-
-        if (documents.length === 3) {
-            const result = await usersRepository.updateRole(id, role);
+        const result = await usersService.updateRole(id, role);
+        if (result != null) {
             return res.send({ status: "success", payload: result });
         }
         return res.status(401).send({ status: "Error", message: "El usuario no ha terminado de cargar su documentación" });
@@ -77,10 +60,7 @@ const updateRole = async (req, res) => {
 };
 
 
-const updateLast_connection = async (req, res) => {
-    const last_connection = new Date();
-    const id = req.params.uid;
-};
+
 
 const saveDocument = async (req, res) => {
     const id = req.params.uid;
@@ -88,11 +68,8 @@ const saveDocument = async (req, res) => {
     const file = req.file;
 
     try {
-        let document = {
-            name,
-            reference: file.filename
-        }
-        const result = await usersRepository.saveDocument(id, document);
+
+        const result = await usersService.saveDocument(id, name, file);
         return res.send({ status: "success", payload: result });
 
     } catch (error) {
@@ -110,23 +87,8 @@ const saveDocument = async (req, res) => {
 const deleteUsers = async (req, res) => {
 
     try {
-        const users = await usersRepository.getAllUsers();
-
-        users.map(async (user) => {
-            let fecha_actual = new Date();
-
-            if (user.last_connection) {
-                let tiempo = fecha_actual - user.last_connection;
-                let horas = Math.round(tiempo / (1000 * 60 * 60));
-
-                if (horas > 48) {
-                    sendEmailDeletAccount(user.email);
-                    await usersRepository.deleteUser(user._id);
-                }
-            }
-
-        });
-        return res.send({ status: "success", message: 'Eliminacion exitosa' });
+        const resp = await usersService.deleteUsers();
+        return res.send({ status: "success", message: resp });
 
     } catch (error) {
         req.logger.error(error);
@@ -146,7 +108,7 @@ const deleteUser = async (req, res) => {
 
     try {
         if (uid) {
-            const respon = await usersRepository.deleteUser(uid);
+            const respon = await usersService.deleteUser(uid);
             return res.send({ message: "success", payload: respon });
         } else {
             return res.status(400).send({ status: "Error", message: "No ingreso un id" });
@@ -168,7 +130,6 @@ export {
     getUsers,
     getAllUsers,
     updateRole,
-    updateLast_connection,
     saveDocument,
     deleteUsers,
     deleteUser

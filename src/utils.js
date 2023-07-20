@@ -16,19 +16,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const privateKey = config.privateKey;
 
-export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
 
-export const isValidPassword = (user, password) => bcrypt.compareSync(password, user.password);
+const isValidPassword = (user, password) => bcrypt.compareSync(password, user.password);
 
 
-export const generateToken = (user) => {
+const generateToken = (user) => {
     const token = jwt.sign({ user }, privateKey, { expiresIn: '1h' });
     return token;
 };
 
 
-export const decodeToken = (token) => {
+const decodeToken = (token) => {
     const payload = jwt.verify(token, privateKey, function (err, decoded) {
 
         if (err) {
@@ -43,7 +43,7 @@ export const decodeToken = (token) => {
 
 
 //CUSTOM CALL
-export const passportCall = (strategy) => {
+const passportCall = (strategy) => {
     return async (req, res, next) => {
         passport.authenticate(strategy, function (err, user, info) {
             if (err) return next(error);
@@ -60,7 +60,7 @@ export const passportCall = (strategy) => {
 
 
 
-export const authorization = (rol) => {
+const authorization = (rol) => {
     return async (req, res, next) => {
         console.log(req.user);
         if (req.user.rol != rol) return res.status(403).send({ error: 'Not permissions' });
@@ -70,7 +70,7 @@ export const authorization = (rol) => {
 
 
 
-export const generateProduct = () => {
+const generateProduct = () => {
     return {
         title: faker.commerce.productName(),
         description: faker.commerce.productDescription(),
@@ -97,7 +97,7 @@ const storage = multer.diskStorage({
     }
 });
 
-export const uploader = multer({
+const uploader = multer({
     storage, onError: (err, next) => {
         console.log(err);
         next();
@@ -105,5 +105,18 @@ export const uploader = multer({
 })
 
 
-export default __dirname;
 
+
+
+
+export {
+    __dirname,
+    createHash,
+    isValidPassword,
+    generateToken,
+    decodeToken,
+    passportCall,
+    authorization,
+    generateProduct,
+    uploader,
+}

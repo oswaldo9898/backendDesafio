@@ -2,7 +2,7 @@ import content from './pdfContent.js';
 // import pdfMake from 'pdfmake/build/pdfmake.js';
 import PdfPrinter from "pdfmake";
 import fonts from './fonts.js';
-import __dirname from './../../utils.js';
+import {__dirname } from './../../utils.js';
 import fs from 'fs';
 
 
@@ -30,7 +30,7 @@ const table = (data, columns) => {
 }
 
 
-export const createPDF = (ticket) => {
+const createPDF = (ticket) => {
     let datos_detalle = []
     ticket.products.forEach(element => {
         let datos = {};
@@ -57,4 +57,8 @@ export const createPDF = (ticket) => {
     const pdfDoc = printer.createPdfKitDocument(docDefinition);
     pdfDoc.pipe(fs.createWriteStream(`${__dirname}/public/ticketsPDF/${ticket._id}.pdf`));
     pdfDoc.end();
+}
+
+export {
+    createPDF
 }

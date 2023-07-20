@@ -5,7 +5,7 @@ import cartsRouter from './routes/api/carts.router.js';
 import sessionRouter from './routes/api/session.router.js';
 import usersRouter from './routes/api/users.router.js';
 import viewsRouter from './routes/web/views.router.js';
-import __dirname  from './utils.js';
+import {__dirname }  from './utils.js';
 import Products from './dao/dbManager/products.js';
 import Messages from './dao/dbManager/messages.js';
 
